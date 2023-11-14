@@ -1,0 +1,53 @@
+﻿@inherits EcoCentre.Web.EcoWebPageView
+<form data-bind="submit:search" class="form-inline client-search-form">
+	<div>
+		<input type="text" data-bind='{ value:postalCode, autocomplete:postalCodeAutocomplete}' class="input" placeholder="@EcoCentre.Resources.Model.Client.PostalCode"/>
+	</div>
+	<div style="margin-top:5px">
+		<input type="text" class="input" placeholder="@EcoCentre.Resources.Model.Client.LastName" data-bind='{visible:showName, value:lastName, autocomplete:lastNameAutocomplete}'>
+		<input type="text" class="input" placeholder="@EcoCentre.Resources.Model.Client.FirstName" data-bind='{visible:showName, value:firstName, autocomplete:firstNameAutocomplete}'>
+		<input type="text" class="input civic-number-autocomplete" placeholder="@EcoCentre.Resources.Model.Client.CivicNumber" data-bind='{visible:showAddress, value:civicNumber,autocomplete:civicNumberAutocomplete}'>
+		<input type="text" class="input street-name-autocomplete" placeholder="@EcoCentre.Resources.Model.Client.Address" data-bind='{visible:showAddress, value:address,autocomplete:streetNameAutocomplete}'>
+
+		<input type="text" class="input" placeholder='' data-bind="value:term, visible:!showName() && !showAddress()" />
+		<select data-bind="value:searchType">
+			<option value="Address">Adresse</option>
+			<option value="Name">Nom du client</option>
+		</select>
+		<label data-bind="visible: showFilterSelect()">@EcoCentre.Resources.Model.Client.FilterClientsLabel:</label>
+		<select data-bind="value:filterType, visible: showFilterSelect()">
+			<option value="active">@EcoCentre.Resources.Model.Client.ShowActiveOnly</option>
+			<option value="inactive">@EcoCentre.Resources.Model.Client.ShowInactiveOnly</option>
+			<option value="everyone">@EcoCentre.Resources.Model.Client.ShowEveryone</option>
+			<option value="verified">@EcoCentre.Resources.Model.Client.Verified</option>
+			<option value="noverified">@EcoCentre.Resources.Model.Client.NoVerified</option>
+		</select>
+		<button class="btn btn__search_client" data-bind='click:search'>@EcoCentre.Resources.Forms.Search</button>
+	</div>
+	<div data-bind="visible:showHub" style="margin-top:5px">
+		<input type="text" data-bind='{textInput: citizenCard, value: citizenCard, autocomplete: civicCardAutocomplete}' class="input input__citizen_card" placeholder="@EcoCentre.Resources.Model.Client.CitizenCard">
+		<a style="margin-right:105px" onclick="scan_sitizen__card()" class="btn btn-small btn-success scan_sitizen__card">@EcoCentre.Resources.Model.Invoice.ScanCitizenCard</a>
+
+		Regroupement <select data-bind='value:hubId, options:hubs, optionsText:"Name", optionsValue:"Id", optionsCaption:"tout"'></select>
+	</div>
+
+	
+
+	<div class="pagination">
+		<ul data-bind='foreach:letters'>
+			<li><a data-bind="click:$parent.searchLetter,text:$data"></a></li>
+		</ul>
+	</div>
+
+	<div class="control-group">
+		<label>@EcoCentre.Resources.Forms.ItemsPerPage:</label>
+		<select data-bind="value:pageSize" class="input-small">
+			<option value="20">20</option>
+			<option value="50">50</option>
+			<option value="100">100</option>
+			<option value="200">200</option>
+			<option value="500">500</option>
+		</select>
+	</div>
+</form>
+ 

@@ -1,0 +1,54 @@
+﻿<div ng-if="vm.isLoading">
+	<div class="centertext">
+		<i class="fa fa-spinner fa-spin spin-big"></i>
+	</div>
+</div>
+
+<form class="form-horizontal" ng-if="!vm.isLoading" ng-submit="vm.save()">
+
+	<div class="row noMargin">
+		<div class="control-group span5">
+			<label class='control-label'>Numéro</label>
+			<div class="controls">
+				<input type="text" class="input" placeholder="Numéro" ng-model="vm.number" />
+			</div>
+		</div>
+	</div>
+
+
+	<div class="control-group" >
+		<label class='control-label'>Matériel</label>
+		<div class="controls">
+			<select ng-model="vm.materials" chosen multiple>
+				<option ng-repeat="material in vm.availableMaterials" ng-value="material.id">{{material.name}}</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class='control-label'>Nb v³</label>
+		<div class="controls">
+			<select ng-model="vm.capacity">				
+				<option ng-value="40">40</option>
+				<option ng-value="30">30</option>
+				<option ng-value="20">20</option>
+				<option ng-value="15">15</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="row noMargin">
+		<div class="control-group span5">
+			<label class='control-label'>Alerte à X v³</label>
+			<div class="controls">
+				<input type="text" class="input" placeholder="v³" ng-model="vm.alertAtAmount" />
+			</div>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<div class="controls">
+			<button class="btn" type="submit" loading="vm.isSaving">Enregistrer</button>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,65 @@
+@media print {
+	.noprint {
+		display: none
+	}
+
+	#lastpass-content {
+		display: none
+	}
+
+	#facture-view {
+		margin: 0 auto;
+		padding: 25px 10px 10px;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, .07);
+		border: 0;
+	}
+
+	#facture-view .header {
+		font-size: 16px;
+		font-weight: 600;
+		text-align: center
+	}
+
+	#facture-view .factureNo {
+		margin: 25px 0;
+		border-bottom: 1px solid #ddd
+	}
+
+	#facture-view .logo {
+		text-align: center
+	}
+
+	.invoice-date {
+		float: right;
+	}
+
+	#ui-datepicker-div {
+		display: none
+	}
+
+	tr.numeric, th.numeric, td.numeric {
+		text-align: right;
+	}
+}
+
+
+	
+@media print and (max-width: 767px) {
+	.invoice-date {
+		float: none;
+		display: block;
+	}
+
+	body {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	.table tr.invoice-row th {
+		font-weight: normal;
+	}
+
+	.invoice-amount-row {
+		padding-left: 10px;
+	}
+}

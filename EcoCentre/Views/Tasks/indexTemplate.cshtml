@@ -1,0 +1,45 @@
+﻿@using System.Configuration
+@using EcoCentre.Models.Infrastructure
+@inherits EcoCentre.Web.EcoWebPageView < IEnumerable < EcoCentre.Models.IAdminTask >>
+
+<div class="row-fluid">
+	<div class="span12">
+		<h1>Tasks</h1>
+	</div>
+</div>
+<table style="width: 660px;">
+	<thead>
+	<tr>
+		<th>Task</th>
+		<th>Running</th>
+		<th>Progress</th>
+		<th>Time</th>
+		<th>Estimated time</th>
+		<th></th>
+	</tr>
+	</thead>
+	@foreach(var task in Model)
+	{
+		<tr>
+			<td>@task.GetType().Name</td>
+			<td>@task.IsRunning</td>
+			<td>@((task.Progress).ToString("0.##%"))</td>
+			<td>@task.ExecutionTime.GetValueOrDefault().ToString("hh'h 'mm'm 'ss's'")</td>
+			<td>@task.EstimatedTime.GetValueOrDefault().ToString("hh'h 'mm'm 'ss's'")</td>
+			<td><a href="@Url.Action("Run",new{task.Id})">Start</a></td>
+		</tr>
+	}
+</table>
+
+<h1>Localization</h1>
+<p>Server time: @DateTime.Now</p>
+<p>Timezone DaylightName: @TimeZone.CurrentTimeZone.DaylightName</p>
+<p>Timezone StandardName: @TimeZone.CurrentTimeZone.StandardName</p>
+<p>Configured timezone: @ConfigurationManager.AppSettings.Get("TimeZone")</p>
+<p>Local time: @LocalDateTime.Now</p>
+
+<h1>Test emails</h1>
+<form method="POST" action="@Url.Action("SendEmail")">
+	<input name="destinationAddress" type="email"/>
+	<button type="submit">Send test email</button>
+</form>

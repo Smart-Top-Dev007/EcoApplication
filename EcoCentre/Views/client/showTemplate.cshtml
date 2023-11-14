@@ -1,0 +1,237 @@
+﻿@inherits EcoCentre.Web.EcoWebPageView
+<h1>
+	détails de client
+
+	<span>
+		<a class="btn btn-info" data-bind="attr:{ href:'#client/edit/'+Id() }" style="margin-bottom: 5px">Modifier</a>
+	</span>
+</h1>
+
+<div class="tabbable" id="user-show">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#client-profile-tab" data-toggle="tab">details</a></li>
+		<li><a href="#client-materials-tab" data-toggle="tab">materials</a></li>
+		<li><a href="#client-invoices-tab" data-toggle="tab">factures <span data-bind="text:totalInvoices()" class="label label-info"></span></a></li>
+		<li data-bind="visible: Category() == 'OBNL'"><a href="#client-reinvestments-tab" data-toggle="tab">Réemploi <span data-bind="text:totalOBNLReinvestments()" class="label label-success"></span></a></li>
+		<li data-bind="visible: Category() == 'OBNL'"><a href="#obnl-materials-tab" data-toggle="tab">OBNL Materials</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" id="client-profile-tab">
+			<form class="form-horizontal" data-bind="inject: kb.formValidator">
+
+				<div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.CategoryName</label>
+					<div class="controls">
+						<span class="input-xlarge uneditable-input" data-bind='text:Category'></span>
+					</div>
+				</div>
+				<div data-bind="visible:Category() == 'OBNL'" class="controls-row">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.OBNLNumbers</label>
+					<div class="controls" data-bind="foreach: OBNLNumbers">
+						<span class="label label-success" data-bind="text: $data" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.Hub</label>
+					<div class="controls">
+						<select data-bind='value:hub.Id,options:hubs, optionsText:"Name",optionsValue:"Id", optionsCaption:"Hub"' disabled="disabled"></select>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.LastName</label>
+					<div class="controls">
+						<span class="input-xlarge uneditable-input" data-bind='text:LastName'></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.FirstName</label>
+					<div class="controls">
+						<span class="input-xlarge uneditable-input" data-bind='text:FirstName'></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.Address</label>
+					<div class="controls">
+						<span data-bind='text:address.CivicNumber' class="input-small uneditable-input"></span> -
+						<span data-bind='text:address.AptNumber' class="input-small uneditable-input"></span>
+					</div>
+				</div><div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.Street</label>
+					<div class="controls">
+						<span class="input-xlarge uneditable-input" data-bind='text:address.Street'></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.Email</label>
+					<div class="controls">
+						<span class="input-xlarge uneditable-input" data-bind='text:Email'></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.CitizenCard</label>
+					<div class="controls">
+						<span class="input-xlarge uneditable-input" data-bind='text:CitizenCard'></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.PhoneNumber</label>
+					<div class="controls">
+						<span class="input-xlarge uneditable-input" data-bind='text:PhoneNumber'></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.City</label>
+					<div class="controls">
+						<span class="input-xlarge uneditable-input" data-bind='text:address.City'></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.PostalCode</label>
+					<div class="controls">
+						<span class="input-xlarge uneditable-input" data-bind='text:address.PostalCode'></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.Comments</label>
+					<div class="controls">
+						<span class=" uneditable-input" data-bind='text:Comments'></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.PersonalVisitsLimit</label>
+					<div class="controls">
+						<span class=" uneditable-input" data-bind='text:PersonalVisitsLimit'></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.Status</label>
+					<div class="controls">
+						<span class=" uneditable-input" data-bind='text:Status'></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.AllowClientCreditCheckbox</label>
+					<div class="controls">
+						<input class=" uneditable-input" type="checkbox" data-bind='checked:AllowCredit' disabled="disabled" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class='control-label'>@EcoCentre.Resources.Model.Client.ClientCreditAcountNumber</label>
+					<div class="controls">
+						<span class=" uneditable-input" data-bind='text:CreditAcountNumber'></span>
+					</div>
+				</div>
+			</form>
+
+		</div>
+
+		<div class="tab-pane" id="client-materials-tab">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>matériel</th>
+						<th>quantité</th>
+						<th>annuelle maximale</th>
+						<th>unité</th>
+						<th style="min-width: 100px;"></th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach:limits">
+					<tr>
+						<td data-bind="text:Name"></td>
+						<td data-bind='text:Quantity'></td>
+						<td data-bind='text:MaxYearlyAmount'></td>
+						<td data-bind='text:Unit'></td>
+						<td>
+							<div class="progress progress-striped">
+								<div class="bar" data-bind="css:{width:BaseProgress+'%'}"></div>
+							</div>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+		<div class="tab-pane" id="client-invoices-tab">
+			<div class="pagination">
+				<ul data-bind='foreach:invoicesPageButtons'>
+					<li data-bind=' css:{active:isActive}'><a data-bind=" click:$parent.changeInvoicesPage,text:number"></a></li>
+				</ul>
+			</div>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Facture #</th>
+						<th>date de la facture</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach:invoices">
+					<tr>
+						<td>Facture #<span data-bind="text:InvoiceNo"></span></td>
+						<td data-bind='text:$parent.parseDate($data)'></td>
+						<td>
+							<a class="btn" data-bind="attr:{href:'#invoice/show/'+Id()}" >Détails</a>
+							<a class="btn" data-bind="click:$parent.removeInvoice">@EcoCentre.Resources.Forms.Delete</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="pagination">
+				<ul data-bind='foreach:invoicesPageButtons'>
+					<li data-bind='css:{active:isActive}'><a data-bind="click:$parent.changeInvoicesPage,text:number"></a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="tab-pane" id="client-reinvestments-tab">
+			<div class="pagination">
+				<ul data-bind='foreach:obnlReinvestmentsPageButtons'>
+					<li data-bind='css:{active:isActive}'><a data-bind="click:$parent.changeOBNLReinvestmentsPage,text:number"></a></li>
+				</ul>
+			</div>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Réemploi #</th>
+						<th>date de la réemploi</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach:obnlReinvestments">
+					<tr>
+						<td>Facture #<span data-bind="text:OBNLReinvestmentNo"></span></td>
+						<td data-bind='text:$parent.parseDate($data)'></td>
+						<td>
+							<a class="btn" data-bind="attr:{href:'#obnlreinvestment/show/'+Id()}">Détails</a>
+							<a class="btn" data-bind="click:$parent.removeOBNLReinvestment">@EcoCentre.Resources.Forms.Delete</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="pagination">
+				<ul data-bind='foreach:obnlReinvestmentsPageButtons'>
+					<li data-bind='css:{active:isActive}'><a data-bind="click:$parent.changeOBNLReinvestmentsPage,text:number"></a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="tab-pane" id="obnl-materials-tab">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>matériel</th>
+						<th>poids</th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach:obnlMaterials">
+					<tr>
+						<td data-bind="text:Name"></td>
+						<td data-bind='text:Weight'></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+</div>

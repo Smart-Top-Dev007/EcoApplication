@@ -1,0 +1,14 @@
+﻿@model EcoCentre.Models.Domain.Payments.PaymentRedirectViewModel
+
+@{
+	Layout = null;
+}
+<form action="@Model.RedirectUrl" method="post" id="PaymentRequest">
+
+	@foreach (var item in Model.Values)
+	{
+		<input type="hidden" name="@item.Key" value="@item.Value" />
+	}
+</form>
+
+<script> document.getElementById("PaymentRequest").submit(); </script>

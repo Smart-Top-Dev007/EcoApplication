@@ -1,0 +1,11 @@
+﻿@{
+    Layout = "~/Views/Shared/MailLayout.cshtml";
+}
+@using EcoCentre.Models.Infrastructure
+@model EcoCentre.Models.Domain.Containers.ContainerFullAlertModel
+
+<p>Remplacer le conteneur "@Model.ContainerNumber" en @Model.Materials.Select(x=>x.Name).Distinct().JoinBy(", ") de l'écocentre de @Model.HubName.</p>
+@if (!string.IsNullOrWhiteSpace(Model.EmployeeName))
+{
+	<p>Employé sur place: @Model.EmployeeName</p>
+}

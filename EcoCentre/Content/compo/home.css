@@ -1,0 +1,66 @@
+#bacs {
+	FLOAT: right; MARGIN: 40px 10px 0px 0px
+}
+#bacs IMG {
+	MARGIN-RIGHT: 10px
+}
+H2 A {
+	TEXT-DECORATION: underline
+}
+H2 A:hover {
+	TEXT-DECORATION: none
+}
+#bloc2 {
+	FLOAT: left; WIDTH: 13.81em
+}
+#bloc3 {
+	FLOAT: left; WIDTH: 13.81em
+}
+#bloc2 {
+	HEIGHT: 14em
+}
+#bloc3 {
+	HEIGHT: 14em
+}
+#bloc4 {
+	HEIGHT: 14em
+}
+#bloc2 IMG {
+	MARGIN-TOP: 15px; TEXT-ALIGN: center
+}
+#bloc3 IMG {
+	MARGIN-TOP: 15px; TEXT-ALIGN: center
+}
+#bloc4 IMG {
+	MARGIN-TOP: 15px; TEXT-ALIGN: center
+}
+#bloc1 {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; BACKGROUND: url(../../assets/medias/background_blocs.gif) repeat-x left bottom; PADDING-BOTTOM: 10px; PADDING-TOP: 10px
+}
+#bloc2 {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; BACKGROUND: url(../../assets/medias/background_blocs.gif) repeat-x left bottom; PADDING-BOTTOM: 10px; PADDING-TOP: 10px
+}
+#bloc3 {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; BACKGROUND: url(../../assets/medias/background_blocs.gif) repeat-x left bottom; PADDING-BOTTOM: 10px; PADDING-TOP: 10px
+}
+#bloc4 {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; BACKGROUND: url(../../assets/medias/background_blocs.gif) repeat-x left bottom; PADDING-BOTTOM: 10px; PADDING-TOP: 10px
+}
+#bloc4 IMG {
+	MARGIN-TOP: 5px; MARGIN-LEFT: 0px
+}
+#bloc1 #bloc1_text {
+	FLOAT: left;
+	WIDTH: 240px
+}
+#bloc3 IMG {
+	MARGIN-LEFT: 0px;
+	PADDING-TOP: 20px
+}
+#bloc2 IMG {
+	MARGIN-TOP: 0px;
+	PADDING-TOP: 20px
+}
+#bloc3 {
+	BORDER-LEFT: #b3c9e0 1px solid; MARGIN-RIGHT: 0px
+}

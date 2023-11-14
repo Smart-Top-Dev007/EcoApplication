@@ -1,0 +1,42 @@
+﻿
+<h1>factures supprimés</h1>
+
+<div class="pagination">
+    <ul data-bind='foreach:pageButtons'>
+        <li data-bind='css:{active:isActive}'><a data-bind="click:$parent.changePage,text:number"></a></li>
+    </ul>
+    <span style="position: relative; top: -5px;" data-bind="visible: pageCount() > 1">
+        <span style="margin: 0 5px 0 50px; position: relative; top: -4px;">@EcoCentre.Resources.Forms.GoToPage</span>
+        <input style="margin-bottom: 10px;" class="input-small" type="number" data-bind="value: page, attr: { max: pageCount() }" min="1" />
+    </span>
+</div>
+<table class="table table-striped table-bordered" style="width: 100%;">
+    <thead>
+        <tr>
+            <th>facture #</th>
+            <th>date de la facture</th>
+        </tr>
+    </thead>
+    <tbody data-bind='foreach:items'>
+        <tr>
+            <td data-bind='text:OBNLReinvestmentNo'></td>
+            <td data-bind='text:CreatedAt'></td>
+            <td data-bind='text:Client.Category'></td>
+            <td data-bind='text:Client.FirstName'></td>
+            <td data-bind='text:Client.LastName'></td>
+            <td>
+                <a data-bind='click:undelete' class="btn">undelete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="pagination">
+    <ul data-bind='foreach:pageButtons'>
+        <li data-bind=' css:{active:isActive}'><a data-bind="click:$parent.changePage,text:number"></a></li>
+    </ul>
+    <span style="position: relative; top: -5px;" data-bind="visible: pageCount() > 1">
+        <span style="margin: 0 5px 0 50px; position: relative; top: -4px;">@EcoCentre.Resources.Forms.GoToPage</span>
+        <input style="margin-bottom: 10px;" class="input-small" type="number" data-bind="value: page, attr: { max: pageCount() }" min="1" />
+    </span>
+</div>
+

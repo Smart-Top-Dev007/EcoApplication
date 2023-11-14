@@ -1,0 +1,104 @@
+﻿@inherits EcoCentre.Web.EcoWebPageView
+<h1 data-bind="visible:isNew()">@EcoCentre.Resources.Model.User.NewUser</h1>
+<h1 data-bind="visible:!isNew()">@EcoCentre.Resources.Model.User.EditUser</h1>
+<div class="row">
+    <div class="span1"></div>
+    <div data-bind="visible:errors().length > 0" class="alert alert-error span11" style="width: 400px;">
+
+        <h4>@EcoCentre.Resources.Forms.ValidationErrors</h4>
+        <ul data-bind=" foreach: errors">
+            <li data-bind='text:ErrorMessage'></li>
+        </ul>
+
+    </div>
+</div>
+<form class="form-horizontal">
+	<div class="control-group">
+		<label class='control-label'>@EcoCentre.Resources.Model.User.Username</label>
+		<div class="controls">
+			<input type="text" placeholder="@EcoCentre.Resources.Model.User.Username" data-bind='value: Login' />
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class='control-label'>@EcoCentre.Resources.Model.User.Email</label>
+		<div class="controls">
+			<input type="text" placeholder="@EcoCentre.Resources.Model.User.Email" data-bind='value: Email' />
+		</div>
+	</div>
+
+    <div class="control-group">
+        <label class='control-label'>@EcoCentre.Resources.Model.User.Name</label>
+        <div class="controls">
+            <input type="text" placeholder="@EcoCentre.Resources.Model.User.Name" data-bind='value: Name' />
+        </div>
+    </div>
+    <div class="control-group">
+        <label class='control-label'>@EcoCentre.Resources.Model.User.Password</label>
+        <div class="controls">
+            <input type="password" placeholder="@EcoCentre.Resources.Model.User.Password" data-bind='value:Password' />
+        </div>
+    </div>
+    <div class="control-group">
+        <label class='control-label'>@EcoCentre.Resources.Model.User.PasswordConfirmationShort</label>
+        <div class="controls">
+            <input type="password" placeholder="@EcoCentre.Resources.Model.User.PasswordConfirmation" data-bind='value:PasswordConfirmation' />
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+
+            <label class='radio'>
+                <input type="radio" name="adminoragent" value="false" data-bind='checked:isAdminTrue' />
+                @EcoCentre.Resources.Model.User.Agent
+            </label>
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+
+            <label class='radio'>
+                <input type="radio" name="adminoragent" value="true" data-bind='checked:isAdminTrue' />
+                @EcoCentre.Resources.Model.User.Admin
+            </label>
+        </div>
+
+    </div>
+    @if (CurrentUser.IsGlobalAdmin)
+    {
+        <div class="control-group">
+            <div class="controls">
+                <label class='checkbox'>
+                    <input type="checkbox" data-bind='checked: IsGlobalAdmin, enable:IsAdmin' />
+                    @EcoCentre.Resources.Model.User.GlobalAdmin
+                </label>
+            </div>
+        </div>
+    }
+	<div class="control-group">
+		<div class="controls">
+
+			<label class='checkbox'>
+				<input type="checkbox" data-bind='checked:IsReadOnly' />
+				@EcoCentre.Resources.Model.User.ReadOnly
+			</label>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<div class="controls">
+
+			<label class='checkbox'>
+				<input type="checkbox" data-bind='checked:IsLoginAlertEnabled' />
+				@EcoCentre.Resources.Model.User.IsLoginAlertEnabled
+			</label>
+		</div>
+	</div>
+
+    <div class="control-group">
+        <div class="controls">
+            <button data-bind='click:save,visible:isNew()' class="btn">@EcoCentre.Resources.Forms.Save</button>
+            <button data-bind='click:save,visible:!isNew()' class="btn">@EcoCentre.Resources.Forms.Update</button>
+        </div>
+    </div>
+</form>

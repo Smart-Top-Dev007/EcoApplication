@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "~/Views/Shared/MailLayout.cshtml";
+}
+@inherits EcoCentre.Web.EcoWebPageView
+<h3>Accueil</h3>
+<p>Vous avez demandé les instructions de réinitialisation de mot de passe.</p>
+
+@{
+    var url = BaseUrl + Url.Action("Reset","Account", new {Key = ViewBag.EmailResetKey});
+}
+<p>Pour réinitialiser votre mot de passe Aller à cette adresse: <a href="@url">@url</a></p>
+<p>Cordialement</p>
+<p>Administrateur</p>

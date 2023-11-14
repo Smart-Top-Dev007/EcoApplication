@@ -1,0 +1,36 @@
+﻿@{
+	Layout = "~/Views/Shared/EmptyLayout.cshtml";
+}
+@model EcoCentre.Models.Domain.Clients.Commands.LoginPageViewModel
+<form class="form-horizontal single-form" id='login-form' method="POST">
+	<h2>@EcoCentre.Resources.Model.User.SignUp</h2>
+	@if (!ViewData.ModelState.IsValid)
+	{
+		<div class="alert alert-error span11">
+			@Html.ValidationSummary()
+		</div>
+	}
+	<div class="control-group">
+		<input type="text" name="login" placeholder="@EcoCentre.Resources.Model.User.Username" class="input-xlarge">
+	</div>
+	<div class="control-group">
+		<input type="password" name="password" placeholder="@EcoCentre.Resources.Model.User.Password" class="input-xlarge">
+	</div>
+	<div class="control-group" style="visibility:hidden;">
+		@if (Model.Hubs != null && Model.Hubs.Any())
+		{
+			<select name="hubid">
+				@*<option value="">Choisissez eco centre</option>*@
+				@foreach (var hub in Model.Hubs)
+				{
+					<option value="@hub.Id">@hub.Name</option>
+				}
+			</select>
+		}
+	</div>
+	<div class="control-group">
+		<input type="submit" class="btn btn-large btn-primary" value="@EcoCentre.Resources.Model.User.SignUpButton" />
+	</div>
+
+	<a id="forgot-password-link" href="@Url.Action("ForgottenPassword","Account")">Mot de passe oublié?</a>
+</form>

@@ -1,0 +1,58 @@
+﻿@using System.Globalization
+@using EcoCentre.Resources.Model
+<div>
+	<h1 class="noprint">
+		@EcoCentre.Resources.Model.Invoice.TheInvoice
+		<a class="btn btn-large btn-primary" href='#invoice/new'>Nouvelle facture</a>
+	</h1>
+
+	<div ng-if="vm.isLoading">
+		<div class="centertext">
+			<i class="fa fa-spinner fa-spin spin-big"></i>
+		</div>
+	</div>
+
+	<div ng-if="!vm.isLoading" class="invoice-details">
+		<invoice-view ng-if="vm.invoice" invoice="vm.invoice"></invoice-view>
+
+
+		<div ng-if="vm.isDeleted"><h3>La facture est supprimée</h3></div>
+
+		<div class="noprint" ng-if="vm.invoice && !vm.isDeleted">
+			<br />
+			<br />
+			<div class="text-center">
+				<a class="btn btn-large btn-primary" loading="vm.isPaymentLoading" ng-click="vm.payWithCash()" ng-if="vm.canBePaid()">
+					<i class="fas fa-money-bill-alt"></i> @Payment.MethodCash
+				</a>
+				<a class="btn btn-large btn-primary" loading="vm.isPaymentLoading" href="{{'/payment/PayWithCreditCardRedirect?invoiceId='+ vm.invoiceId}}" ng-if="vm.canBePaid()">
+					<i class="far fa-credit-card"></i> @Payment.MethodCreditCard
+				</a>
+				<a class="btn btn-large btn-primary" loading="vm.isPaymentLoading" ng-click="vm.payWithCredit()" ng-if="vm.canBePaidInCredit()">
+					<i class="fas fa-user"></i> @Payment.MethodCredit
+				</a>
+				
+			</div>
+
+			<div class="text-center" ng-if="vm.canBePrinted()">
+				<br />
+				<br />
+				<a class="btn btn-large btn-primary" ng-click="vm.sendToQuickPrinter()">
+					<i class="fas fa-print"></i> Imprimer
+				</a>
+			</div>
+
+			<div class="text-center">
+				<br />
+				<br />
+				
+				<a class="btn btn-large btn-danger" loading="vm.isDeleting" ng-click="vm.deleteInvoice()" ng-if="!vm.invoice.payment">
+					<i class="fas fa-trash"></i> Supprimer
+				</a>
+			</div>
+			
+			<br />
+			<br />
+		</div>
+	</div>
+</div>

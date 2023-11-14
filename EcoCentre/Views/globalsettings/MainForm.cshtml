@@ -1,0 +1,82 @@
+﻿
+<h1>Paramètres globaux</h1>
+<div class="row">
+	<div class="span1"></div>
+	<div data-bind="visible: errors().length > 0" class="alert alert-error span11" style="width: 400px;">
+
+		<h4>@EcoCentre.Resources.Forms.ValidationErrors</h4>
+		<ul data-bind=" foreach: errors">
+			<li data-bind='text: ErrorMessage'></li>
+		</ul>
+
+	</div>
+</div>
+<form class="form-horizontal">
+	<div class="control-group">
+		<label class="control-label">Limite de visites</label>
+		<div class="controls">
+			<input type="text" class="visits-limit-mask" placeholder="NNN" data-bind="value:maxYearlyClientVisits" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Avertissement (Nombre de visites avant la limite)</label>
+		<div class="controls">
+			<input type="text" class="visits-limit-mask" placeholder="NNN" data-bind="value: maxYearlyClientVisitsWarning" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Adresse courriel pour confirmer des nouvelles adresses</label>
+		<div class="controls">
+			<input type="text" placeholder="enter@email.here" data-bind="value: adminNotificationsEmail" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Full container alert email</label>
+		<div class="controls">
+			<input type="text" placeholder="enter@email.here" data-bind="value: containerFullNotificationsEmail" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Taux de la TPS (GST) (%)</label>
+		<div class="controls">
+			<input type="text" placeholder="GST" data-bind="value: gstTaxRate" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Numéro de TPS (GST)</label>
+		<div class="controls">
+			<input type="text" placeholder="GST" data-bind="value: gstTaxLine" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Taux de taxe TVQ (QST) (%)</label>
+		<div class="controls">
+			<input type="text" placeholder="QST" data-bind="value: qstTaxRate" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Numéro de TVQ (QST)</label>
+		<div class="controls">
+			<input type="text" placeholder="QST" data-bind="value: qstTaxLine" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Unité de matériau par défaut</label>
+		<div class="controls">
+			<input type="text" placeholder="unité" data-bind="value: defaultMaterialUnit" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">
+			Expiration de la session (minutes)
+		</label>
+		<div class="controls">
+			<input type="text" placeholder="min" data-bind="value: sessionTimeoutInMinutes" />
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="controls">
+			<button data-bind="click:save" class="btn">sauver</button>
+		</div>
+	</div>
+</form>

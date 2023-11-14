@@ -1,0 +1,60 @@
+﻿<div>
+	<div ng-if="vm.isLoading">
+		<div class="centertext">
+			<i class="fa fa-spinner fa-spin spin-big"></i>
+		</div>
+	</div>
+	
+	<div ng-if="!vm.isLoading">
+
+		<div>
+			<h3>Ajouter</h3>
+			<form ng-submit="vm.add()" class="form-horizontal">
+
+				<div class="row noMargin">
+					<div class="control-group span5">
+						<label class='control-label'>Nouveau type</label>
+						<div class="controls">
+							<input type="text" class="input" ng-model="vm.newName" />
+						</div>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<div class="controls">
+						<button class="btn btn-primary" loading="vm.isAddLoading">Ajouter</button>
+					</div>
+				</div>
+
+
+			</form>
+		</div>
+
+		<hr />
+
+		<h3>Types</h3>
+		<table class="table table-striped table-bordered table-hover" style="width: 100%;" ng-if="vm.items.length">
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th></th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in vm.items" ng-class="{strike: item.isDeleted}">
+					<td>{{item.name}}</td>
+
+					<td class="non-clickale nowrap">
+						<div ng-if="!item.isDeleted">
+							<a class="btn btn-danger" ng-click="vm.deleteItem(item)" loading="item.isChangeLoading">Supprimer</a>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="alert" ng-show="!vm.items.length">La liste est vide</div>
+
+
+	</div>
+</div>

@@ -1,0 +1,1362 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RidrSadm|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'EcoGore|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RidrGlobal|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'CompoPreprodAzure|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'CompoAzure|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'CompoProd|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{27BD93DA-20CF-4200-89EE-C0DA50C3D8CA}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EcoCentre</RootNamespace>
+    <AssemblyName>EcoCentre</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <ApplicationInsightsResourceId>/subscriptions/82de126c-e7cc-4cfe-8485-9c1821c64723/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/EcoCentre</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/82de126c-e7cc-4cfe-8485-9c1821c64723/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/EcoCentre</ApplicationInsightsAnnotationResourceId>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.2.6.3.862\lib\NET40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Configuration">
+      <HintPath>..\packages\Autofac.2.6.3.862\lib\NET40\Autofac.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\packages\Autofac.Mvc4.2.6.2.859\lib\NET40\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.Core.3.7.100.14\lib\net45\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.SecurityToken, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.SecurityToken.3.7.100.14\lib\net45\AWSSDK.SecurityToken.dll</HintPath>
+    </Reference>
+    <Reference Include="DnsClient, Version=1.6.1.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnsClient.1.6.1\lib\net471\DnsClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>..\packages\EPPlus.3.1.2\lib\net35\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentValidation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.7.3.3\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="Magnum, Version=2.1.3.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magnum.2.1.3\lib\NET40\Magnum.dll</HintPath>
+    </Reference>
+    <Reference Include="MassTransit">
+      <HintPath>..\packages\MassTransit.2.7.2\lib\net40\MassTransit.dll</HintPath>
+    </Reference>
+    <Reference Include="MassTransit.AutofacIntegration">
+      <HintPath>..\packages\MassTransit.Autofac.2.7.2\lib\net40\MassTransit.AutofacIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="MassTransit.Transports.MSMQ">
+      <HintPath>..\packages\MassTransit.2.7.2\lib\net40\MassTransit.Transports.MSMQ.dll</HintPath>
+    </Reference>
+    <Reference Include="MembershipService.Common">
+      <HintPath>..\packages\MembershipService.Mvc.0.1\lib\net40\MembershipService.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="MembershipService.Mvc">
+      <HintPath>..\packages\MembershipService.Mvc.0.1\lib\net40\MembershipService.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.4.1\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.4.1\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.4.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.4.1\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.4.1\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.4.0\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights.NLogTarget, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.NLogTarget.2.4.1\lib\net45\Microsoft.ApplicationInsights.NLogTarget.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.0\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Registry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Registry.5.0.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.21.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.21.0\lib\net472\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.21.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.21.0\lib\net472\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.21.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.21.0\lib\net472\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.GridFS, Version=2.21.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.GridFS.2.21.0\lib\net472\MongoDB.Driver.GridFS.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Libmongocrypt, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Libmongocrypt.1.8.0\lib\net472\MongoDB.Libmongocrypt.dll</HintPath>
+    </Reference>
+    <Reference Include="Mvc.Mailer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcMailer.4.5\lib\45\Mvc.Mailer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.3.8\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Nuclex.Cloning">
+      <HintPath>..\packages\Nuclex.Cloning.1.0.0.0\lib\net40\Nuclex.Cloning.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpCompress, Version=0.30.1.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpCompress.0.30.1\lib\net461\SharpCompress.dll</HintPath>
+    </Reference>
+    <Reference Include="Snappier, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a1b25124e6e13a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Snappier.1.0.0\lib\netstandard2.0\Snappier.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.AccessControl, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.5.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Text.Encoding.CodePages, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.5.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="ZstdSharp, Version=0.6.2.0, Culture=neutral, PublicKeyToken=8d151af33a4ad5cf, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZstdSharp.Port.0.6.2\lib\net461\ZstdSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\CloseSessionHandler.cs" />
+    <Compile Include="App_Start\DomainErrorsHandler.cs" />
+    <Compile Include="App_Start\DomainException.cs" />
+    <Compile Include="App_Start\EcoAuthorizeAttribute.cs" />
+    <Compile Include="App_Start\HandleValidationErrorsHandler.cs" />
+    <Compile Include="App_Start\LocalizationAttribute.cs" />
+    <Compile Include="App_Start\RequireGlobalAdminAttribute.cs" />
+    <Compile Include="App_Start\RequireWriteRightsForPostAttribute.cs" />
+    <Compile Include="App_Start\SessionTrackerHandler.cs" />
+    <Compile Include="Controllers\CompleteImportController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\GiveawayTypeController.cs" />
+    <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
+    <Compile Include="Helpers\ParseHelpers.cs" />
+    <Compile Include="Models\CompleteImport\Address.cs" />
+    <Compile Include="Models\CompleteImport\AddressDataRoot.cs" />
+    <Compile Include="Models\CompleteImport\Client.cs" />
+    <Compile Include="Models\CompleteImport\ClientDataRoot.cs" />
+    <Compile Include="Models\CompleteImport\Hub.cs" />
+    <Compile Include="Models\CompleteImport\JSONRoot.cs" />
+    <Compile Include="Models\CompleteImport\Municipality.cs" />
+    <Compile Include="Models\Domain\Clients\Client1.cs" />
+    <Compile Include="Models\Domain\Clients\ClientAddress1.cs" />
+    <Compile Include="Models\Domain\Clients\Queries\SuggestAddressQuery1.cs" />
+    <Compile Include="Models\Domain\Clients\Queries\SuggestClientNameQuery1.cs" />
+    <Compile Include="Models\Domain\Clients\Queries\SuggestOBNLNumberQuery1.cs" />
+    <Compile Include="Models\Domain\Containers\Consumers\AddToContainerOnInvoiceAdded.cs" />
+    <Compile Include="Models\Domain\Containers\Consumers\RemoveFromContainerOnInvoiceDeleted.cs" />
+    <Compile Include="Models\Domain\Invoices\Consumers\UpdateLimitsAddressOnMunicipalityChanged.cs" />
+    <Compile Include="Models\Domain\Invoices\Barcode.cs" />
+    <Compile Include="Models\Domain\User\Consumers\SendAlertOnUserLoggedOut.cs" />
+    <Compile Include="Models\Domain\User\Consumers\SendAlertOnUserLoggedIn.cs" />
+    <Compile Include="Models\Domain\User\Consumers\UserLoggedInEvent.cs" />
+    <Compile Include="Models\Domain\User\Consumers\UserLoggedOutEvent.cs" />
+    <Compile Include="Models\Domain\User\Tasks\CloseExpiredSessions.cs" />
+    <Compile Include="Models\FixDeletedMunicipalityTask.cs" />
+    <Compile Include="Models\RecalculateCustomerLimitsTask.cs" />
+    <Compile Include="Models\Infrastructure\Mailer.cs" />
+    <Compile Include="Models\Domain\Giveaway\Consumers\RemoveGiveawayOnInvoiceAdded.cs" />
+    <Compile Include="Models\Domain\Giveaway\Consumers\RestoreGiveawayOnInvoiceDeleted.cs" />
+    <Compile Include="Models\Domain\Limits\Consumers\UpdateLimitsOnInvoiceDeleted.cs" />
+    <Compile Include="Models\Domain\Payments\PayWithCreditCommand.cs" />
+    <Compile Include="Models\Domain\Payments\SavePaymentSettingsCommandValidator.cs" />
+    <Compile Include="Models\Domain\User\Commands\LogoutCommand.cs" />
+    <Compile Include="Models\Domain\User\LogoutAlert.cs" />
+    <Compile Include="Models\Infrastructure\DecimalModelBinder.cs" />
+    <Compile Include="Models\Infrastructure\StringExtensions.cs" />
+    <Compile Include="Models\Infrastructure\ValidationExtensions.cs" />
+    <Compile Include="Models\FixInvoiceVisitNumberTask.cs" />
+    <Compile Include="Models\MigrateContainersTask.cs" />
+    <Compile Include="Models\MoneticoPayments\MoneticoEnvironment.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\ContainerController.cs" />
+    <Compile Include="Controllers\GiveawayController.cs" />
+    <Compile Include="Models\Domain\User\Commands\LoginPageViewModel.cs" />
+    <Compile Include="Models\Domain\Containers\AlertResult.cs" />
+    <Compile Include="Models\Domain\Containers\Container.cs" />
+    <Compile Include="Models\Domain\Containers\ContainerQuery.cs" />
+    <Compile Include="Models\Domain\Containers\ContainerXlsFormatter.cs" />
+    <Compile Include="Models\Domain\Containers\UnDeleteContainerCommand.cs" />
+    <Compile Include="Models\Domain\Containers\DeleteContainerCommand.cs" />
+    <Compile Include="Models\Domain\Containers\SendAlertCommand.cs" />
+    <Compile Include="Models\Domain\Containers\UpdateContainerCommandValidator.cs" />
+    <Compile Include="Models\Domain\Containers\UpdateContainerCommand.cs" />
+    <Compile Include="Models\Domain\Containers\CreateContainerCommand.cs" />
+    <Compile Include="Models\Domain\Containers\CreateContainerCommandValidator.cs" />
+    <Compile Include="Models\Domain\Giveaway\CreateGiveawayCommandValidator.cs" />
+    <Compile Include="Models\Domain\Giveaway\DeleteGiveawayCommand.cs" />
+    <Compile Include="Models\Domain\Giveaway\GiveawayItemQuery.cs" />
+    <Compile Include="Models\Domain\Giveaway\Type\AddGiveawayTypeCommand.cs" />
+    <Compile Include="Models\Domain\Giveaway\Type\DeleteGiveawayTypeCommand.cs" />
+    <Compile Include="Models\Domain\Giveaway\Type\GiveawayType.cs" />
+    <Compile Include="Models\Domain\Giveaway\Type\GiveawayTypeQuery.cs" />
+    <Compile Include="Models\Domain\Payments\PaymentRedirectViewModel.cs" />
+    <Compile Include="Models\Domain\Payments\PaymentResponseCommand.cs" />
+    <Compile Include="Models\Domain\Payments\Payment.cs" />
+    <Compile Include="Models\Domain\Payments\PaymentInitialization.cs" />
+    <Compile Include="Models\Domain\Payments\PaymentMethod.cs" />
+    <Compile Include="Models\Domain\Payments\PayWithCashCommand.cs" />
+    <Compile Include="Models\Domain\Payments\RedirectCreditCardCommand.cs" />
+    <Compile Include="Models\Domain\Payments\UserInfo.cs" />
+    <Compile Include="Models\Infrastructure\LocalDateTime.cs" />
+    <Compile Include="Models\Infrastructure\DictionaryExtensions.cs" />
+    <Compile Include="Models\Infrastructure\EnumerableExtensions.cs" />
+    <Compile Include="Models\Infrastructure\EnumHelpers.cs" />
+    <Compile Include="Models\Infrastructure\NotFoundException.cs" />
+    <Compile Include="Models\Domain\Giveaway\PublicGiveawayQuery.cs" />
+    <Compile Include="Models\Domain\Giveaway\SaveFileCommand.cs" />
+    <Compile Include="Models\Domain\Giveaway\SetPublishingStatusCommand.cs" />
+    <Compile Include="Models\Domain\Giveaway\UpdateGiveawayCommand.cs" />
+    <Compile Include="Models\Domain\Giveaway\GiveawayItem.cs" />
+    <Compile Include="Models\Domain\Giveaway\GiveawayQuery.cs" />
+    <Compile Include="Models\Domain\Giveaway\PublishingStatus.cs" />
+    <Compile Include="Controllers\TemplateController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AttachmentsController.cs" />
+    <Compile Include="Controllers\ClientCategoriesController.cs" />
+    <Compile Include="Controllers\ClientController.cs" />
+    <Compile Include="Controllers\HubController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\ImportController.cs" />
+    <Compile Include="Controllers\OBNLMaterialsController.cs" />
+    <Compile Include="Controllers\OBNLReinvestmentController.cs" />
+    <Compile Include="Controllers\InvoiceController.cs" />
+    <Compile Include="Controllers\GlobalSettingsController.cs" />
+    <Compile Include="Controllers\LimitsController.cs" />
+    <Compile Include="Controllers\MaterialController.cs" />
+    <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\MembershipServiceController.cs" />
+    <Compile Include="Controllers\MunicipalityController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\ScheduleController.cs" />
+    <Compile Include="Controllers\TasksController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Commands\MergeCommandParams.cs" />
+    <Compile Include="Models\Commands\Scheduler\ScheduledTaskException.cs" />
+    <Compile Include="Models\Commands\Scheduler\Tasks\OptimizeMaterialNamingTaskData.cs" />
+    <Compile Include="Models\CsvExport.cs" />
+    <Compile Include="Models\Domain\CenterIdentification.cs" />
+    <Compile Include="Models\Domain\Clients\ClientAddressCompare.cs" />
+    <Compile Include="Models\Domain\Clients\ClientAddressLog.cs" />
+    <Compile Include="Models\Domain\Clients\Commands\ClientAddressQuery.cs" />
+    <Compile Include="Models\Domain\Clients\Commands\CustomAddressCreatedMailer.cs" />
+    <Compile Include="Models\Domain\Clients\Commands\DeleteClientCommand.cs" />
+    <Compile Include="Models\Domain\Clients\Commands\MergeClientsCommand.cs" />
+    <Compile Include="Models\Domain\Clients\Commands\ImportClientCommand.cs" />
+    <Compile Include="Models\Domain\User\Commands\LoginData.cs" />
+    <Compile Include="Models\Domain\User\Commands\LoginDataValidator.cs" />
+    <Compile Include="Models\Domain\Clients\Queries\ClientCategoriesDetails.cs" />
+    <Compile Include="Models\Domain\Clients\Queries\ClientListSearchBy.cs" />
+    <Compile Include="Models\Domain\Clients\Queries\OBNLClientListQuery.cs" />
+    <Compile Include="Models\Domain\Clients\Queries\SuggestAddressQuery.cs" />
+    <Compile Include="Models\Domain\Clients\Queries\SuggestOBNLNumberQuery.cs" />
+    <Compile Include="Models\Domain\Dashboard\DashboardEcoCenterSummaryQuery.cs" />
+    <Compile Include="Models\Domain\Dashboard\DashboardEcoCenterSummaryQueryParams.cs" />
+    <Compile Include="Models\Domain\Dashboard\EcoCenterEntry.cs" />
+    <Compile Include="Models\Domain\Giveaway\CreateGiveawayCommand.cs" />
+    <Compile Include="Models\Domain\Giveaway\UpdateGiveawayCommandValidator.cs" />
+    <Compile Include="Models\Domain\GlobalSettings\Commands\GlobalSettingsViewModel.cs" />
+    <Compile Include="Models\Domain\GlobalSettings\Commands\GlobalSettingsViewModelValidator.cs" />
+    <Compile Include="Models\Domain\GlobalSettings\Commands\UpdateGlobalSettingsCommand.cs" />
+    <Compile Include="Models\Domain\GlobalSettings\GlobalSettings.cs" />
+    <Compile Include="Models\Domain\GlobalSettings\Queries\GlobalSettingsQuery.cs" />
+    <Compile Include="Models\Domain\Hubs\Commands\CreateHubCommand.cs" />
+    <Compile Include="Models\Domain\Hubs\Commands\UpdateHubCommand.cs" />
+    <Compile Include="Models\Domain\Hubs\Hub.cs" />
+    <Compile Include="Models\Domain\Hubs\MunicipalityValidator.cs" />
+    <Compile Include="Models\Domain\Hubs\Queries\MunicipalityDetailsQuery.cs" />
+    <Compile Include="Models\Domain\Hubs\Queries\MunicipalityListQuery.cs" />
+    <Compile Include="Models\Domain\Invoices\Commands\InvoiceGiveawayItemViewModel.cs" />
+    <Compile Include="Models\Domain\Invoices\Commands\InvoiceMapper.cs" />
+    <Compile Include="Models\Domain\Invoices\Commands\PreviewInvoiceCommand.cs" />
+    <Compile Include="Models\Domain\Invoices\Commands\TaxCalculator.cs" />
+    <Compile Include="Models\Domain\Invoices\Queries\InvoiceTax.cs" />
+    <Compile Include="Models\Domain\Invoices\Tax.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Commands\CreateOBNLReinvestmentCommand.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Commands\DeleteOBNLReinvestmentCommand.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Commands\OBNLReinvestmentAttachmentViewModel.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Commands\OBNLReinvestmentMaterialViewModel.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Commands\OBNLReinvestmentMaterialViewModelValidator.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Commands\OBNLReinvestmentViewModel.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Commands\OBNLReinvestmentViewModelValidator.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Commands\UndeleteOBNLReinvestmentCommand.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\DeletedOBNLReinvestment.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Events\OBNLReinvestmentAddedEvent.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Events\OBNLReinvestmentDeletedEvent.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\OBNLReinvestment.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\OBNLReinvestmentAttachment.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\OBNLReinvestmentCreator.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\OBNLReinvestmentMaterial.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\CompleteOBNLReinvestmentsListQuery.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\CompleteOBNLReinvestmentsListQueryParams.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\DeletedOBNLReinvestmentDetails.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\OBNLMaterialRow.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\OBNLMaterialsQueryParams.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\OBNLMaterialsQuery.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\OBNLReinvestmentClientDetails.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\OBNLReinvestmentDetails.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\OBNLReinvestmentDetailsAttachment.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\OBNLReinvestmentDetailsMaterial.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\OBNLReinvestmentDetailsQuery.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\OBNLReinvestmentListQuery.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\OBNLReinvestmentListQueryParams.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\OBNLReinvestmentListQueryResult.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\OBNLReinvestmentSearchBy.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Queries\OBNLReinvestmentSortTerm.cs" />
+    <Compile Include="Models\Domain\OBNLReinvestments\Tasks\AddAddressesToOldOBNLReinvestmentsTask.cs" />
+    <Compile Include="Models\Domain\Invoices\InvoiceCreator.cs" />
+    <Compile Include="Models\Domain\Invoices\Queries\CompleteInvoicesListQuery.cs" />
+    <Compile Include="Models\Domain\Invoices\Queries\CompleteInvoicesListQueryParams.cs" />
+    <Compile Include="Models\Domain\Invoices\Queries\InvoiceDetails - Copy.cs" />
+    <Compile Include="Models\Domain\Limits\LimitStatusMaterial.cs" />
+    <Compile Include="Models\Domain\Limits\LimitStatusYear.cs" />
+    <Compile Include="Models\Domain\Limits\Queries\LimitListQueryResult.cs" />
+    <Compile Include="Models\Domain\Materials\Commands\MergeMaterialsCommand.cs" />
+    <Compile Include="Models\Domain\Materials\Events\MaterialActivityChanged.cs" />
+    <Compile Include="Models\Domain\Municipalities\MunicipalityValidator.cs" />
+    <Compile Include="Models\Domain\Reporting\Journal\InvoiceJournalMaterial.cs" />
+    <Compile Include="Models\Domain\Reporting\Journal\JournalReportQueryResult.cs" />
+    <Compile Include="Models\Domain\Reporting\Journal\JournalReportSummaryResult.cs" />
+    <Compile Include="Models\Domain\Reporting\Materials\MaterialByAddress.cs" />
+    <Compile Include="Models\Domain\Reporting\Materials\MaterialByAddressInvoice.cs" />
+    <Compile Include="Models\Domain\Reporting\Materials\MaterialByAddressMaterial.cs" />
+    <Compile Include="Models\Domain\Reporting\Materials\MaterialByAddressSearchBy.cs" />
+    <Compile Include="Models\Domain\Reporting\Materials\MaterialByAddressSortBy.cs" />
+    <Compile Include="Models\Domain\Reporting\Materials\MaterialByAddressXlsFormatter.cs" />
+    <Compile Include="Models\Domain\Reporting\Materials\MaterialsBroughtBySortBy.cs" />
+    <Compile Include="Models\Domain\Reporting\OBNL\OBNLGlobalXlsFormatter.cs" />
+    <Compile Include="Models\Domain\Reporting\OBNL\OBNLTotalXlsFormatter.cs" />
+    <Compile Include="Models\Domain\Reporting\OBNL\OBNLGlobal.cs" />
+    <Compile Include="Models\Domain\Reporting\OBNL\OBNLTotal.cs" />
+    <Compile Include="Models\Domain\Reporting\Visits\UpdateVisitsLimitExceededTask.cs" />
+    <Compile Include="Models\Domain\TaskRepository.cs" />
+    <Compile Include="Models\Domain\User\Commands\PasswordResetCommandResult.cs" />
+    <Compile Include="Models\Domain\User\Commands\RequestPasswordResetCommand.cs" />
+    <Compile Include="Models\Domain\User\Commands\RequestPasswordResetMailer.cs" />
+    <Compile Include="Models\Domain\User\Commands\ResetPasswordCommand.cs" />
+    <Compile Include="Models\Domain\User\Commands\ResetPasswordCommandViewModel.cs" />
+    <Compile Include="Models\Domain\User\Commands\ResetPasswordCommandViewModelValidator.cs" />
+    <Compile Include="Models\Domain\User\Queries\CurrentUserDetailsQuery.cs" />
+    <Compile Include="Models\Domain\User\Queries\CurrentUserViewModel.cs" />
+    <Compile Include="Models\IAdminTask.cs" />
+    <Compile Include="Models\Domain\Clients\Consumers\UpdateAddressesOnMunicipalityUpdated.cs" />
+    <Compile Include="Models\Domain\Clients\Queries\SuggestClientNameQuery.cs" />
+    <Compile Include="Models\Domain\Dashboard\ChartEntry.cs" />
+    <Compile Include="Models\Domain\Dashboard\DashboardDetailsResult.cs" />
+    <Compile Include="Models\Domain\Dashboard\DashboardMunicipalitiesSummaryQuery.cs" />
+    <Compile Include="Models\Domain\Dashboard\DashboardMunicipalitiesSummaryQueryParams.cs" />
+    <Compile Include="Models\Domain\Dashboard\MunicipalityEntry.cs" />
+    <Compile Include="Models\Domain\Invoices\Commands\InvoiceAttachmentViewModel.cs" />
+    <Compile Include="Models\Domain\Common\Commands\SaveFileResult.cs" />
+    <Compile Include="Models\Domain\Invoices\DeletedInvoice.cs" />
+    <Compile Include="Models\Domain\Invoices\Events\InvoiceAddedEvent.cs" />
+    <Compile Include="Models\Domain\Invoices\Events\InvoiceDeletedEvent.cs" />
+    <Compile Include="Models\Domain\Invoices\InvoiceAttachment.cs" />
+    <Compile Include="Models\Domain\Invoices\Queries\DeletedInvoiceDetails.cs" />
+    <Compile Include="Models\Domain\Invoices\Queries\InvoiceDetailsAttachment.cs" />
+    <Compile Include="Models\Domain\Invoices\Queries\InvoiceListQueryParams.cs" />
+    <Compile Include="Models\Domain\Invoices\Queries\InvoiceListQueryResult.cs" />
+    <Compile Include="Models\Domain\Invoices\Queries\InvoiceSearchBy.cs" />
+    <Compile Include="Models\Domain\Invoices\Queries\InvoiceSortTerm.cs" />
+    <Compile Include="Models\Domain\Common\SortDir.cs" />
+    <Compile Include="Models\Domain\Invoices\Tasks\AddAddressesToOldInvoicesTask.cs" />
+    <Compile Include="Models\Domain\Limits\Consumers\UpdateLimitsAddressOnMunicipalityChanged.cs" />
+    <Compile Include="Models\Domain\Limits\Consumers\UpdateLimitsOnInvoiceAdded.cs" />
+    <Compile Include="Models\Domain\Limits\Consumers\UpdateLimitsOnMaterialActivityChanged.cs" />
+    <Compile Include="Models\Domain\Limits\Consumers\UpdateLimitsOnMaterialChangedConsumer.cs" />
+    <Compile Include="Models\Domain\Materials\Commands\ExistingMaterialViewModel.cs" />
+    <Compile Include="Models\Domain\Materials\Commands\MaterialViewModel.cs" />
+    <Compile Include="Models\Domain\Materials\Events\MaterialLimitChangedEvent.cs" />
+    <Compile Include="Models\Domain\Municipalities\Events\MunicipalityUpdatedEvent.cs" />
+    <Compile Include="Models\Domain\Municipalities\Queries\MunicipalityDetailsQuery.cs" />
+    <Compile Include="Models\Domain\Municipalities\Queries\MunicipalityListParams.cs" />
+    <Compile Include="Models\Domain\Reporting\Journal\Consumers\AddToJournalOnInvoiceAdded.cs" />
+    <Compile Include="Models\Domain\Reporting\Journal\Consumers\RemoveFromJournalOnInvoiceDeleted.cs" />
+    <Compile Include="Models\AsyncAdminTask.cs" />
+    <Compile Include="Models\Domain\User\Commands\ExistingUserViewModel.cs" />
+    <Compile Include="Models\Domain\User\Commands\ExistingUserViewModelValidator.cs" />
+    <Compile Include="Models\Domain\User\Commands\UpdateUserCommand.cs" />
+    <Compile Include="Models\Domain\Clients\Commands\CreateClientCommand.cs" />
+    <Compile Include="Models\Domain\User\Commands\CreateUserCommand.cs" />
+    <Compile Include="Models\Domain\User\Commands\LoginCommand.cs" />
+    <Compile Include="Models\Domain\Invoices\Commands\DeleteInvoiceCommand.cs" />
+    <Compile Include="Models\Domain\Invoices\Commands\InvoiceMaterialViewModel.cs" />
+    <Compile Include="Models\Domain\Invoices\Commands\InvoiceMaterialViewModelValidator.cs" />
+    <Compile Include="Models\Domain\Invoices\Commands\InvoiceViewModel.cs" />
+    <Compile Include="Models\Domain\Invoices\Commands\InvoiceViewModelValidator.cs" />
+    <Compile Include="Models\Domain\Common\Commands\SaveTmpFileCommand.cs" />
+    <Compile Include="Models\Domain\Invoices\Commands\UndeleteInvoiceCommand.cs" />
+    <Compile Include="Models\Commands\Scheduler\Task.cs" />
+    <Compile Include="Models\Commands\Scheduler\ITask.cs" />
+    <Compile Include="Models\Commands\Scheduler\Tasks\OptimizeMaterialNamingTask.cs" />
+    <Compile Include="Models\Commands\Scheduler\RunScheduledTasksCommand.cs" />
+    <Compile Include="Models\Domain\Clients\Queries\ClientCategoriesDetailsQuery.cs" />
+    <Compile Include="Models\Domain\Clients\Queries\ClientListQueryParams.cs" />
+    <Compile Include="Models\Domain\Clients\Queries\ClientListQueryResult.cs" />
+    <Compile Include="Models\Domain\Clients\Queries\ClientListQuerySortBy.cs" />
+    <Compile Include="Models\Domain\Clients\Tasks\UpdateAddressesAndClients.cs" />
+    <Compile Include="Models\Domain\Limits\Tasks\UpdateLimitsSummaryTask.cs" />
+    <Compile Include="Models\Commands\SetupAdminCommand.cs" />
+    <Compile Include="Models\Domain\Clients\Commands\UpdateClientCommand.cs" />
+    <Compile Include="Models\Domain\Municipalities\Commands\CreateMunicipalityCommand.cs" />
+    <Compile Include="Models\Domain\Invoices\Commands\CreateInvoiceCommand.cs" />
+    <Compile Include="Models\Domain\Materials\Commands\CreateMaterialCommand.cs" />
+    <Compile Include="Models\Domain\Materials\Commands\UpdateMaterialCommand.cs" />
+    <Compile Include="Models\Domain\Municipalities\Commands\UpdateMunicipalityCommand.cs" />
+    <Compile Include="Models\Domain\Common\Extensions.cs" />
+    <Compile Include="Models\Domain\BackgroundTaskData.cs" />
+    <Compile Include="Models\Domain\Clients\Client.cs" />
+    <Compile Include="Models\Domain\Clients\ClientAddress.cs" />
+    <Compile Include="Models\Domain\Clients\ClientCategory.cs" />
+    <Compile Include="Models\Domain\Clients\ClientStatus.cs" />
+    <Compile Include="Models\Domain\Entity.cs" />
+    <Compile Include="Models\Domain\FileRepository.cs" />
+    <Compile Include="Models\Domain\Invoices\Invoice.cs" />
+    <Compile Include="Models\Domain\Invoices\InvoiceMaterial.cs" />
+    <Compile Include="Models\Domain\Limits\Queries\LimitsListQuery.cs" />
+    <Compile Include="Models\Domain\Limits\Queries\LimitsListQueryParams.cs" />
+    <Compile Include="Models\Domain\Reporting\Journal\JournalReportQueryParams.cs" />
+    <Compile Include="Models\Domain\Reporting\Journal\JournalReportResultRow.cs" />
+    <Compile Include="Models\Domain\Reporting\Journal\JournalReportSortBy.cs" />
+    <Compile Include="Models\Domain\Reporting\Journal\Tasks\UpdateInvoiceJournalTask.cs" />
+    <Compile Include="Models\Domain\Materials\Material.cs" />
+    <Compile Include="Models\Domain\Municipalities\Municipality.cs" />
+    <Compile Include="Models\Domain\Reporting\Journal\InvoiceJournal.cs" />
+    <Compile Include="Models\Domain\Limits\LimitStatus.cs" />
+    <Compile Include="Models\Domain\Common\LambdaComparer.cs" />
+    <Compile Include="Models\Domain\Reporting\Materials\MaterialBroughtXlsFormatter.cs" />
+    <Compile Include="Models\Domain\Reporting\Materials\MaterialBrought.cs" />
+    <Compile Include="Models\Domain\Reporting\Materials\MaterialBroughtQueryResultRow.cs" />
+    <Compile Include="Models\Domain\Reporting\Materials\MaterialsBroughtQuery.cs" />
+    <Compile Include="Models\Domain\Reporting\Materials\MaterialsBroughtQueryParams.cs" />
+    <Compile Include="Models\Domain\Reporting\Materials\UpdateMaterialsBroughtTask.cs" />
+    <Compile Include="Models\Domain\Repository.cs" />
+    <Compile Include="Models\Domain\Sequence.cs" />
+    <Compile Include="Models\Domain\Sequences.cs" />
+    <Compile Include="Models\Domain\User\AuthenticationContext.cs" />
+    <Compile Include="Models\Domain\User\Commands\UserDeleteCommand.cs" />
+    <Compile Include="Models\Domain\User\Commands\UserViewModel.cs" />
+    <Compile Include="Models\Domain\User\Commands\UserViewModelValidator.cs" />
+    <Compile Include="Models\Domain\User\Queries\UserDetailsQuery.cs" />
+    <Compile Include="Models\Domain\User\Queries\UserListQueryParams.cs" />
+    <Compile Include="Models\Domain\User\User.cs" />
+    <Compile Include="Models\ErrorLog.cs" />
+    <Compile Include="Models\Import\ExcelRowCompareByLN.cs" />
+    <Compile Include="Models\Import\ExcelRow.cs" />
+    <Compile Include="Models\Import\ExcelRowCompare.cs" />
+    <Compile Include="Models\Import\ExcelWrapper.cs" />
+    <Compile Include="Models\Import\ImportClientsModel.cs" />
+    <Compile Include="Models\Infrastructure\ObjectExtensions.cs" />
+    <Compile Include="Models\Infrastructure\PagedList.cs" />
+    <Compile Include="Models\Infrastructure\Paging.cs" />
+    <Compile Include="Models\Infrastructure\Serialization\CamelCaseJsonResult.cs" />
+    <Compile Include="Models\Infrastructure\Serialization\ControllerExtensions.cs" />
+    <Compile Include="Models\Infrastructure\StaticFileHelper.cs" />
+    <Compile Include="Models\Infrastructure\ClientSideException.cs" />
+    <Compile Include="Models\Infrastructure\DefaultCustomizationModule.cs" />
+    <Compile Include="Models\Infrastructure\DomainModule.cs" />
+    <Compile Include="Models\Infrastructure\EcoRazorViewEngine.cs" />
+    <Compile Include="Models\Infrastructure\EcoridrCustomizationModule.cs" />
+    <Compile Include="Models\Domain\Invoices\InvoiceFormatter.cs" />
+    <Compile Include="Models\Infrastructure\QueriesExtensions.cs" />
+    <Compile Include="Models\Infrastructure\SystemSettings\SystemSettings.cs" />
+    <Compile Include="Models\Infrastructure\SystemSettings\SystemSettingsQuery.cs" />
+    <Compile Include="Models\Infrastructure\TypeExtensions.cs" />
+    <Compile Include="Models\Infrastructure\UnitOfWork.cs" />
+    <Compile Include="Models\MoneticoPayments\ByteArrayExtentions.cs" />
+    <Compile Include="Models\MoneticoPayments\MoneticoConfiguration.cs" />
+    <Compile Include="Models\MoneticoPayments\PaymentFields.cs" />
+    <Compile Include="Models\MoneticoPayments\PaymentResponseValidator.cs" />
+    <Compile Include="Models\MoneticoPayments\PaymentProcessor.cs" />
+    <Compile Include="Models\MoneticoPayments\PaymentRequest.cs" />
+    <Compile Include="Models\MoneticoPayments\PaymentResult.cs" />
+    <Compile Include="Models\Domain\Payments\SavePaymentSettingsCommand.cs" />
+    <Compile Include="Models\Queries\CachedMaterialsByAddress.cs" />
+    <Compile Include="Models\Queries\ClientListCategoryFilter.cs" />
+    <Compile Include="Models\Queries\ClientVisitsLimitsReportQueryResultMaterial.cs" />
+    <Compile Include="Models\Queries\ClientVisitsLimitsReportQueryResultRow.cs" />
+    <Compile Include="Models\Queries\ClientVisitsLimitsReportQuery.cs" />
+    <Compile Include="Models\Queries\MaterialByAddressCachingSettings.cs" />
+    <Compile Include="Models\Queries\MaterialsByAddressReportQuery.cs" />
+    <Compile Include="Models\Queries\ClientLimitsReportQuery.cs" />
+    <Compile Include="Models\Queries\ClientLimitsQuery.cs" />
+    <Compile Include="Models\Domain\Clients\Queries\ClientListQuery.cs" />
+    <Compile Include="Models\Domain\Dashboard\DashboardDetailsQuery.cs" />
+    <Compile Include="Models\Domain\Invoices\Queries\InvoiceDetails.cs" />
+    <Compile Include="Models\Domain\Invoices\Queries\InvoiceDetailsMaterial.cs" />
+    <Compile Include="Models\Domain\Invoices\Queries\InvoiceDetailsQuery.cs" />
+    <Compile Include="Models\Domain\Invoices\Queries\InvoiceListQuery.cs" />
+    <Compile Include="Models\Queries\ClientLimitsReportQueryParams.cs" />
+    <Compile Include="Models\Queries\ClientLimitsReportQueryResultMaterial.cs" />
+    <Compile Include="Models\Queries\ClientLimitsReportQueryResultRow.cs" />
+    <Compile Include="Models\Queries\LimitsDetailsQuery.cs" />
+    <Compile Include="Models\Queries\LimitsDetailsQueryResult.cs" />
+    <Compile Include="Models\Queries\MaterialDetailsQuery.cs" />
+    <Compile Include="Models\Queries\MaterialLimitResult.cs" />
+    <Compile Include="Models\Queries\MaterialLimitResultRow.cs" />
+    <Compile Include="Models\Queries\MaterialListQuery.cs" />
+    <Compile Include="Models\Domain\Municipalities\Queries\MunicipalityListQuery.cs" />
+    <Compile Include="Models\Queries\MaterialListQueryParam.cs" />
+    <Compile Include="Models\Queries\MaterialsByAddressReportQueryParams.cs" />
+    <Compile Include="Models\Queries\MaterialsByAddressReportQueryResultRow.cs" />
+    <Compile Include="Models\Queries\OBNLGlobalReportOrderBy.cs" />
+    <Compile Include="Models\Queries\OBNLGlobalReportQuery.cs" />
+    <Compile Include="Models\Queries\OBNLGlobalReportParam.cs" />
+    <Compile Include="Models\Queries\OBNLTotalReportParam.cs" />
+    <Compile Include="Models\Queries\OBNLTotalReportQuery.cs" />
+    <Compile Include="Models\Queries\OBNLTotalReportOrderBy.cs" />
+    <Compile Include="Models\Queries\PagedCollection.cs" />
+    <Compile Include="Models\Domain\Reporting\Journal\JournalReportQuery.cs" />
+    <Compile Include="Models\Domain\Reporting\Journal\JurnalReportXlsFormatter.cs" />
+    <Compile Include="Models\Domain\User\Queries\UserListQuery.cs" />
+    <Compile Include="Models\ViewModel\ClientAddressImportModel.cs" />
+    <Compile Include="Models\ViewModel\ClientAddressViewModel.cs" />
+    <Compile Include="Models\ViewModel\ClientImportModel.cs" />
+    <Compile Include="Models\ViewModel\ClientViewModel.cs" />
+    <Compile Include="Models\ViewModel\ClientViewModelValidator.cs" />
+    <Compile Include="Models\ViewModel\Container\ContainerViewModel.cs" />
+    <Compile Include="Models\ViewModel\CustomizationProvider.cs" />
+    <Compile Include="Models\ViewModel\ExistingClientViewModel.cs" />
+    <Compile Include="Models\ViewModel\ExistingClientViewModelValidator.cs" />
+    <Compile Include="Models\ViewModel\Giveaway\PublicListingViewModel.cs" />
+    <Compile Include="Models\ViewModel\ICustomizationProvider.cs" />
+    <Compile Include="Models\ViewModel\MainMenu\EcoridrMenuProvider.cs" />
+    <Compile Include="Models\ViewModel\MainMenu\IMenuProvider.cs" />
+    <Compile Include="Models\ViewModel\MainMenu\MenuItem.cs" />
+    <Compile Include="Models\ViewModel\MainMenu\MenuProvider.cs" />
+    <Compile Include="Models\Domain\User\LogInAlert.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Forms.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Forms.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Model\Payment.Designer.cs">
+      <DependentUpon>Payment.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Model\GlobalSettings.Designer.cs">
+      <DependentUpon>GlobalSettings.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\Model\Client.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Client.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Model\Materials.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Materials.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Model\Municipality.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Municipality.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Model\Invoice.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Invoice.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Model\OBNLReinvestment.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OBNLReinvestment.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Model\User.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>User.resx</DependentUpon>
+    </Compile>
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Connected Services\Application Insights\ConnectedService.json" />
+    <Content Include="libmongocrypt.so" />
+    <Content Include="libmongocrypt.dylib" />
+    <None Include="Properties\PublishProfiles\CompoProd.pubxml" />
+    <None Include="Properties\PublishProfiles\ecosaver-compo - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\ecosaver-compo-preprod - Web Deploy.pubxml" />
+    <Content Include="Content\compo\background_pattern.gif" />
+    <Content Include="Content\compo\bacs.css" />
+    <Content Include="Content\compo\bac_bleu.gif" />
+    <Content Include="Content\compo\bac_brun.gif" />
+    <Content Include="Content\compo\bac_brunnoir.gif" />
+    <Content Include="Content\compo\bac_noir.gif" />
+    <Content Include="Content\compo\bac_vert.gif" />
+    <Content Include="Content\compo\bac_vertbrun.gif" />
+    <Content Include="Content\compo\bloc2_image.gif" />
+    <Content Include="Content\compo\bloc3_image.gif" />
+    <Content Include="Content\compo\bloc4_image.gif" />
+    <Content Include="Content\compo\comporecycle.css" />
+    <Content Include="Content\compo\home.css" />
+    <Content Include="Content\compo\listematieres.css" />
+    <Content Include="Content\compo\logo2016.gif" />
+    <Content Include="Content\compo\LogoDonnez.png" />
+    <Content Include="Content\compo\mailTemplate.txt" />
+    <Content Include="Content\compo\map.jpg" />
+    <Content Include="Content\compo\no-photo.png" />
+    <Content Include="Content\compo\promo-app.png" />
+    <Content Include="Content\compo\squeezebox.css" />
+    <Content Include="mongocrypt.dll" />
+    <Content Include="robots.txt" />
+    <Content Include="Scripts\lib\angular-chosen.min.js" />
+    <Content Include="Scripts\lib\angular-file-saver.bundle.js" />
+    <Content Include="Scripts\lib\angular-moment.min.js" />
+    <Content Include="Scripts\lib\angular-sanitize.js" />
+    <Content Include="Scripts\lib\angular-upload.min.js" />
+    <Content Include="Scripts\lib\chosen.jquery.min.js" />
+    <Content Include="Scripts\lib\moment.fr-ca.js" />
+    <Content Include="Scripts\lib\moment.js" />
+    <Content Include="Scripts\lib\ng-tags-input.min.js" />
+    <Content Include="Scripts\lib\ngToast.min.js" />
+    <Content Include="Scripts\lib\ui-bootstrap-custom-tpls-2.5.0.js" />
+    <Content Include="Scripts\lib\underscore.min.js" />
+    <Content Include="Scripts\ng\common\datepicker.directive.js" />
+    <Content Include="Scripts\ng\common\getFile.service.js" />
+    <Content Include="Scripts\ng\common\error-handler.service.js" />
+    <Content Include="Scripts\ng\common\error-list.component.js" />
+    <Content Include="Scripts\ng\common\http-unauthorized-interceptor.js" />
+    <Content Include="Scripts\ng\common\join-by.filter.js" />
+    <Content Include="Scripts\ng\common\module.js" />
+    <Content Include="Scripts\ng\common\loading.directive.js" />
+    <Content Include="Scripts\ng\container\container-form.component.js" />
+    <Content Include="Scripts\ng\container\container-overview.component.js" />
+    <Content Include="Scripts\ng\container\container-list.component.js" />
+    <Content Include="Scripts\ng\container\container.service.js" />
+    <Content Include="Scripts\ng\container\module.js" />
+    <Content Include="Scripts\ng\giveaway-type\giveaway-type-list.component.js" />
+    <Content Include="Scripts\ng\giveaway-type\giveaway-type.service.js" />
+    <Content Include="Scripts\ng\giveaway-type\module.js" />
+    <Content Include="Scripts\ng\giveaway\giveaway-form.template.cshtml" />
+    <Content Include="Scripts\ng\common\error-list.template.cshtml" />
+    <Content Include="Scripts\ng\giveaway\giveaway-list.template.cshtml" />
+    <Content Include="Scripts\lib\angular.js" />
+    <Content Include="Scripts\ng\giveaway\giveaway-form.component.js" />
+    <Content Include="Scripts\ng\giveaway\giveaway.service.js" />
+    <Content Include="Scripts\ng\giveaway\giveaway-list.component.js" />
+    <Content Include="Scripts\ng\giveaway\module.js" />
+    <Content Include="Scripts\ng\hub\hub-form.component.js" />
+    <Content Include="Scripts\ng\hub\hub.service.js" />
+    <Content Include="Scripts\ng\hub\module.js" />
+    <Content Include="Scripts\ng\invoice\invoice-view.component.js" />
+    <Content Include="Scripts\ng\invoice\invoice-page.component.js" />
+    <Content Include="Scripts\ng\invoice\invoice.service.js" />
+    <Content Include="Scripts\ng\invoice\module.js" />
+    <Content Include="Scripts\ng\material-report\material-report.component.js" />
+    <Content Include="Scripts\ng\material-report\material-report.service.js" />
+    <Content Include="Scripts\ng\material-report\module.js" />
+    <Content Include="Scripts\ng\municipality\municipality-form.component.js" />
+    <Content Include="Scripts\ng\municipality\municipality.service.js" />
+    <Content Include="Scripts\ng\municipality\module.js" />
+    <Content Include="Scripts\ng\material\material-form.component.js" />
+    <Content Include="Scripts\ng\material\material.service.js" />
+    <Content Include="Scripts\ng\material\module.js" />
+    <Content Include="Scripts\ng\payment\payment-settings.component.js" />
+    <Content Include="Scripts\ng\payment\payment.service.js" />
+    <Content Include="Scripts\ng\payment\module.js" />
+    <Content Include="Scripts\src\empty.module.coffee" />
+    <Content Include="Scripts\ng\Web.config" />
+    <Content Include="Scripts\src\jquery.ext.js" />
+    <Content Include="Scripts\src\giveaway\giveaway.coffee" />
+    <Content Include="Scripts\ng\material\material-form.template.cshtml" />
+    <Content Include="Scripts\ng\container\container-form.template.cshtml" />
+    <Content Include="Scripts\ng\container\container-list.template.cshtml" />
+    <Content Include="Scripts\ng\container\container-overview.template.cshtml" />
+    <Content Include="Scripts\ng\payment\payment-settings.template.cshtml" />
+    <Content Include="Scripts\ng\invoice\invoice-page.template.cshtml" />
+    <Content Include="Scripts\ng\invoice\invoice-view.template.cshtml" />
+    <Content Include="Scripts\ng\giveaway-type\giveaway-type-list.template.cshtml" />
+    <Content Include="Scripts\ng\municipality\municipality-form.template.cshtml" />
+    <Content Include="Scripts\ng\hub\hub-form.template.cshtml" />
+    <Content Include="Scripts\ng\material-report\material-report.template.cshtml" />
+    <None Include="Scripts\src\obnlreinvestment\obnlreinvestment.coffee" />
+    <None Include="Scripts\src\obnlreinvestment\obnlreinvestment.list.coffee" />
+    <None Include="Scripts\src\obnlreinvestment\obnlreinvestment.show.coffee" />
+    <None Include="Scripts\src\obnlreinvestment\obnlreinvestment.workflow.coffee" />
+    <Compile Include="Web\EcoWebPageView.cs" />
+    <Content Include="Views\CompleteImport\Index.cshtml" />
+    <Content Include="Views\client\_searchPocForm.cshtml" />
+    <Content Include="Views\invoice\newPocPageTemplate.cshtml" />
+    <Content Include="Views\invoice\newTemplate2023.cshtml" />
+    <Content Include="Views\client\_searchForm2023.cshtml" />
+    <Content Include="Views\client\canadian_NewTemplate.cshtml" />
+    <None Include="Web.CompoProd.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="apple-touch-icon-precomposed.png" />
+    <Content Include="apple-touch-icon.png" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\lib\backbone.min.js" />
+    <Content Include="Scripts\lib\angular.min.js" />
+    <Content Include="Scripts\lib\bignumber.min.js" />
+    <Content Include="Scripts\lib\bootstrap.js" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\eco.js" />
+    <Content Include="Scripts\lib\jquery-1.9.1.js" />
+    <Content Include="Scripts\lib\Chart.min.js" />
+    <Content Include="Scripts\lib\jquery-ui-1.9.2.custom.min.js" />
+    <Content Include="Scripts\lib\jquery.mask.min.js" />
+    <Content Include="Scripts\lib\knockback-page-navigator-panes.js" />
+    <Content Include="Scripts\lib\knockback.min.js" />
+    <Content Include="Scripts\lib\knockout-3.2.0.js" />
+    <Content Include="Scripts\lib\date.js" />
+    <Content Include="Scripts\lib\deep-model.js" />
+    <Content Include="Scripts\lib\jquery.ocupload-1.1.2.packed.js" />
+    <Content Include="Scripts\lib\jquery.upload\css\jquery.fileupload-ui-noscript.css" />
+    <Content Include="Scripts\lib\jquery.upload\css\jquery.fileupload-ui.css" />
+    <Content Include="Scripts\lib\jquery.upload\img\loading.gif" />
+    <Content Include="Scripts\lib\jquery.upload\img\progressbar.gif" />
+    <Content Include="Scripts\lib\jquery.upload\js\cors\jquery.postmessage-transport.js" />
+    <Content Include="Scripts\lib\jquery.upload\js\cors\jquery.xdr-transport.js" />
+    <Content Include="Scripts\lib\jquery.upload\js\jquery.fileupload-fp.js" />
+    <Content Include="Scripts\lib\jquery.upload\js\jquery.fileupload-ui.js" />
+    <Content Include="Scripts\lib\jquery.upload\js\jquery.fileupload.js" />
+    <Content Include="Scripts\lib\jquery.upload\js\jquery.iframe-transport.js" />
+    <Content Include="Scripts\lib\jquery.upload\js\main.js" />
+    <Content Include="Scripts\lib\jquery.upload\js\vendor\jquery.ui.widget.js" />
+    <Content Include="Scripts\lib\jquery.watermark.min.js" />
+    <Content Include="Scripts\lib\knockback-defaults.js" />
+    <Content Include="Scripts\lib\knockback-defaults.min.js" />
+    <Content Include="Scripts\lib\knockback-formatting.js" />
+    <Content Include="Scripts\lib\knockback-formatting.min.js" />
+    <Content Include="Scripts\lib\knockback-localization.js" />
+    <Content Include="Scripts\lib\knockback-localization.min.js" />
+    <Content Include="Scripts\lib\knockback-statistics.js" />
+    <Content Include="Scripts\lib\knockback-statistics.min.js" />
+    <Content Include="Scripts\lib\knockback-triggering.js" />
+    <Content Include="Scripts\lib\knockback-triggering.min.js" />
+    <Content Include="Scripts\lib\underscore.mixin.deepExtend.js" />
+    <None Include="Scripts\src\globalsettings\globalsettings.form.coffee" />
+    <None Include="Scripts\src\client\client.inactive.coffee" />
+    <None Include="Scripts\src\client\client.merger.coffee" />
+    <None Include="Scripts\src\globalsettings\globalsettings.coffee" />
+    <Content Include="Styles\css\bootstrap-responsive.css" />
+    <Content Include="Styles\css\bootstrap-responsive.min.css" />
+    <Content Include="Styles\css\bootstrap.css" />
+    <Content Include="Styles\css\bootstrap.min.css" />
+    <Content Include="Styles\css\chosen\chosen-sprite%402x.png" />
+    <Content Include="Styles\css\chosen\chosen-sprite.png" />
+    <Content Include="Styles\css\chosen\chosen.css" />
+    <Content Include="Styles\css\chosen\chosen.min.css" />
+    <Content Include="Styles\css\flick\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Styles\css\flick\images\ui-bg_flat_0_eeeeee_40x100.png" />
+    <Content Include="Styles\css\flick\images\ui-bg_flat_55_ffffff_40x100.png" />
+    <Content Include="Styles\css\flick\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Styles\css\flick\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Styles\css\flick\images\ui-bg_highlight-soft_100_f6f6f6_1x100.png" />
+    <Content Include="Styles\css\flick\images\ui-bg_highlight-soft_25_0073ea_1x100.png" />
+    <Content Include="Styles\css\flick\images\ui-bg_highlight-soft_50_dddddd_1x100.png" />
+    <Content Include="Styles\css\flick\images\ui-icons_0073ea_256x240.png" />
+    <Content Include="Styles\css\flick\images\ui-icons_454545_256x240.png" />
+    <Content Include="Styles\css\flick\images\ui-icons_666666_256x240.png" />
+    <Content Include="Styles\css\flick\images\ui-icons_ff0084_256x240.png" />
+    <Content Include="Styles\css\flick\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Styles\css\flick\jquery-ui-1.9.2.custom.css" />
+    <Content Include="Styles\css\flick\jquery-ui-1.9.2.custom.min.css" />
+    <Content Include="Styles\css\fontawesome-all.v5.0.12..min.css" />
+    <Content Include="Styles\css\knockback-navigators.css" />
+    <Content Include="Styles\css\knockback-transitions.css" />
+    <Content Include="Styles\css\ng-tags-input.bootstrap.min.css" />
+    <Content Include="Styles\css\ng-tags-input.min.css" />
+    <Content Include="Styles\eco-print.css" />
+    <Content Include="Styles\eco.css" />
+    <Content Include="Styles\img\ajax-loader.gif" />
+    <Content Include="Styles\img\Amherst.jpg" />
+    <Content Include="Styles\img\global-loader.gif" />
+    <Content Include="Styles\img\glyphicons-halflings-white.png" />
+    <Content Include="Styles\img\glyphicons-halflings.png" />
+    <Content Include="Styles\img\gore-logo.jpg" />
+    <Content Include="Styles\img\homepageheaderimage.jpg" />
+    <Content Include="Styles\img\Huberdeau.jpg" />
+    <Content Include="Styles\img\la-minerve.jpg" />
+    <Content Include="Styles\img\lac-superieur.jpg" />
+    <Content Include="Styles\img\lantier.jpg" />
+    <Content Include="Styles\img\compo-recycle-logo.gif" />
+    <Content Include="Styles\img\default-logo.png" />
+    <Content Include="Styles\img\StSauveur-logo.png" />
+    <Content Include="Styles\img\milles-iles-logo.jpg" />
+    <Content Include="Styles\img\mont-tremblant-logo.jpg" />
+    <Content Include="Styles\img\mont-tremblant.jpg" />
+    <Content Include="Styles\img\mrclogo.jpg" />
+    <Content Include="Styles\img\Sainte-Lucie-des-Laurentides.jpg" />
+    <Content Include="Styles\img\st-agathe-logo.jpg" />
+    <Content Include="Styles\img\st-agathes-des-monts.jpg" />
+    <Content Include="Styles\img\Val-des-Lacs.jpg" />
+    <Content Include="Styles\img\wentwroth-logo.jpg" />
+    <Content Include="Styles\ridr\ridr-ecologo.jpg" />
+    <Content Include="Styles\webfonts\fa-brands-400.svg" />
+    <Content Include="Styles\webfonts\fa-regular-400.svg" />
+    <Content Include="Styles\webfonts\fa-solid-900.svg" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Styles\src\main.styl" />
+    <None Include="Scripts\src\site.coffee" />
+    <Content Include="Views\client\newTemplate.cshtml" />
+    <Content Include="Views\client\indexTemplate.cshtml" />
+    <None Include="Scripts\src\client\client.form.coffee" />
+    <None Include="Scripts\src\client\client.list.coffee" />
+    <None Include="Scripts\src\material\material.list.coffee" />
+    <Content Include="Views\material\indexTemplate.cshtml" />
+    <Content Include="Views\material\newTemplate.cshtml" />
+    <None Include="Scripts\src\material\material.form.coffee" />
+    <None Include="Scripts\src\invoice\invoice.form.coffee" />
+    <Content Include="Views\invoice\newTemplate.cshtml" />
+    <None Include="Scripts\src\client\client.coffee" />
+    <None Include="Scripts\src\ko.ext.coffee" />
+    <Content Include="Views\client\_searchForm.cshtml" />
+    <None Include="Scripts\src\material\material.coffee" />
+    <None Include="Scripts\src\jqueryui.coffee" />
+    <Content Include="Views\invoice\indexTemplate.cshtml" />
+    <None Include="Scripts\src\invoice\invoice.coffee" />
+    <None Include="Scripts\src\invoice\invoice.list.coffee" />
+    <Content Include="Views\invoice\showTemplate.cshtml" />
+    <None Include="Scripts\src\invoice\invoice.show.coffee" />
+    <Content Include="Views\client\showTemplate.cshtml" />
+    <None Include="Scripts\src\client\client.show.coffee" />
+    <Content Include="Views\municipality\newTemplate.cshtml" />
+    <None Include="Scripts\src\municipality\municipality.form.coffee" />
+    <None Include="Scripts\src\municipality\municipality.coffee" />
+    <None Include="Scripts\src\municipality\municipality.list.coffee" />
+    <Content Include="Views\municipality\indexTemplate.cshtml" />
+    <Content Include="Views\user\login.cshtml" />
+    <Content Include="Views\user\setup.cshtml" />
+    <Content Include="Views\Shared\EmptyLayout.cshtml" />
+    <None Include="Scripts\src\login.coffee" />
+    <Content Include="Views\user\indexTemplate.cshtml" />
+    <Content Include="Views\user\newTemplate.cshtml" />
+    <None Include="Scripts\src\user\user.coffee" />
+    <None Include="Scripts\src\user\user.list.coffee" />
+    <None Include="Scripts\src\user\user.form.coffee" />
+    <None Include="Scripts\src\invoice\invoice.workflow.coffee" />
+    <Content Include="Views\Default\DashboardTemplate.cshtml" />
+    <Content Include="Views\invoice\_showTemplate.cshtml" />
+    <None Include="Scripts\src\limits\limits.coffee" />
+    <None Include="Scripts\src\dashboard\dashboard.coffee" />
+    <Content Include="Views\invoice\trashTemplate.cshtml" />
+    <Content Include="Views\Reports\journalTemplate.cshtml" />
+    <None Include="Scripts\src\reports\reports.journal.coffee" />
+    <None Include="Scripts\src\reports\reports.limits.coffee" />
+    <Content Include="Views\Reports\limitsTemplate.cshtml" />
+    <None Include="Scripts\src\reports\reports.materials.coffee" />
+    <Content Include="Views\Reports\materialsTemplate.cshtml" />
+    <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Views\Default\_DashboardTemplate.cshtml" />
+    <None Include="Scripts\src\common.coffee" />
+    <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Default\_Notifications.cshtml" />
+    <Content Include="Views\Shared\_HtmlHeader.cshtml" />
+    <Content Include="Views\Tasks\indexTemplate.cshtml" />
+    <Content Include="Views\Account\ForgottenPassword.cshtml" />
+    <Content Include="Views\MailTemplates\resetEmail.cshtml" />
+    <Content Include="Views\Account\Reset.cshtml" />
+    <Content Include="Views\Shared\MailLayout.cshtml" />
+    <Content Include="Views\invoice\_header.cshtml" />
+    <None Include="Scripts\src\hub\hub.coffee" />
+    <None Include="Scripts\src\hub\hub.list.coffee" />
+    <Content Include="Views\hub\newTemplate.cshtml" />
+    <None Include="Scripts\src\hub\hub.form.coffee" />
+    <Content Include="Views\Import\ImportClients.cshtml" />
+    <Content Include="Views\Reports\materialsByAddressTemplate.cshtml" />
+    <Content Include="Views\globalsettings\MainForm.cshtml" />
+    <None Include="Scripts\src\reports\reports.materialsbyaddress.coffee" />
+    <Content Include="Views\client\mergerTemplate.cshtml" />
+    <Content Include="Views\material\mergerTemplate.cshtml" />
+    <Content Include="Views\MailTemplates\customAddressCreatedEmail.cshtml" />
+    <Content Include="Views\Reports\visitsLimitsTemplate.cshtml" />
+    <None Include="Scripts\src\reports\reports.visitslimits.coffee" />
+    <Content Include="Views\Reports\ObnlGlobalTemplate.cshtml" />
+    <Content Include="Views\Reports\ObnlTotalTemplate.cshtml" />
+    <Content Include="Views\obnlreinvestment\_header.cshtml" />
+    <Content Include="Views\obnlreinvestment\_showTemplate.cshtml" />
+    <Content Include="Views\obnlreinvestment\indexTemplate.cshtml" />
+    <Content Include="Views\obnlreinvestment\newTemplate.cshtml" />
+    <Content Include="Views\obnlreinvestment\showTemplate.cshtml" />
+    <Content Include="Views\obnlreinvestment\trashTemplate.cshtml" />
+    <None Include="Scripts\src\obnlreinvestment\obnlreinvestment.form.coffee" />
+    <None Include="Scripts\src\reports\reports.obnlglobal.coffee" />
+    <None Include="Scripts\src\reports\reports.obnltotal.coffee" />
+    <None Include="Scripts\src\material\material.merger.coffee" />
+    <None Include="Scripts\src\client\obnl.materials.coffee" />
+    <Content Include="Views\Custom\CompoRecycle\invoice\_header.cshtml" />
+    <Content Include="Views\Custom\CompoRecycle\Shared\_Header.cshtml" />
+    <Content Include="Views\Giveaway\IndexTemplate.cshtml" />
+    <Content Include="Views\hub\indexTemplate.cshtml" />
+    <Content Include="Views\Giveaway\NewTemplate.cshtml" />
+    <Content Include="Views\Giveaway\Public.cshtml" />
+    <Content Include="Views\Giveaway\Layout.cshtml" />
+    <Content Include="Views\Container\IndexTemplate.cshtml" />
+    <Content Include="Views\Container\NewTemplate.cshtml" />
+    <Content Include="Views\MailTemplates\containerFullAlertMail.cshtml" />
+    <Content Include="Views\GiveawayType\IndexTemplate.cshtml" />
+    <Content Include="Views\Payment\PayWithCreditCardRedirect.cshtml" />
+    <Content Include="Views\Payment\SettingsTemplate.cshtml" />
+    <Content Include="Views\globalsettings\PrinterTest.cshtml" />
+    <Content Include="Styles\webfonts\fa-brands-400.eot" />
+    <Content Include="Styles\webfonts\fa-brands-400.ttf" />
+    <Content Include="Styles\webfonts\fa-brands-400.woff" />
+    <Content Include="Styles\webfonts\fa-brands-400.woff2" />
+    <Content Include="Styles\webfonts\fa-regular-400.eot" />
+    <Content Include="Styles\webfonts\fa-regular-400.ttf" />
+    <Content Include="Styles\webfonts\fa-regular-400.woff" />
+    <Content Include="Styles\webfonts\fa-regular-400.woff2" />
+    <Content Include="Styles\webfonts\fa-solid-900.eot" />
+    <Content Include="Styles\webfonts\fa-solid-900.ttf" />
+    <Content Include="Styles\webfonts\fa-solid-900.woff" />
+    <Content Include="Styles\webfonts\fa-solid-900.woff2" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <None Include="Web.CompoPreprodAzure.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.CompoAzure.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Styles\print\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Default\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Forms.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Forms.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Model\Payment.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Payment.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Model\GlobalSettings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GlobalSettings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Model\Client.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Client.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Model\Materials.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Materials.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Model\Municipality.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Municipality.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Model\Invoice.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Invoice.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Model\OBNLReinvestment.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OBNLReinvestment.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Model\User.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>User.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AWSSDK.SecurityToken.3.7.100.14\analyzers\dotnet\cs\AWSSDK.SecurityToken.CodeAnalysis.dll" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RidrMontTremblant|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sauveur|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RidrSadm|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'EcoGore|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Demo|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RidrAmherst|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RidrHuberdeau|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RidrLaMinerve|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RidrLacSuperieur|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RidrLantier|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RidrSldLaurentides|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RidrValDesLacs|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>9181</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:30450/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\packages\MongoDB.Libmongocrypt.1.8.0\build\MongoDB.Libmongocrypt.targets" Condition="Exists('..\packages\MongoDB.Libmongocrypt.1.8.0\build\MongoDB.Libmongocrypt.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MongoDB.Libmongocrypt.1.8.0\build\MongoDB.Libmongocrypt.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MongoDB.Libmongocrypt.1.8.0\build\MongoDB.Libmongocrypt.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

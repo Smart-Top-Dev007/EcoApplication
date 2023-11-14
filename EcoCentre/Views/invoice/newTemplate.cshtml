@@ -1,0 +1,523 @@
+﻿@using System.Runtime.Versioning
+@inherits EcoCentre.Web.EcoWebPageView
+
+<h1>@EcoCentre.Resources.Model.Invoice.NewInvoice</h1>
+<div class="form-horizontal" id='new-invoice'>
+	<div class="row-fluid">
+		<div class=" span12" data-bind="visible:errors().length > 0">
+			<div class="alert alert-error" style="width: 30%; min-width: 300px; margin: 0 auto;">
+
+				<h4>@EcoCentre.Resources.Forms.ValidationErrors</h4>
+				<ul data-bind=" foreach: errors">
+					<li data-bind='text:ErrorMessage'></li>
+				</ul>
+
+			</div>
+		</div>
+	</div>
+	<div class="row-fluid invoice-content-section" data-bind="visible:invoicePreview()== null">
+		<div class="span12">
+			<div class="row-fluid">
+				<div class="accordion" id="accordion2">
+					<div class="accordion-group">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" data-target="#clients">Clients</a>
+						</div>
+						<div id="clients" class="accordion-body  collapse in">
+							<div class="accordion-inner">
+								<!-- ko if: !showList() -->
+								<div data-bind='with: client'>
+									<h3>
+										<a data-bind='click: $parent.changeClient' class="btn btn-small">@EcoCentre.Resources.Model.Invoice.Change</a>
+										<a data-bind='click: $parent.editClient' class="btn btn-small">@EcoCentre.Resources.Forms.Edit</a>
+									</h3>
+									<div>
+										<div class="span6">
+											<div class="controls-row" style="padding-left: 6px;">
+												<h2 class="text-info">Recyclage</h2>
+												<span style="margin-right: 20px;">
+													<span class='label label-info' style="font-size: 16px; padding: 5px; margin-right: 15px;">@EcoCentre.Resources.Model.Client.NumVisits: </span>
+													<span class="static-input" data-bind="text: includedInvoices().length" />
+												</span>
+												<span data-bind="visible: PersonalVisitsLimit() === 0">
+													<span class='label label-info' style="font-size: 16px; padding: 5px; margin-right: 15px;">@EcoCentre.Resources.Model.Client.NumberOfVisitsLimit: </span>
+													<span class="static-input" data-bind="text: maxYearlyClientVisits()" />
+												</span>
+												<span data-bind="visible: PersonalVisitsLimit() > 0">
+													<span class='label label-info' style="font-size: 16px; padding: 5px; margin-right: 15px;">@EcoCentre.Resources.Model.Client.PersonalVisitsLimit: </span>
+													<span class="static-input" data-bind="text: PersonalVisitsLimit" />
+												</span>
+											</div>
+											<dl class="dl-horizontal" data-bind="visible: showContactWarning() || showUnverifiedWarning() || showComment() || showMaxVisitsWarning() || showMaxVisitsReachedWarning() || showIsRegisteredInAnotherHubWarning()">
+												<!-- ko if: showUnverifiedWarning -->
+												<dt><span class="label label-warning">@EcoCentre.Resources.Forms.Unverified</span></dt>
+												<dd>@EcoCentre.Resources.Forms.ClientVefiryClientDetailsMsg</dd>
+												<!-- /ko -->
+												<!-- ko if: showContactWarning -->
+												<dt><span class="label label-warning">@EcoCentre.Resources.Forms.ClientContactDetailsTag</span></dt>
+												<dd>@EcoCentre.Resources.Forms.ClientContactDetailsMissingMsg</dd>
+												<!-- /ko -->
+												<!-- ko if: showMaxVisitsWarning -->
+												<dt><span class="label label-important">@EcoCentre.Resources.Forms.MaxVisitsWarningTag</span></dt>
+												<dd><span id="max-visits-warning-msg" data-bind="visible: showMaxVisitsWarningAlert()">@EcoCentre.Resources.Forms.MaxVisitsWarningMsg </span><span class="static-input" data-bind="text:includedInvoices().length + 1"></span>/<span class="static-input" data-bind="text:PersonalVisitsLimit() || maxYearlyClientVisits()"></span></dd>
+												<!-- /ko -->
+												<!-- ko if: showMaxVisitsReachedWarning -->
+												<dt><span class="label label-important">@EcoCentre.Resources.Forms.MaxVisitsReachedTag</span></dt>
+												<dd><span id="max-visits-reached-msg" data-bind="visible: showMaxVisitsReachedAlert()">@EcoCentre.Resources.Forms.MaxVisitsReachedMsg </span><span class="static-input" data-bind="text:includedInvoices().length"></span>/<span class="static-input" data-bind="text:PersonalVisitsLimit() || maxYearlyClientVisits()"></span></dd>
+												<!-- /ko -->
+												<!-- ko if: showIsRegisteredInAnotherHubWarning -->
+												<dt><span class="label label-important">@EcoCentre.Resources.Forms.RegisteredInAnotherHubTag</span></dt>
+												<dd><span data-bind="visible: showIsRegisteredInAnotherHubAlert()">@EcoCentre.Resources.Forms.RegisteredInAnotherHubMsg</span></dd>
+												<!-- /ko -->
+												<!-- ko if: showComment -->
+												<dt class='comment'><span class="label label-important">@EcoCentre.Resources.Model.Client.Comments</span></dt>
+												<dd class='comment' data-bind='text: Comments'></dd>
+												<!-- /ko -->
+											</dl>
+											<div class="modal hide fade" id="max-visits-warning-msg-modal">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+													<h3 class="text-error">@EcoCentre.Resources.Forms.MaxVisitsWarningTag!</h3>
+												</div>
+												<div class="modal-body">
+													<strong>@EcoCentre.Resources.Forms.MaxVisitsWarningMsg</strong>
+													<span class="label label-warning"><span data-bind="text:includedInvoices().length + 1"></span>/<span data-bind="text:PersonalVisitsLimit() || maxYearlyClientVisits()"></span></span>
+												</div>
+												<div class="modal-footer">
+													<button data-dismiss="modal" class="btn">Close</button>
+													@*                    <a href="#" class="btn btn-primary">Save changes</a>*@
+												</div>
+											</div>
+
+											<div class="modal hide fade" id="is-registered-in-another-hub-msg-modal">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+													<h3 class="text-error">@EcoCentre.Resources.Forms.RegisteredInAnotherHubTag!</h3>
+												</div>
+												<div class="modal-body">
+													<strong>@EcoCentre.Resources.Forms.RegisteredInAnotherHubMsg</strong>
+												</div>
+												<div class="modal-footer">
+													<button data-dismiss="modal" class="btn">Close</button>
+												</div>
+											</div>
+
+											<div class="modal hide fade" id="max-visits-reached-msg-modal">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+													<h3 class="text-error">@EcoCentre.Resources.Forms.MaxVisitsReachedTag!</h3>
+												</div>
+												<div class="modal-body">
+													<strong>@EcoCentre.Resources.Forms.MaxVisitsReachedMsg</strong>
+													<span class="label label-important"><span data-bind="text:includedInvoices().length"></span>/<span data-bind="text:PersonalVisitsLimit() || maxYearlyClientVisits()"></span></span>
+												</div>
+												<div class="modal-footer">
+													<button data-dismiss="modal" class="btn">Close</button>
+													@*                    <a href="#" class="btn btn-primary">Save changes</a>*@
+												</div>
+											</div>
+											<div data-bind="visible:Hub().Id != null" class="controls-row">
+												<label class='control-label'>@EcoCentre.Resources.Model.Client.Hub</label>
+												<div class="controls">
+													<span class="static-input" data-bind="text: Hub().Name" />
+												</div>
+											</div>
+											<div class="controls-row">
+												<label class='control-label'>@EcoCentre.Resources.Model.Client.Category</label>
+												<div class="controls">
+													<span class="static-input" data-bind="text: Category" />
+												</div>
+											</div>
+
+											<div class="controls-row" data-bind="visible: showFirstNameLastName">
+												<label class='control-label'>@EcoCentre.Resources.Model.Client.Name</label>
+												<div class="controls">
+													<span class="static-input" data-bind="text: fullName" />
+												</div>
+											</div>
+
+											<div class="controls-row">
+												<label class='control-label'>@EcoCentre.Resources.Model.Client.CitizenCard</label>
+												<div class="controls">
+													<span class="static-input" data-bind="text: CitizenCard" />
+												</div>
+											</div>
+											
+											<div class="controls-row">
+												<label class='control-label'>@EcoCentre.Resources.Model.Client.Address</label>
+												<div class="controls">
+													<address class="static-input">
+														
+														<span data-bind='text:Address().CivicNumber'></span><span data-bind="if: Address().AptNumber"> - <span data-bind='text:Address().AptNumber'></span></span><span>, <span data-bind='text:Address().Street'></span></span><br />
+														
+														<span data-bind='text: Address().PostalCode'></span> <span data-bind="text: Address().City"></span><br />
+														<span data-bind="visible: PhoneNumber() != ''">
+															<abbr title="@EcoCentre.Resources.Model.Client.PhoneNumber">P:</abbr> <span data-bind="text: PhoneNumber"></span>
+														</span>
+													</address>
+												</div>
+											</div>
+											<div class="control-group" data-bind="visible: Category() != 'résidentiel'">
+												<label class='control-label'>@EcoCentre.Resources.Model.Invoice.EmployeeName</label>
+												<div class="controls">
+													<input type="text" placeholder="@EcoCentre.Resources.Model.Invoice.EmployeeName" />
+												</div>
+											</div>
+											<table class="table table-striped table-condensed">
+												<thead>
+													<tr>
+														<th>matériel</th>
+														<th>quantité</th>
+														<th>annuelle maximale</th>
+														<th>unité</th>
+														<th style="min-width: 100px;"></th>
+													</tr>
+												</thead>
+												<tbody data-bind="foreach: limits">
+													<tr>
+														<td data-bind="text: Name"></td>
+														<td data-bind='text: Quantity'>20</td>
+														<td data-bind="text: MaxYearlyAmount">100</td>
+														<td data-bind="text: Unit">pi.cube</td>
+														<td>
+															<div class="progress progress-striped" data-bind="css: {'progress-success': IsExcluded}" style="margin-bottom: 0;">
+																<div class="bar" data-bind="style: { width: BaseProgress() + '%' }"></div>
+															</div>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
+										<div class="span6" data-bind="visible:Category() == 'OBNL'">
+											<div>
+												<h2 class="text-success">OBNL</h2>
+												<div data-bind="visible:Category() == 'OBNL'" class="controls-row">
+													<label class='control-label'>@EcoCentre.Resources.Model.Client.OBNLNumbers</label>
+													<div class="controls" data-bind="foreach: OBNLNumbers">
+														<span class="label label-info" data-bind="text: $data" />
+													</div>
+												</div>
+											</div>
+											<table class="table table-striped table-condensed">
+												<thead>
+													<tr>
+														<th>matériel</th>
+														<th>poids</th>
+													</tr>
+												</thead>
+												<tbody data-bind="foreach: obnlMaterials">
+													<tr>
+														<td data-bind="text: Name"></td>
+														<td data-bind='text: Weight'>20</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<!-- /ko -->
+								<!-- ko if: showList -->
+								<div data-bind='with: clientList'>
+									<div style="display:flex;">
+										<h3 style="margin-bottom:0; border-bottom: 0;">
+											<a data-bind='click: $parent.newClient' class="btn btn-small">@EcoCentre.Resources.Forms.NewClient</a>
+										</h3>
+									</div>
+									<hr style="margin:0; margin-bottom:10px; border: 0.5px solid;" />
+									<div class="well">
+										<div class="form-inline client-search-form">
+											@Html.Partial("~/Views/client/_searchForm.cshtml")
+										</div>
+									</div>
+									<div class="pagination" data-bind="visible: pageButtons().length > 0">
+										<ul data-bind='foreach: pageButtons'>
+											<li data-bind=' css: { active: isActive }'><a data-bind=" click: $parent.changePage, text: number"></a></li>
+										</ul>
+										<span style="position: relative; top: -5px;" data-bind="visible: pageCount() > 1">
+											<span style="margin: 0 5px 0 50px; position: relative; top: -4px;">@EcoCentre.Resources.Forms.GoToPage</span>
+											<input style="margin-bottom: 10px;" class="input-small" type="number" data-bind="value: page, attr: { max: pageCount() }" min="1" />
+										</span>
+									</div>
+									<table class="table table-striped table-bordered" id='client-list' style="width: 100%;" data-bind='css: { "table-hover": mode() == "pick" }'>
+										<thead>
+											<tr>
+												<th class="sortable" data-bind="click:sort.bind($data,'LastName')">@EcoCentre.Resources.Model.Client.LastName</th>
+												<th class="sortable" data-bind="click:sort.bind($data,'FirstName')">@EcoCentre.Resources.Model.Client.FirstName</th>
+												<th class="sortable" data-bind="click:sort.bind($data,'Address')">@EcoCentre.Resources.Model.Client.Address</th>
+												<th class="sortable" data-bind="click:sort.bind($data,'City')">@EcoCentre.Resources.Model.Client.City</th>
+												<th>@EcoCentre.Resources.Model.Client.NumVisits</th>
+											</tr>
+										</thead>
+										<tbody data-bind='foreach: items'>
+											<tr data-bind='click: $parent.onPick' class="clickable">
+												<td data-bind='text: LastName'></td>
+												<td data-bind='text: FirstName'></td>
+												<td>
+													<span data-bind='text:Address().CivicNumber'></span><span data-bind="if: Address().AptNumber"> - <span data-bind='text:Address().AptNumber'></span></span><span>, <span data-bind='text:Address().Street'></span></span>
+												</td>
+												<td>
+													<!-- ko ifnot: IsRegisteredInCurrentHub -->
+													<i class="fa fa-exclamation-triangle" aria-hidden="true" title="This client is registered in another hub."></i>
+													<!-- /ko -->
+													<span data-bind='text: Address().City'></span>
+												</td>
+												<td>
+													<span data-bind="text:IncludedInvoices().length + (Invoices().length && Invoices().length !== IncludedInvoices().length ? '(' + Invoices().length + ')' : '')"></span>
+												</td>
+											</tr>
+
+										</tbody>
+									</table>
+									<div class="pagination" data-bind="visible: pageButtons().length > 0">
+										<ul data-bind='foreach: pageButtons'>
+											<li data-bind=' css: { active: isActive }'><a data-bind=" click: $parent.changePage, text: number"></a></li>
+										</ul>
+										<span style="position: relative; top: -5px;" data-bind="visible: pageCount() > 1">
+											<span style="margin: 0 5px 0 50px; position: relative; top: -4px;">@EcoCentre.Resources.Forms.GoToPage</span>
+											<input style="margin-bottom: 10px;" class="input-small" type="number" data-bind="value: page, attr: { max: pageCount() }" min="1" />
+										</span>
+									</div>
+								</div>
+								<!-- /ko -->
+							</div>
+
+						</div>
+
+
+					</div>
+					<div class="accordion-group">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" data-target="#materials"> @EcoCentre.Resources.Model.Invoice.Materials </a>
+						</div>
+						<div id="materials" class="accordion-body collapse">
+							<div class="accordion-inner">
+
+								<div data-bind='with: client'>
+									<!-- ko ifnot: isRegisteredInCurrentHub -->
+									<div class="alert alert-danger">
+										@EcoCentre.Resources.Forms.RegisteredInAnotherHubMsg
+									</div>
+									<!-- /ko -->
+								</div>
+								<!-- ko if: materials -->
+								<div data-bind="with: materials">
+
+									<div class="row-fluid">
+										<div class="span6">
+											<table class="table table-striped table-condensed table-bordered" style="width: 100%">
+												<thead>
+													<tr>
+														<th>@EcoCentre.Resources.Model.Invoice.Material</th>
+														<th>@EcoCentre.Resources.Model.Invoice.Quantity</th>
+														<th>@EcoCentre.Resources.Model.Invoice.Container</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody data-bind='foreach: pickedMaterials'>
+													<tr>
+														<td data-bind='text: name'></td>
+														<td>
+															<!-- ko if: needsCalculator -->
+															<span>
+																<input type='text' class="input-mini" data-bind='textInput: width' maxlength="3" />&nbsp;pi
+																X
+																<input type='text' class="input-mini" data-bind='textInput: height' maxlength="3" />&nbsp;pi
+																X
+																<input type='text' class="input-mini" data-bind='textInput: depth' maxlength="3" />&nbsp;pi
+																=
+															</span>
+															<!-- /ko -->
+															<input type='text' class="input-mini" data-bind='value: Quantity, hasfocus: hasFocus' maxlength="3" />
+															<span data-bind='text: unit'></span>
+														</td>
+														<td>
+															<!-- ko if: containers().length -->
+															<select class="input-medium" data-bind="options: containers,
+																						optionsText: 'Number',
+																						optionsValue: 'Id',
+																						value: Container,
+																						optionsCaption: 'Choisissez...'"></select>
+
+															<!-- /ko -->
+														</td>
+														<td>
+															<!-- ko if: needsProofOfResidence -->
+															<label class="checkbox"><input type="checkbox" data-bind="checked: ProvidedProofOfResidence" />@EcoCentre.Resources.Model.Invoice.ProofOfResidence</label>
+															<!-- /ko -->
+														</td>
+														<td><button data-bind="click: $parent.removeMaterial" class="btn btn-small">@EcoCentre.Resources.Model.Invoice.Remove</button></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										<div class="span6">
+											<table class="table table-striped table-condensed table-bordered materials-available table-hover" style="width: 100%">
+												<thead>
+													<tr>
+														<th>@EcoCentre.Resources.Model.Invoice.Material</th>
+														<th>@EcoCentre.Resources.Model.Invoice.IsExcludedMaterial</th>
+													</tr>
+												</thead>
+												<tbody data-bind='foreach: availableMaterials'>
+													<tr data-bind="click: $parent.pickMaterial" class="clickable">
+														<td data-bind='text: Name'></td>
+														<td><span data-bind='visible:IsExcluded'>Oui</span><span data-bind='visible:!IsExcluded'>Non</span></td>
+													</tr>
+
+												</tbody>
+											</table>
+										</div>
+
+									</div>
+								</div>
+								<!-- /ko -->
+							</div>
+						</div>
+					</div>
+
+					<div class="accordion-group">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" data-target="#giveaway"> Ton surplus... mon bonheur </a>
+						</div>
+						<div id="giveaway" class="accordion-body collapse" data-bind="with: giveaway">
+							<div class="accordion-inner">
+
+								<div data-bind='visible:showSelectedItems()'>
+									<h2>Objets sélectionnés</h2>
+									<table class="table table-striped table-bordered table-hover" style="width: 100%;">
+										<thead>
+											<tr>
+												<th>Photo</th>
+												<th>Numéro</th>
+												<th>Type</th>
+												<th>Titre</th>
+												<th>Description</th>
+												<th>Prix</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody data-bind='foreach: selectedItems'>
+											<tr>
+												<td>
+													<!-- ko if: ImageId -->
+													<img data-bind="attr: {src:$parent.getImageUrl($data)}" />
+													<!-- /ko -->
+												</td>
+												<td data-bind="text: SequenceNo"></td>
+												<td data-bind="text: Type"></td>
+												<td data-bind="text: Title"></td>
+												<td data-bind="text: Description"></td>
+												<td data-bind="money:Price" class="numeric"></td>
+
+												<td class="non-clickale nowrap">
+													<a class="btn" data-bind="click:$parent.removeItem">@EcoCentre.Resources.Model.Invoice.Remove</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br />
+								<div>
+									<input class="input" type="text" data-bind="value: searchTerm" />
+									<button class="btn" data-bind="click: search">Rechercher</button>
+								</div>
+								<br />
+								<br />
+								<table class="table table-striped table-bordered table-hover" style="width: 100%;">
+									<thead>
+										<tr>
+											<th>Photo</th>
+											<th>Numéro</th>
+											<th>Type</th>
+											<th>Titre</th>
+											<th>Description</th>
+											<th>Prix</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody data-bind='foreach: items'>
+										<tr>
+											<td>
+												<!-- ko if: ImageId -->
+												<img data-bind="attr: {src:$parent.getImageUrl($data)}" />
+												<!-- /ko -->
+											</td>
+											<td data-bind="text: SequenceNo"></td>
+											<td data-bind="text: Type"></td>
+											<td data-bind="text: Title"></td>
+											<td data-bind="text: Description"></td>
+											<td data-bind="money:Price" class="numeric"></td>
+											<td class="non-clickale nowrap">
+												<a class="btn" data-bind="click:$parent.addItem">@EcoCentre.Resources.Model.Invoice.AddGiveawayItem</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+
+					</div>
+
+					<div class="accordion-group">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" data-target="#comments"> Commentaires </a>
+						</div>
+						<div id="comments" class="accordion-body collapse">
+							<div class="accordion-inner">
+								<div class="control-group comment">
+
+									<textarea data-bind="value: comment" cols="80" rows="6" class="input-block-level"></textarea>
+
+								</div>
+
+
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="accordion-group">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" data-target="#attachments"> @EcoCentre.Resources.Model.Invoice.Attachments </a>
+						</div>
+						<div id="attachments" class="accordion-body collapse">
+							<div class="accordion-inner">
+								<div class="attachments">
+									<div class="row-fluid fileupload-buttonbar">
+										<table class="table table-striped">
+											<tbody data-bind='foreach: attachments'>
+												<tr>
+													<td data-bind='text: Id'></td>
+													<td data-bind='text: Name'></td>
+													<td data-bind='text: Size'></td>
+												</tr>
+											</tbody>
+										</table>
+										<span class="btn btn-success fileinput-button">
+											<i class="icon-plus icon-white"></i>
+											<span>@EcoCentre.Resources.Model.Invoice.Scan</span>
+											<input type="file" data-bind='file: fileUpload' data-url="/attachments/index" name="file" multiple="" capture="" accept="image/*">
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row-fluid invoice-details" data-bind="with:invoicePreview">
+		@Html.Partial("~/Views/invoice/_showTemplate.cshtml")
+	</div>
+	<div class="row-fluid">
+		<div class="span12" style="text-align: center; margin-top: 20px;">
+			<button class='btn btn-primary btn-large' data-bind='click:preview,visible:previewAvailable() && invoicePreview()== null'>@EcoCentre.Resources.Forms.Preview</button>
+			<button class='btn btn-primary btn-large' data-bind='click:hidePreview,visible:invoicePreview()!= null'>@EcoCentre.Resources.Forms.Modify</button>
+			<button class='btn btn-primary btn-large' data-bind='click:save'>@EcoCentre.Resources.Forms.Save</button>
+		</div>
+	</div>
+</div>

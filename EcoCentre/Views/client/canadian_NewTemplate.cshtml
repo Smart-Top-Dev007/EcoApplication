@@ -1,0 +1,179 @@
+﻿@inherits EcoCentre.Web.EcoWebPageView
+<h1 data-bind="visible: !Id()">@EcoCentre.Resources.Forms.NewCanadianClient</h1>
+<h1 data-bind="visible: Id()">@EcoCentre.Resources.Forms.EditClient</h1>
+<form class="form-horizontal" data-bind="inject: kb.formValidator">
+	<div class="row">
+		<div class="span1"></div>
+		<div data-bind="visible:errors().length > 0" class="alert alert-error span11" style="width: 400px;">
+
+			<h4>@EcoCentre.Resources.Forms.ValidationErrors</h4>
+			<ul data-bind=" foreach: errors">
+				<li data-bind='text:ErrorMessage'></li>
+			</ul>
+
+		</div>
+	</div>
+	<div class="control-group">
+		<label class='control-label'>@EcoCentre.Resources.Model.Client.Verified</label>
+		<div class="controls">
+			<input data-bind='value:LastChange' type="text" placeholder="@DateTime.Now" disabled />
+		</div>
+	</div>
+	<div class="control-group" data-bind="visible:showHub">
+		<!-- ko with:hub -->
+		<label class='control-label'>@EcoCentre.Resources.Model.Client.Hub</label>
+		<div class="controls">
+			<select data-bind='value:Id,options:$root.hubs, optionsText:"Name",optionsValue:"Id", optionsCaption:"@EcoCentre.Resources.Model.Client.Hub"'></select>
+		</div>
+		<!-- /ko -->
+	</div>
+	<div class="row noMargin">
+		<div class="control-group span5">
+			<label class='control-label'>@EcoCentre.Resources.Model.Client.Category</label>
+			<div class="controls">
+				<select data-bind='value:Category,options:Categories, optionsText:"Text",optionsValue:"CategoryName" '></select>
+			</div>
+		</div>
+		<div class="control-group span7" data-bind="visible:showOBNLNumber">
+			<ul class="controls databaseOBNLNumbers" data-bind="foreach: OBNLNumbers">
+				<li data-bind="text: $data"></li>
+			</ul>
+			<ul class="controls" data-bind="foreach: OBNLNumbersInputed">
+				<li data-bind="text: $data"></li>
+			</ul>
+			<label class='control-label'>@EcoCentre.Resources.Model.Client.OBNLNumber</label>
+			<div class="controls OBNLNumberWrapper">
+				<input data-bind="value:OBNLNumber" class="OBNLNumberInput" type="number" />
+				<span class="OBNLNumberTemplate">OBNL</span>
+			</div>
+			<button data-bind="click: addNewOBNL">@EcoCentre.Resources.Model.Client.AddNew</button>
+		</div>
+	</div>
+
+	<div class="control-group" data-bind="visible:showCustomCategoryName">
+		<label class='control-label'>@EcoCentre.Resources.Model.Client.CategoryName</label>
+		<div class="controls">
+			<input data-bind='value:CategoryCustom' type="text" placeholder="@EcoCentre.Resources.Model.Client.CategoryName" />
+		</div>
+	</div>
+	<div class="control-group" data-bind="visible:showFirstNameLastName">
+		<label class='control-label required'>@EcoCentre.Resources.Model.Client.LastName</label>
+		<div class="controls">
+			<input data-bind='value:LastName' type="text" placeholder="@EcoCentre.Resources.Model.Client.LastName" />
+		</div>
+	</div>
+	<div class="control-group" data-bind="visible:showFirstNameLastName">
+		<label class='control-label required'>@EcoCentre.Resources.Model.Client.FirstName</label>
+		<div class="controls">
+			<input data-bind='value:FirstName' type="text" placeholder="@EcoCentre.Resources.Model.Client.FirstName" />
+		</div>
+	</div>
+
+	<div class="control-group" data-bind="visible:showOrganizationName">
+		<label class='control-label'>@EcoCentre.Resources.Model.Client.NameOfOrganization</label>
+		<div class="controls">
+			<input data-bind='value:FirstName' type="text" placeholder="@EcoCentre.Resources.Model.Client.NameOfOrganization" />
+		</div>
+	</div>
+	<!-- ko with:address -->
+	<div class="control-group">
+		<label class='control-label required'>@EcoCentre.Resources.Model.Client.Address</label>
+		<div class="controls">
+			<input data-bind='value:CivicNumber, autocomplete:civicNumberAutocomplete' type="text" class="input-small civic-number-autocomplete" placeholder="@EcoCentre.Resources.Model.Client.CivicNumber" /> -
+			<input data-bind='value:AptNumber' type="text" class="input-small " placeholder="@EcoCentre.Resources.Model.Client.AptNumber" />
+		</div>
+	</div><div class="control-group">
+		<label class='control-label required'>@EcoCentre.Resources.Model.Client.Street</label>
+		<div class="controls">
+			<input id="searchCanadianAddress1" data-bind='value:Street, autocomplete:streetNameAutocomplete, filterHyphens:true' class="street-name-autocomplete" type="text" placeholder="@EcoCentre.Resources.Model.Client.Street" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class='control-label required'>@EcoCentre.Resources.Model.Client.City</label>
+		<div class="controls">
+			<p>
+				<select id="selectCity" data-bind='value:CityId, options:$parent.Municipalities, optionsText:"Name", optionsValue:"Id"'></select>
+				<span data-bind="ifnot: CityId">
+					<input data-bind='value:NewCityName' type="text" placeholder="@EcoCentre.Resources.Model.Client.City" />
+				</span>
+			</p>
+		</div>
+
+	</div>
+	<div class="control-group">
+		<label class='control-label required'>@EcoCentre.Resources.Model.Client.PostalCode</label>
+		<div class="controls">
+			<input data-bind='value:PostalCode, autocomplete:postalCodeAutocomplete' type="text" class="postalcode-mask postal-code-autocomplete" placeholder="ANA-NAN" />
+		</div>
+	</div>
+	<!-- /ko -->
+	<div class="control-group">
+		<label class='control-label'>@EcoCentre.Resources.Model.Client.Email</label>
+		<div class="controls">
+			<input data-bind='value:Email' type="text" placeholder="@EcoCentre.Resources.Model.Client.Email" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class='control-label'>@EcoCentre.Resources.Model.Client.CitizenCard</label>
+		<div class="controls">
+			<input data-bind='value:CitizenCard' type="text" placeholder="@EcoCentre.Resources.Model.Client.CitizenCard" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class='control-label'>@EcoCentre.Resources.Model.Client.PhoneNumber</label>
+		<div class="controls">
+			<input data-bind='value:PhoneNumber' type="text" placeholder="@EcoCentre.Resources.Model.Client.PhoneNumber" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class='control-label'>@EcoCentre.Resources.Model.Client.MobilePhoneNumber</label>
+		<div class="controls">
+			<input data-bind='value:MobilePhoneNumber' type="text" placeholder="@EcoCentre.Resources.Model.Client.MobilePhoneNumber" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class='control-label'>@EcoCentre.Resources.Model.Client.Comments</label>
+		<div class="controls">
+			<textarea data-bind='value:Comments' placeholder="@EcoCentre.Resources.Model.Client.Comments" rows="5"></textarea>
+		</div>
+	</div>
+	@if (CurrentUser.IsGlobalAdmin || CurrentUser.IsReadOnly)
+	{
+		<div class="control-group">
+			<label class='control-label'>@EcoCentre.Resources.Model.Client.PersonalVisitsLimit</label>
+			<div class="controls">
+				<input data-bind='value:PersonalVisitsLimit' type="text" placeholder="@EcoCentre.Resources.Model.Client.PersonalVisitsLimit" />
+			</div>
+		</div>
+	}
+	<div class="control-group">
+		<label class='control-label'>@EcoCentre.Resources.Model.Client.Status</label>
+		<div class="controls">
+			<select data-bind='value:Status'>
+				<option value="Active">@EcoCentre.Resources.Model.Client.StatusActive</option>
+				<option value="Inactive ">@EcoCentre.Resources.Model.Client.StatusInactive</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class='control-label'>@EcoCentre.Resources.Model.Client.AllowClientCreditCheckbox</label>
+		<div class="controls">
+			<input type="checkbox" data-bind='checked:AllowCredit' />
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class='control-label'>@EcoCentre.Resources.Model.Client.ClientCreditAcountNumber</label>
+		<div class="controls">
+			<input type="text" data-bind='value:CreditAcountNumber, enabled:AllowCredit' placeholder="XXXXXXX-XX" />
+		</div>
+	</div>
+
+	<div class="control-group">
+		<div class="controls">
+			<button data-bind='click:save1,visible:isNew()' class="btn">@EcoCentre.Resources.Forms.Save</button>
+			<button data-bind='click:save,visible:!isNew()' class="btn">@EcoCentre.Resources.Forms.Update</button>
+		</div>
+	</div>
+</form>

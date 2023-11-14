@@ -1,0 +1,1058 @@
+﻿This project is not used at the moment and this file is for reference only.
+Due to updates to mongo driver it no longer compiles, but because it is not used,
+there's no need to fix it at the moment.
+
+
+
+
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
+using EcoCentre.Models.Domain;
+using EcoCentre.Models.Domain.Clients;
+using EcoCentre.Models.Domain.Municipalities;
+using EcoCentre.Models.Infrastructure;
+using EcoCentre.Models.Domain.Hubs;
+using EcoCentre.Models.Domain.Invoices;
+using EcoCentre.Models.Domain.Materials;
+using System.Linq;
+using EcoCentre.Models.Domain.User;
+using EcoCentre.Models.Domain.Limits;
+using EcoCentre.Models.Domain.Reporting.Journal;
+
+namespace EcoDbMerge
+{
+	internal class Program
+    {
+	    private static UnitOfWork _mergeDestUow;
+
+	    private static Repository<Hub> _mergeDestHubRepository;
+	    private static Repository<Municipality> _mergeDestMunicipalityRepository;
+	    private static Repository<Material> _mergeDestMaterialsRepository;
+	    private static Repository<ClientAddress> _mergeDestClientAddressRepository;
+	    private static Repository<User> _mergeDestUserRepository;
+	    private static FileRepository _mergeDestFileRepository;
+	    private static Repository<Client> _mergeDestClientRepository;
+	    private static Repository<Invoice> _mergeDestInvoiceRepository;
+
+	    private static Repository<LimitStatus> _mergeDestLimitsRepository;
+	    private static Repository<InvoiceJournal> _mergeDestJournalRepository;
+
+	    private static List<Hub> _mergeDestHubRepositoryList;
+	    private static List<Municipality> _mergeDestMunicipalityRepositoryList;
+	    private static List<Material> _mergeDestMaterialsRepositoryList;
+	    private static List<ClientAddress> _mergeDestClientAddressRepositoryList;
+	    private static List<User> _mergeDestUserRepositoryList;
+	    private static List<MongoGridFSFileInfo> _mergeDestFileRepositoryList;
+	    private static List<Client> _mergeDestClientRepositoryList;
+	    private static List<Invoice> _mergeDestInvoiceRepositoryList;
+
+	    private static List<UnitOfWork> _srcUows;
+
+	    private static List<Repository<Hub>> _srcHubRepos;
+	    private static List<Repository<Municipality>> _srcMunicipalityRepos;
+	    private static List<Repository<Material>> _srcMaterialRepos;
+	    private static List<Repository<ClientAddress>> _srcClientAdrressRepos;
+	    private static List<FileRepository> _srcFileRepos;
+	    private static List<Repository<User>> _srcUserRepos;
+	    private static List<Repository<Client>> _srcClientRepos;
+	    private static List<Repository<Invoice>> _srcInvoiceRepos;
+
+	    private static List<Hub> _srcHubRepositoryList;
+	    private static List<Municipality> _srcMunicipalityRepositoryList;
+	    private static List<Material> _srcMaterialsRepositoryList;
+	    private static List<ClientAddress> _srcClientAddressRepositoryList;
+	    private static List<User> _srcUserRepositoryList;
+	    private static List<MongoGridFSFileInfo> _srcFileRepositoryList;
+	    private static List<Client> _srcClientRepositoryList;
+	    private static List<Invoice> _srcInvoiceRepositoryList;
+
+	    private static List<string> _srcDbNames;
+	    private static List<string> _srcCenterNames;
+	    private static List<string> _srcCenterUrls;
+
+	    private static Dictionary<string, string> _foundHubIds = new Dictionary<string, string>();
+	    private static Dictionary<string, string> _foundMunicipalityIds = new Dictionary<string, string>();
+	    private static Dictionary<string, string> _foundMaterialIds = new Dictionary<string, string>();
+	    private static Dictionary<string, string> _foundClientAddressIds = new Dictionary<string, string>();
+	    private static Dictionary<string, string> _foundUserIds = new Dictionary<string, string>();
+	    private static Dictionary<string, string> _foundFileIds = new Dictionary<string, string>();
+	    private static Dictionary<string, string> _foundClientIds = new Dictionary<string, string>();
+	    private static Dictionary<string, string> _foundInvoiceIds = new Dictionary<string, string>();
+
+	    private static int _hubsAdded = 0;
+	    private static int _municipalitiesAdded = 0;
+	    private static int _materialsAdded = 0;
+	    private static int _clientAddressesAdded = 0;
+	    private static int _usersAdded = 0;
+	    private static int _filesAdded = 0;
+	    private static int _clientsAdded = 0;
+	    private static int _invoicesAdded = 0;
+
+	    private static void AddSymmetricDictionaryPair<T>(Dictionary<T, T> dict, T a, T b)
+        {
+            if (!dict.ContainsKey(a))
+            {
+                dict.Add(a, b);
+            }
+            if (!a.Equals(b) && !dict.ContainsKey(b))
+            {
+                dict.Add(b, a);
+            }
+        }
+
+	    private static string FindHubDuplicateId(Hub src, int iteration)
+        {
+            if (_foundHubIds.ContainsKey(src.Id))
+            {
+                return _foundHubIds[src.Id];
+            }
+            var dup = _mergeDestHubRepositoryList.Where(x =>
+                x.Name == src.Name)
+                .FirstOrDefault();
+            if (dup == null)
+            {
+                return null;
+            }
+            AddSymmetricDictionaryPair<string>(_foundHubIds, src.Id, dup.Id);
+            return dup.Id;
+        }
+
+	    private static string FindMunicipalityDuplicateId(Municipality src, int iteration)
+        {
+            if (_foundMunicipalityIds.ContainsKey(src.Id))
+            {
+                return _foundMunicipalityIds[src.Id];
+            }
+            var lostMunicipalityName = src.NameLower;
+            if (lostMunicipalityName == "Ste Agathe des Monts".ToLower())
+            {
+                lostMunicipalityName = "Sainte-Agathe-des-Monts".ToLower();
+            }
+            if (lostMunicipalityName == "Ste-Agathe-des-Monts".ToLower())
+            {
+                lostMunicipalityName = "Sainte-Agathe-des-Monts".ToLower();
+            }
+            if (lostMunicipalityName == "Mont Tremblant".ToLower())
+            {
+                lostMunicipalityName = "Mont-Tremblant".ToLower();
+            }
+            if (lostMunicipalityName == "Lac Supérieur".ToLower())
+            {
+                lostMunicipalityName = "Lac-Supérieur".ToLower();
+            }
+            if (lostMunicipalityName == "Lac Tremblant-Nord".ToLower())
+            {
+                lostMunicipalityName = "Lac-Tremblant-Nord".ToLower();
+            }
+            if (lostMunicipalityName == "Saiinte-Lucie-des-Laurentides".ToLower())
+            {
+                lostMunicipalityName = "Sainte-Lucie-des-Laurentides".ToLower();
+            }
+            if (lostMunicipalityName == "Ste-Lucie-des-Ltds".ToLower())
+            {
+                lostMunicipalityName = "Sainte-Lucie-des-Laurentides".ToLower();
+            }
+            if (lostMunicipalityName == "St-Faustin-Lac-Carré".ToLower())
+            {
+                lostMunicipalityName = "Saint-Faustin-lac-Carré".ToLower();
+            }
+            if (lostMunicipalityName == "Ste-Agathe-Monts".ToLower())
+            {
+                lostMunicipalityName = "Sainte-Agathe-des-Monts".ToLower();
+            }
+            var dup = _mergeDestMunicipalityRepositoryList.Where(x =>
+                x.NameLower == lostMunicipalityName)
+                .FirstOrDefault();
+            if (dup == null)
+            {
+                return null;
+            }
+            AddSymmetricDictionaryPair<string>(_foundMunicipalityIds, src.Id, dup.Id);
+            return dup.Id;
+        }
+
+	    private static string FindMaterialDuplicateId(Material src, int iteration)
+        {
+            if (_foundMaterialIds.ContainsKey(src.Id))
+            {
+                return _foundMaterialIds[src.Id];
+            }
+            //var dup = mergeDestMaterialsRepositoryList.Where(x =>
+            //    x.NameLower == src.NameLower &&
+            //    x.Unit == src.Unit &&
+            //    x.Tag == src.Tag &&
+            //    x.Active == src.Active)
+            //    .FirstOrDefault();
+
+            /*This is made solely for deduping the materials:*/
+            var dup = _mergeDestMaterialsRepository.Query.Where(x =>
+                (x.Tag.ToLower() == src.Tag.ToLower() || x.NameLower == src.NameLower) &&
+                x.Unit == src.Unit)
+                .FirstOrDefault();
+            if (dup == null)
+            {
+                return null;
+            }
+            // modify the duplicate
+            if (src.MaxYearlyAmount > dup.MaxYearlyAmount)
+            {
+                dup.MaxYearlyAmount = src.MaxYearlyAmount;
+                _mergeDestMaterialsRepository.Save(dup);
+            }
+            AddSymmetricDictionaryPair<string>(_foundMaterialIds, src.Id, dup.Id);
+            return dup.Id;
+        }
+
+	    private static string FindClientAddressDuplicateId(ClientAddress src, int iteration)
+        {
+            if (_foundClientAddressIds.ContainsKey(src.Id))
+            {
+                return _foundClientAddressIds[src.Id];
+            }
+            var fixedPostalCode = src.PostalCode;
+            if (!String.IsNullOrEmpty(fixedPostalCode) && !fixedPostalCode.Contains("-") && fixedPostalCode.Length > 3)
+            {
+                fixedPostalCode = fixedPostalCode.Trim().Insert(3, "-");
+            }
+            var fixedStreet = src.Street;
+            var fixedStreetLower = src.StreetLower;
+            fixedStreet = fixedStreet.Replace("-", " ");
+            fixedStreetLower = fixedStreetLower.Replace("-", " ");
+
+            var dup = _mergeDestClientAddressRepositoryList.Where(x =>
+                x.StreetLower == fixedStreetLower &&
+                x.Street.ToLower() == fixedStreet.ToLower() &&
+                x.CivicNumber == src.CivicNumber &&
+                x.City.ToLower() == src.City.ToLower() &&
+                (string.IsNullOrEmpty(fixedPostalCode) ? true : (x.PostalCode == fixedPostalCode)))
+                .FirstOrDefault();
+            if (dup == null)
+            {
+                return null;
+            }
+            AddSymmetricDictionaryPair<string>(_foundClientAddressIds, src.Id, dup.Id);
+            return dup.Id;
+        }
+
+	    private static string FindUserDuplicateId(User src, int iteration)
+        {
+            if (_foundUserIds.ContainsKey(src.Id))
+            {
+                return _foundUserIds[src.Id];
+            }
+            var dup = _mergeDestUserRepositoryList.Where(x =>
+                x.LoginLower == src.LoginLower) //logins are (surprisingly) case-insensitive
+                .FirstOrDefault();
+            if (dup == null)
+            {
+                return null;
+            }
+            AddSymmetricDictionaryPair<string>(_foundUserIds, src.Id, dup.Id);
+            return dup.Id;
+        }
+
+	    private static string FindFileDuplicateId(MongoGridFSFileInfo src, int iteration)
+        {
+            var srcIdString = src.Id.ToString();
+            if (_foundFileIds.ContainsKey(srcIdString))
+            {
+                return _foundUserIds[srcIdString];
+            }
+            //var andList = new List<IMongoQuery> 
+            //    { 
+            //        Query.EQ("filename", src.Name),
+            //        Query.EQ("length", src.Length),
+            //        Query.EQ("md5", src.MD5)
+            //    };
+
+            var dup = _mergeDestFileRepositoryList.Where(x =>
+                x.Name == src.Name &&
+                x.Length == src.Length &&
+                x.MD5 == src.MD5)
+                .FirstOrDefault();
+            if (dup == null)
+            {
+                return null;
+            }
+            var dupIdString = dup.Id.ToString();
+            AddSymmetricDictionaryPair<string>(_foundFileIds, srcIdString, dupIdString);
+            return dupIdString;
+        }
+
+	    private static string FindClientDuplicateId(Client src, int iteration)
+        {
+            if (_foundClientIds.ContainsKey(src.Id))
+            {
+                return _foundClientIds[src.Id];
+            }
+            var fixedPostalCode = src.Address.PostalCode;
+            if (!String.IsNullOrEmpty(fixedPostalCode) && !fixedPostalCode.Contains("-") && fixedPostalCode.Length > 3)
+            {
+                fixedPostalCode = fixedPostalCode.Trim().Insert(3, "-");
+            }
+            var dup = _mergeDestClientRepositoryList.Where(x =>
+                x.Address.StreetLower == src.Address.StreetLower &&
+                x.Address.CivicNumber == src.Address.CivicNumber &&
+                x.Address.City == src.Address.City &&
+                x.Address.PostalCode == fixedPostalCode)
+                .FirstOrDefault();
+            if (dup == null)
+            {
+                return null;
+            }
+            AddSymmetricDictionaryPair<string>(_foundClientIds, src.Id, dup.Id);
+
+            return dup.Id;
+        }
+
+	    private static string FindInvoiceDuplicateId(Invoice src, int iteration)
+        {
+            if (_foundInvoiceIds.ContainsKey(src.Id))
+            {
+                return _foundInvoiceIds[src.Id];
+            }
+
+            var dup = _mergeDestInvoiceRepositoryList.Where(x =>
+                x.Address.StreetLower == src.Address.StreetLower &&
+                x.Address.CivicNumber == src.Address.CivicNumber &&
+                x.Address.City == src.Address.City &&
+                x.Address.PostalCode.Replace("-", "") == src.Address.PostalCode.Replace("-", "") &&
+                x.CreatedAt == src.CreatedAt &&
+                x.Center.Name == _srcCenterNames[iteration] &&
+                x.Center.Url == _srcCenterUrls[iteration] &&
+                x.SequentialNo == src.SequentialNo &&
+                x.EmployeeName == src.EmployeeName &&
+                x.Comment == src.Comment)
+                .FirstOrDefault();
+            if (dup == null)
+            {
+                return null;
+            }
+            AddSymmetricDictionaryPair<string>(_foundInvoiceIds, src.Id, dup.Id);
+            return dup.Id;
+        }
+
+	    private static string MoveHub(Hub src, int iteration)
+        {
+            var movedId = FindHubDuplicateId(src, iteration);
+            if (!string.IsNullOrEmpty(movedId))
+            {
+                return movedId;
+            }
+            // no duplicate found, we have to create a new one
+            var oldSrcId = src.Id;
+            src.Id = null;
+            _mergeDestHubRepository.Save(src);
+
+            AddSymmetricDictionaryPair<string>(_foundHubIds, oldSrcId, src.Id);
+
+            _mergeDestHubRepositoryList.Add(src);
+            _hubsAdded++;
+            return src.Id;
+        }
+
+	    private static string MoveMunicipality(Municipality src, int iteration)
+        {
+            var movedId = FindMunicipalityDuplicateId(src, iteration);
+            if (!string.IsNullOrEmpty(movedId))
+            {
+                return movedId;
+            }
+            // no duplicate found, we have to create a new one
+            var oldSrcId = src.Id;
+            src.Id = null;
+            _mergeDestMunicipalityRepository.Save(src);
+
+            AddSymmetricDictionaryPair<string>(_foundMunicipalityIds, oldSrcId, src.Id);
+
+            _mergeDestMunicipalityRepositoryList.Add(src);
+            _municipalitiesAdded++;
+            return src.Id;
+        }
+
+	    private static string MoveMaterial(Material src, int iteration)
+        {
+            /*This is made solely for deduping the materials:*/
+            var movedId = FindMaterialDuplicateId(src, iteration);
+            if (!string.IsNullOrEmpty(movedId))
+            {
+                return movedId;
+            }
+            // no duplicate found, we have to create a new one
+            var oldSrcId = src.Id;
+            src.Id = null;
+
+            _mergeDestMaterialsRepository.Save(src);
+
+            AddSymmetricDictionaryPair<string>(_foundMaterialIds, oldSrcId, src.Id);
+
+            _mergeDestMaterialsRepositoryList.Add(src);
+            _materialsAdded++;
+            return src.Id;
+        }
+
+	    private static string MoveClientAddress(ClientAddress src, int iteration)
+        {
+            var movedId = FindClientAddressDuplicateId(src, iteration);
+            if (!string.IsNullOrEmpty(movedId))
+            {
+                return movedId;
+            }
+            // no duplicate found, we have to create a new one
+            var oldSrcId = src.Id;
+            src.Id = null;
+
+            var fixedPostalCode = src.PostalCode;
+            if (!String.IsNullOrEmpty(fixedPostalCode) && !fixedPostalCode.Contains("-") && fixedPostalCode.Length > 3)
+            {
+                fixedPostalCode = fixedPostalCode.Trim().Insert(3, "-");
+            }
+            var fixedStreet = src.Street;
+            fixedStreet = fixedStreet.Replace("-", " ");
+
+            if (!_foundMunicipalityIds.ContainsKey(src.CityId))
+            {
+                // naming fixes
+                var lostMunicipalityName = src.City.ToLower();
+                if (lostMunicipalityName == "Ste Agathe des Monts".ToLower())
+                {
+                    lostMunicipalityName = "Sainte-Agathe-des-Monts".ToLower();
+                }
+                if (lostMunicipalityName == "Ste-Agathe-des-Monts".ToLower())
+                {
+                    lostMunicipalityName = "Sainte-Agathe-des-Monts".ToLower();
+                }
+                if (lostMunicipalityName == "Mont Tremblant".ToLower())
+                {
+                    lostMunicipalityName = "Mont-Tremblant".ToLower();
+                }
+                if (lostMunicipalityName == "Lac Supérieur".ToLower())
+                {
+                    lostMunicipalityName = "Lac-Supérieur".ToLower();
+                }
+                if (lostMunicipalityName == "Lac Tremblant-Nord".ToLower())
+                {
+                    lostMunicipalityName = "Lac-Tremblant-Nord".ToLower();
+                }
+                if (lostMunicipalityName == "Saiinte-Lucie-des-Laurentides".ToLower())
+                {
+                    lostMunicipalityName = "Sainte-Lucie-des-Laurentides".ToLower();
+                }
+                if (lostMunicipalityName == "Ste-Lucie-des-Ltds".ToLower())
+                {
+                    lostMunicipalityName = "Sainte-Lucie-des-Laurentides".ToLower();
+                }
+                if (lostMunicipalityName == "St-Faustin-Lac-Carré".ToLower())
+                {
+                    lostMunicipalityName = "Saint-Faustin-lac-Carré".ToLower();
+                }
+                if (lostMunicipalityName == "Ste-Agathe-Monts".ToLower())
+                {
+                    lostMunicipalityName = "Sainte-Agathe-des-Monts".ToLower();
+                }
+                var lostMunicipality = _mergeDestMunicipalityRepositoryList.Where(x => x.NameLower == lostMunicipalityName).FirstOrDefault();
+                if (lostMunicipality != null)
+                {
+                    AddSymmetricDictionaryPair(_foundMunicipalityIds, src.CityId, lostMunicipality.Id);
+                }
+                else
+                {
+                    LogAction(string.Format("The following ClientAddress was not moved:\r\n\t{0}\r\n" +
+                        "Reason: CityId \"{1}\" (for city name \"{2}\") does not correspond to any Municipality\r\n", string.Format("{{_id:\"{0}\",postalcode:\"{1}\",civicnumber:\"{2}\",street:\"{3}\"}}", oldSrcId, src.PostalCode, src.CivicNumber, src.Street), src.CityId, src.City));
+                    return null;
+                }
+            }
+            var municipality = _mergeDestMunicipalityRepositoryList.Where(x => x.Id == _foundMunicipalityIds[src.CityId]).FirstOrDefault();
+            src.UpdateDetails(municipality, fixedStreet, src.CivicNumber, fixedPostalCode);
+
+            _mergeDestClientAddressRepository.Save(src);
+
+            AddSymmetricDictionaryPair<string>(_foundClientAddressIds, oldSrcId, src.Id);
+
+            _mergeDestClientAddressRepositoryList.Add(src);
+            _clientAddressesAdded++;
+            return src.Id;
+        }
+
+	    private static string MoveUser(User src, int iteration)
+        {
+            var movedId = FindUserDuplicateId(src, iteration);
+            if (!string.IsNullOrEmpty(movedId))
+            {
+                return movedId;
+            }
+            // no duplicate found, we have to create a new one
+            var oldSrcId = src.Id;
+            src.Id = null;
+            _mergeDestUserRepository.Save(src);
+
+            AddSymmetricDictionaryPair<string>(_foundUserIds, oldSrcId, src.Id);
+
+            _mergeDestUserRepositoryList.Add(src);
+            _usersAdded++;
+            return src.Id;
+        }
+
+	    private static string MoveFile(MongoGridFSFileInfo src, int iteration)
+        {
+            var movedId = FindFileDuplicateId(src, iteration);
+            if (!string.IsNullOrEmpty(movedId))
+            {
+                return movedId;
+            }
+            var srcReadStream = src.OpenRead();
+            var res = _mergeDestFileRepository.Save(srcReadStream, src.Name);
+            // no duplicate found, we have to create a new one
+            string srcId = src.Id.ToString(),
+                resId = res.Id.ToString();
+
+            AddSymmetricDictionaryPair<string>(_foundFileIds, srcId, resId);
+
+            _mergeDestFileRepositoryList.Add(src);
+            _filesAdded++;
+            return srcId;
+        }
+
+	    private static string MoveClient(Client src, int iteration)
+        {
+            var movedId = FindClientDuplicateId(src, iteration);
+            if (!string.IsNullOrEmpty(movedId))
+            {
+                return movedId;
+            }
+            // no duplicate found, we have to create a new one
+            var oldSrcId = src.Id;
+            src.Id = null;
+
+            if (src.Hub != null && !string.IsNullOrEmpty(src.Hub.Id))
+            {
+                if (!_foundHubIds.ContainsKey(src.Hub.Id))
+                {
+                    LogAction(string.Format("The following client was not moved:\r\n\t{0}\r\n" +
+                        "Reason: Hub Id \"{1}\" does not correspond to any Hub\r\n", string.Format("{{_id:\"{0}\",firstname:\"{1}\",lastname:\"{2}\"}}", oldSrcId, src.FirstName, src.LastName), src.Hub.Id));
+                    return null;
+                }
+                src.Hub.Id = _foundHubIds[src.Hub.Id];
+            }
+
+            if (src.Address != null && !string.IsNullOrEmpty(src.Address.Id))
+            {
+                if (!_foundClientAddressIds.ContainsKey(src.Address.Id))
+                {
+                    if (null != src.Address && null == MoveClientAddress(src.Address, iteration))
+                    {
+                        LogAction(string.Format("The following client was not moved:\r\n\t{0}\r\n" +
+                                                "Reason: Address Id \"{1}\" does not correspond to any ClientAddress\r\n",
+                            string.Format("{{_id:\"{0}\",firstname:\"{1}\",lastname:\"{2}\"}}", oldSrcId, src.FirstName,
+                                src.LastName), src.Address.Id));
+                        return null;
+                    }
+                }
+                else
+                {
+                    src.UpdateAddress(
+                        _mergeDestClientAddressRepositoryList.Where(x => x.Id == _foundClientAddressIds[src.Address.Id])
+                            .FirstOrDefault());
+                        // Client.Address access HAS to be modified in order for this to work!!!!1111111oneone
+                }
+            }
+
+            if (src.PreviousAddresses != null)
+            {
+                for(int i = 0; i < src.PreviousAddresses.Count; i++)
+//                foreach (var adddress in src.PreviousAddresses)
+                {
+                    if (!string.IsNullOrEmpty(src.PreviousAddresses[i].AddressId))
+                    {
+                        if (!_foundClientAddressIds.ContainsKey(src.PreviousAddresses[i].AddressId))
+                        {
+                            src.PreviousAddresses.RemoveAt(i);
+                            i--;
+                            continue;
+//                            LogAction(string.Format("The following client was not moved:\r\n\t{0}\r\n" +
+//                                "Reason: PreviousAddress Id \"{1}\" does not correspond to any ClientAddress\r\n", string.Format("{{_id:\"{0}\",firstname:\"{1}\",lastname:\"{2}\"}}", oldSrcId, src.FirstName, src.LastName), adddress.AddressId));
+//                            return null;
+                        }
+                        src.PreviousAddresses[i].AddressId = _foundClientAddressIds[src.PreviousAddresses[i].AddressId];
+                    }
+                }
+            }
+
+            _mergeDestClientRepository.Save(src);
+
+            AddSymmetricDictionaryPair<string>(_foundClientIds, oldSrcId, src.Id);
+
+            _mergeDestClientRepositoryList.Add(src);
+            _clientsAdded++;
+            return src.Id;
+        }
+
+	    private static string MoveInvoice(Invoice src, int iteration)
+        {
+            // This hurts the speed WAY too much
+            //var movedId = FindInvoiceDuplicateId(src, iteration);
+            //if (!string.IsNullOrEmpty(movedId))
+            //{
+            //    return movedId;
+            //}
+            // no duplicate found, we have to create a new one
+            var oldSrcId = src.Id;
+            src.Id = null;
+
+            if (src.CreatedBy != null && !string.IsNullOrEmpty(src.CreatedBy.UserId))
+            {
+                if (!_foundUserIds.ContainsKey(src.CreatedBy.UserId))
+                {
+                    LogAction(string.Format("The following invoice was not moved:\r\n\t{0}\r\n" +
+                                            "Reason: CreatedBy Id \"{1}\" does not correspond to any User\r\n",
+                        string.Format("{{_id:\"{0}\",sequentialno:\"{1}\",createdat:\"{2}\"}}", oldSrcId,
+                            src.SequentialNo, src.CreatedAt.ToString("R")), src.CreatedBy.UserId));
+                    src.CreatedBy.UserId = null;
+                }
+                else
+                {
+                    src.CreatedBy.UserId = _foundUserIds[src.CreatedBy.UserId];
+                }
+            }
+            if (!string.IsNullOrEmpty(src.ClientId))
+            {
+                if (!_foundClientIds.ContainsKey(src.ClientId))
+                {
+                    LogAction(string.Format("The following invoice was not moved:\r\n\t{0}\r\n" +
+                        "Reason: ClientId \"{1}\" does not correspond to any Client\r\n", string.Format("{{_id:\"{0}\",sequentialno:\"{1}\",createdat:\"{2}\"}}", oldSrcId, src.SequentialNo, src.CreatedAt.ToString("R")), src.ClientId));
+                    return null;
+                }
+                src.ClientId = _foundClientIds[src.ClientId];
+            }
+            if (src.Address != null && !string.IsNullOrEmpty(src.Address.Id))
+            {
+                if (!_foundClientAddressIds.ContainsKey(src.Address.Id))
+                {
+                    LogAction(string.Format("The following invoice was not moved:\r\n\t{0}\r\n" +
+                        "Reason: Address Id \"{1}\" does not correspond to any ClientAddress\r\n", string.Format("{{_id:\"{0}\",sequentialno:\"{1}\",createdat:\"{2}\"}}", oldSrcId, src.SequentialNo, src.CreatedAt.ToString("R")), src.Address.Id));
+                    return null;
+                }
+                src.Address = _mergeDestClientAddressRepositoryList.Where(x => x.Id == _foundClientAddressIds[src.Address.Id]).FirstOrDefault();
+            }
+
+            if (src.Center == null || (string.IsNullOrEmpty(src.Center.Name) && string.IsNullOrEmpty(src.Center.Url)))
+            {
+                src.Center = new CenterIdentification
+                {
+                    Name = _srcCenterNames[iteration],
+                    Url = _srcCenterUrls[iteration]
+                };
+            }
+
+            foreach (var material in src.Materials) // can'b be null, no check is required
+            {
+                if (!string.IsNullOrEmpty(material.MaterialId))
+                {
+                    if (!_foundMaterialIds.ContainsKey(material.MaterialId))
+                    {
+                        LogAction(string.Format("The following invoice was not moved:\r\n\t{0}\r\n" +
+                            "Reason: Materials MaterialId \"{1}\" does not correspond to any Material\r\n", string.Format("{{_id:\"{0}\",sequentialno:\"{1}\",createdat:\"{2}\"}}", oldSrcId, src.SequentialNo, src.CreatedAt.ToString("R")), material.MaterialId));
+                        return null;
+                    }
+                    material.MaterialId = _foundMaterialIds[material.MaterialId];
+                }
+            }
+            if (src.Attachments != null)
+            {
+                foreach (var attachment in src.Attachments)
+                {
+                    if (!string.IsNullOrEmpty(attachment.Id))
+                    {
+                        if (!_foundFileIds.ContainsKey(attachment.Id))
+                        {
+                            LogAction(string.Format("The following invoice was not moved:\r\n\t{0}\r\n" +
+                                "Reason: File (Attachment) Id \"{1}\" does not correspond to any ClientAddress", string.Format("{{_id:\"{0}\",sequentialno:\"{1}\",createdat:\"{2}\"}}", oldSrcId, src.SequentialNo, src.CreatedAt.ToString("R")), attachment.Id));
+                            return null;
+                        }
+                        attachment.Id = _foundFileIds[attachment.Id];
+                    }
+                }
+            }
+            _mergeDestInvoiceRepository.Save(src);
+
+            UpdateLimits(src);
+            UpdateJournal(src);
+
+            // slows down the process WAY too much
+            //mergeDestInvoiceRepositoryList.Add(src);
+            _invoicesAdded++;
+            return src.Id;
+        }
+
+	    private static void UpdateClientVisitsList()
+        {
+
+        }
+
+	    private static void UpdateLimits(Invoice invoice)
+        {
+            var mateiralIds = invoice.Materials.Select(x => x.MaterialId).ToList();
+            var materials = _mergeDestMaterialsRepository.Query.Where(x => mateiralIds.Contains(x.Id)).ToList();
+            var limits = _mergeDestLimitsRepository.Query.FirstOrDefault(x => x.Address.Id == invoice.Address.Id);
+            if (limits == null)
+            {
+                limits = new LimitStatus
+                {
+                    Address = invoice.Address,
+                    Limits = new List<LimitStatusYear>()
+                };
+            }
+            limits.UpdateLimits(invoice, materials);
+            _mergeDestLimitsRepository.Save(limits);
+        }
+
+	    private static void UpdateJournal(Invoice invoice)
+        {
+            var existing = _mergeDestJournalRepository.Query.SingleOrDefault(x => x.InvoiceId == invoice.Id);
+            if (existing != null)
+                _mergeDestJournalRepository.Remove(existing);
+
+            var client = _mergeDestClientRepository.FindOne(invoice.ClientId);
+            var mIds = invoice.Materials.Select(x => x.MaterialId).ToArray();
+            var materials = _mergeDestMaterialsRepository.Query.Where(x => mIds.Contains(x.Id)).ToList();
+
+            var materialList = materials
+                .Select(m => new InvoiceJournalMaterial { Name = m.Name, NameLower = m.NameLower })
+                .ToList();
+
+            if (client == null) return;
+
+            var journal = new InvoiceJournal
+            {
+                City = client.Address.City,
+                CityId = client.Address.CityId,
+                CivicNumber = client.Address.CivicNumber,
+                ClientFirstName = client.FirstName,
+                ClientLastName = client.LastName,
+                ClientId = client.Id,
+                InvoiceDate = invoice.CreatedAt,
+                HubId = client.Hub != null ? client.Hub.Id : null,
+                InvoiceId = invoice.Id,
+                InvoiceNo = invoice.InvoiceNo,
+                PostalCode = client.Address.PostalCode,
+                Materials = materialList,
+                Street = client.Address.Street,
+                Type = client.Category
+            };
+            _mergeDestJournalRepository.Insert(journal);
+        }
+
+	    private static string _logFilePath = null;
+
+	    private static void LogAction(string logString = "", bool noFile = false)
+        {
+            DateTime curMoment = DateTime.Now;
+            string strToLog = string.Format("{0}: {1}", curMoment, logString);
+
+            if (noFile)
+            {
+                Console.Write("\r" + (string.IsNullOrEmpty(logString) ? "" : strToLog));
+            }
+            else
+            {
+                Console.WriteLine(string.IsNullOrEmpty(logString) ? "" : strToLog);
+                if (_logFilePath != null && !string.IsNullOrEmpty(logString))
+                {
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(_logFilePath, true))
+                    {
+                        file.WriteLine(strToLog);
+                    }
+                }
+            }
+        }
+
+	    private static int Main(string[] args) //args format: "<logfilename>" "<connectionString>" "<mergeDestDbName>" "<src1DbName>" "<src1CenterName>" "<src1Url>" "<src2DbName>" "<src2CenterName>" "<src2Url>" etc
+        {
+            if (args.Length < 6)
+            {
+                Console.WriteLine("You must specify at least two dbs for merging! Args should be specified as follows:\r\n\"logfilename\" \"connectionString\" \"mergeDestDbName\" \"src1DbName\" \"src1CenterName\" \"src1Url\" \"src2DbName\" \"src2CenterName\" \"src2Url\" etc.\r\nBye!\r\nPress Enter to continue...");
+                Console.ReadLine();
+                return 1;
+            }
+
+            _logFilePath = args[0];
+
+            LogAction(string.Format("Started with arguments:\r\n\t{0}", string.Join("\r\n\t", args)));
+            LogAction();
+
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-CA");//"en-US");
+
+            var connectionString = args[1];
+
+	        _mergeDestUow = new UnitOfWork(connectionString);
+            
+            _mergeDestHubRepository = new Repository<Hub>(_mergeDestUow);
+            _mergeDestMunicipalityRepository = new Repository<Municipality>(_mergeDestUow);
+            _mergeDestMaterialsRepository = new Repository<Material>(_mergeDestUow);
+            _mergeDestClientAddressRepository = new Repository<ClientAddress>(_mergeDestUow);
+            _mergeDestUserRepository = new Repository<User>(_mergeDestUow);
+            _mergeDestFileRepository = new FileRepository(_mergeDestUow);
+            _mergeDestClientRepository = new Repository<Client>(_mergeDestUow);
+            _mergeDestInvoiceRepository = new Repository<Invoice>(_mergeDestUow);
+
+            _mergeDestLimitsRepository = new Repository<LimitStatus>(_mergeDestUow);
+            _mergeDestJournalRepository = new Repository<InvoiceJournal>(_mergeDestUow);
+
+            _srcUows = new List<UnitOfWork>();
+
+            _srcHubRepos = new List<Repository<Hub>>();
+            _srcMunicipalityRepos = new List<Repository<Municipality>>();
+            _srcMaterialRepos = new List<Repository<Material>>();
+            _srcClientAdrressRepos = new List<Repository<ClientAddress>>();
+            _srcUserRepos = new List<Repository<User>>();
+            _srcFileRepos = new List<FileRepository>();
+            _srcClientRepos = new List<Repository<Client>>();
+            _srcInvoiceRepos = new List<Repository<Invoice>>();
+
+            _srcDbNames = new List<string>();
+            _srcCenterNames = new List<string>();
+            _srcCenterUrls = new List<string>();
+
+            for (var o = 3; o < args.Length; o += 3)
+            {
+	            var unitOfWork = new UnitOfWork(connectionString);
+	            _srcUows.Add(unitOfWork);
+
+
+				_srcHubRepos.Add(new Repository<Hub>(unitOfWork));
+                _srcMunicipalityRepos.Add(new Repository<Municipality>(unitOfWork));
+                _srcMaterialRepos.Add(new Repository<Material>(unitOfWork));
+                _srcClientAdrressRepos.Add(new Repository<ClientAddress>(unitOfWork));
+                _srcUserRepos.Add(new Repository<User>(unitOfWork));
+                _srcFileRepos.Add(new FileRepository(unitOfWork));
+                _srcClientRepos.Add(new Repository<Client>(unitOfWork));
+                _srcInvoiceRepos.Add(new Repository<Invoice>(unitOfWork));
+
+                _srcDbNames.Add(args[o]);
+                _srcCenterNames.Add(args[o + 1]);
+                _srcCenterUrls.Add(args[o + 2]);
+            }
+            _mergeDestHubRepositoryList = _mergeDestHubRepository.Query.ToList();
+            _mergeDestMunicipalityRepositoryList = _mergeDestMunicipalityRepository.Query.ToList();
+            _mergeDestMaterialsRepositoryList = _mergeDestMaterialsRepository.Query.ToList();
+            _mergeDestClientAddressRepositoryList = _mergeDestClientAddressRepository.Query.ToList();
+            _mergeDestUserRepositoryList = _mergeDestUserRepository.Query.ToList();
+            _mergeDestFileRepositoryList = _mergeDestUow.Database.GridFS.FindAll().ToList();
+            _mergeDestClientRepositoryList = _mergeDestClientRepository.Query.ToList();
+
+            LogAction("Initialization done");
+
+            for (var i = 0; i < _srcInvoiceRepos.Count; i++) //this is done sequentially to prevent conflicts
+            {
+                LogAction(string.Format("Starting iteration {0} initialization...", i));
+                _hubsAdded = 0;
+                _municipalitiesAdded = 0;
+                _materialsAdded = 0;
+                _clientAddressesAdded = 0;
+                _usersAdded = 0;
+                _filesAdded = 0;
+                _clientsAdded = 0;
+                _invoicesAdded = 0;
+
+                _mergeDestInvoiceRepositoryList = _mergeDestInvoiceRepository.Query.ToList();
+
+                _srcInvoiceRepositoryList = new List<Invoice>();
+
+                LogAction(string.Format("Processing {0} (center name: {1}, center URL: {2}) db...", _srcDbNames[i], _srcCenterNames[i], _srcCenterUrls[i]));
+
+                #region Hub Processing
+                var srcHubsQuery = _srcHubRepos[i].Query;
+                var hubsCount = srcHubsQuery.Count();
+                LogAction(string.Format("\tProcessing {0} Hubs...", hubsCount));
+                _srcHubRepositoryList = srcHubsQuery.ToList();
+                for (int j = 0; j < _srcHubRepositoryList.Count; j++)// (var srcHub in mergeDestHubRepositoryList)
+                {
+                    if (null != FindHubDuplicateId(_srcHubRepositoryList[j], i))
+                    {
+                        _srcHubRepositoryList.RemoveAt(j);
+                        j--;
+                    }
+                }
+                var hubsCounter = 0;
+                foreach (var srcHub in _srcHubRepositoryList)
+                {
+                    FindHubDuplicateId(srcHub, i);
+                    LogAction(string.Format("\tProcessing [{1}/{0}] Hubs...", hubsCount, ++hubsCounter), true);
+                };
+                _srcHubRepositoryList = new List<Hub>();
+                Console.Write("\n");
+                LogAction(string.Format("\tDone processing Hubs ({0} added).", _hubsAdded));
+                #endregion
+                #region Municipality Processing
+                var srcMunicipalityQuery = _srcMunicipalityRepos[i].Query;
+                var municipalityCount = srcMunicipalityQuery.Count();
+                LogAction(string.Format("\tProcessing {0} Municipalities...", municipalityCount));
+                _srcMunicipalityRepositoryList = srcMunicipalityQuery.ToList();
+                for (int j = 0; j < _srcMunicipalityRepositoryList.Count; j++)// (var srcHub in mergeDestHubRepositoryList)
+                {
+                    if (null != FindMunicipalityDuplicateId(_srcMunicipalityRepositoryList[j], i))
+                    {
+                        _srcMunicipalityRepositoryList.RemoveAt(j);
+                        j--;
+                    }
+                }
+                var municipalityCounter = 0;
+                foreach (var srcMunicipality in _srcMunicipalityRepositoryList)
+                {
+                    MoveMunicipality(srcMunicipality, i);
+                    LogAction(string.Format("\tProcessing [{1}/{0}] Municipalities...", municipalityCount, ++municipalityCounter), true);
+                }
+                _srcMunicipalityRepositoryList = new List<Municipality>();
+                Console.Write("\n");
+                LogAction(string.Format("\tDone processing Municipalities ({0} added).", _municipalitiesAdded));
+                #endregion
+                #region Material Processing
+                var srcMaterialQuery = _srcMaterialRepos[i].Query;
+                var materialsCount = srcMaterialQuery.Count();
+                LogAction(string.Format("\tProcessing {0} Materials...", materialsCount));
+                _srcMaterialsRepositoryList = srcMaterialQuery.ToList();
+                for (int j = 0; j < _srcMaterialsRepositoryList.Count; j++)// (var srcHub in mergeDestHubRepositoryList)
+                {
+                    if (null != FindMaterialDuplicateId(_srcMaterialsRepositoryList[j], i))
+                    {
+                        _srcMaterialsRepositoryList.RemoveAt(j);
+                        j--;
+                    }
+                }
+                var materialsCounter = 0;
+                foreach (var srcMaterial in _srcMaterialsRepositoryList)
+                {
+                    MoveMaterial(srcMaterial, i);
+                    LogAction(string.Format("\tProcessing [{1}/{0}] Materials...", materialsCount, ++materialsCounter), true);
+                }
+                _srcMaterialsRepositoryList = new List<Material>();
+                Console.Write("\n");
+                LogAction(string.Format("\tDone processing Materials ({0} added).", _materialsAdded));
+                #endregion
+                #region ClientAddress Processing
+                var srcClientAddressQuery = _srcClientAdrressRepos[i].Query;
+                var clientAddressCount = srcClientAddressQuery.Count();
+                LogAction(string.Format("\tProcessing {0} ClientAddresses...", clientAddressCount));
+                _srcClientAddressRepositoryList = srcClientAddressQuery.ToList();
+                for (int j = 0; j < _srcClientAddressRepositoryList.Count; j++)// (var srcHub in mergeDestHubRepositoryList)
+                {
+                    if (null != FindClientAddressDuplicateId(_srcClientAddressRepositoryList[j], i))
+                    {
+                        _srcClientAddressRepositoryList.RemoveAt(j);
+                        j--;
+                    }
+                }
+                var clientAddressCounter = 0;
+                foreach (var srcClientAddress in _srcClientAddressRepositoryList)
+                {
+                    MoveClientAddress(srcClientAddress, i);
+                    LogAction(string.Format("\tProcessing [{1}/{0}] ClientAddresses...", clientAddressCount, ++clientAddressCounter), true);
+                }
+                _srcClientAddressRepositoryList = new List<ClientAddress>();
+                Console.Write("\n");
+                LogAction(string.Format("\tDone processing ClientAddresses ({0} added).", _clientAddressesAdded));
+                #endregion
+                #region User Processing
+                var srcUserQuery = _srcUserRepos[i].Query;
+                var userCount = srcUserQuery.Count();
+                LogAction(string.Format("\tProcessing {0} Users...", userCount));
+                _srcUserRepositoryList = srcUserQuery.ToList();
+                for (int j = 0; j < _srcUserRepositoryList.Count; j++)// (var srcHub in mergeDestHubRepositoryList)
+                {
+                    if (null != FindUserDuplicateId(_srcUserRepositoryList[j], i))
+                    {
+                        _srcUserRepositoryList.RemoveAt(j);
+                        j--;
+                    }
+                }
+                var userCounter = 0;
+                foreach (var srcUser in _srcUserRepositoryList)
+                {
+                    MoveUser(srcUser, i);
+                    LogAction(string.Format("\tProcessing [{1}/{0}] Users...", userCount, ++userCounter), true);
+                }
+                _srcUserRepositoryList = new List<User>();
+                Console.Write("\n");
+                LogAction(string.Format("\tDone processing Users ({0} added).", _usersAdded));
+                #endregion
+                #region File (Attachment) Processing
+                //file
+                var srcFiles = _srcUows[i].Database.GridFS.FindAll();
+                var fileCount = srcFiles.Count();
+                LogAction(string.Format("\tProcessing {0} Files (Attachments)...", fileCount));
+                _srcFileRepositoryList = srcFiles.ToList();
+                for (int j = 0; j < _srcFileRepositoryList.Count; j++)// (var srcHub in mergeDestHubRepositoryList)
+                {
+                    if (null != FindFileDuplicateId(_srcFileRepositoryList[j], i))
+                    {
+                        _srcFileRepositoryList.RemoveAt(j);
+                        j--;
+                    }
+                }
+                var fileCounter = 0;
+                foreach (MongoGridFSFileInfo scrFile in _srcFileRepositoryList)
+                {
+                    MoveFile(scrFile, i);
+                    LogAction(string.Format("\tProcessing [{1}/{0}] Files (Attachments)...", fileCount, ++fileCounter), true);
+                }
+                _srcFileRepositoryList = new List<MongoGridFSFileInfo>();
+                Console.Write("\n");
+                LogAction(string.Format("\tDone processing Files (Attachments) ({0} added).", _filesAdded));
+                #endregion
+                #region Client Processing
+                var srcClientQuery = _srcClientRepos[i].Query;
+                var clientCount = srcClientQuery.Count();
+                LogAction(string.Format("\tProcessing {0} Clients...", clientCount));
+                _srcClientRepositoryList = srcClientQuery.ToList();
+                for (int j = 0; j < _srcClientRepositoryList.Count; j++)// (var srcHub in mergeDestHubRepositoryList)
+                {
+                    if (null != FindClientDuplicateId(_srcClientRepositoryList[j], i))
+                    {
+                        _srcClientRepositoryList.RemoveAt(j);
+                        j--;
+                    }
+                }
+                var clientCounter = 0;
+                foreach (var srcClient in _srcClientRepositoryList)
+                {
+                    MoveClient(srcClient, i);
+                    LogAction(string.Format("\tProcessing [{1}/{0}] Clients...", clientCount, ++clientCounter), true);
+                }
+                _srcClientRepositoryList = new List<Client>();
+                Console.Write("\n");
+                LogAction(string.Format("\tDone processing Clients ({0} added).", _clientsAdded));
+                #endregion
+                #region Invoice Processing
+                var srcInvoiceQuery = _srcInvoiceRepos[i].Query;
+                var invoiceCount = srcInvoiceQuery.Count();
+                LogAction(string.Format("\tProcessing {0} Invoices...", invoiceCount));
+                _srcInvoiceRepositoryList = srcInvoiceQuery.ToList();
+                for (int j = 0; j < _srcInvoiceRepositoryList.Count; j++)// (var srcHub in mergeDestHubRepositoryList)
+                {
+                    if (null != FindInvoiceDuplicateId(_srcInvoiceRepositoryList[j], i))
+                    {
+                        _srcInvoiceRepositoryList.RemoveAt(j);
+                        j--;
+                    }
+                }
+                var invoiceCounter = 0;
+                foreach (var srcInvoice in _srcInvoiceRepositoryList)
+                {
+                    MoveInvoice(srcInvoice, i);
+                    LogAction(string.Format("\tProcessing [{1}/{0}] Invoices...", invoiceCount, ++invoiceCounter), true);
+                }
+                _srcInvoiceRepositoryList = new List<Invoice>();
+                Console.Write("\n");
+                LogAction(string.Format("\tDone processing Invoices ({0} added).", _invoicesAdded));
+                #endregion
+                LogAction("Done processing db");
+            }
+            LogAction("Press Enter to continue...");
+            Console.ReadLine();
+            return 0;
+        }
+    }
+}

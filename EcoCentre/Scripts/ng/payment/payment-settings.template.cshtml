@@ -1,0 +1,70 @@
+﻿
+<toast></toast>
+<error-list></error-list>
+
+<div ng-if="vm.isLoading">
+	<div class="centertext">
+		<i class="fa fa-spinner fa-spin spin-big"></i>
+	</div>
+</div>
+
+
+<div ng-if="!vm.isLoading">
+	<form class="form-horizontal" ng-submit="vm.save()">
+		<div class="control-group">
+			<label class='control-label'>TPE (Terminal de Paiement Électronique)</label>
+			<div class="controls">
+				<input type="text" placeholder="123457" ng-model="vm.settings.tpe" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class='control-label'>société</label>
+			<div class="controls">
+				<input type="text" placeholder="" ng-model="vm.settings.company" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class='control-label'>langue</label>
+			<div class="controls">
+				<label>
+					<input type="radio" ng-model="vm.settings.language" value="FR" /> FR
+				</label>
+				<label>
+					<input type="radio" ng-model="vm.settings.language" value="EN" /> EN
+				</label>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class='control-label'>devise</label>
+			<div class="controls">
+				<input disabled="disabled" type="text" placeholder="unité" ng-model="vm.settings.currency" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class='control-label'>clé de sécurité</label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" placeholder="0123456789ABCDEF0123456789ABCDEF01234567" ng-model="vm.settings.key" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class='control-label'>environnement</label>
+			<div class="controls">
+				<label>
+					<input type="radio" ng-model="vm.settings.environment" value="Production" /> Production
+				</label>
+				<label>
+					<input type="radio" ng-model="vm.settings.environment" value="Test" /> Test
+				</label>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class='control-label'></label>
+			<div class="controls">
+				<button class="btn" type="submit" loading="vm.isSaving">Enregistrer</button>
+			</div>
+		</div>
+
+	</form>
+</div>

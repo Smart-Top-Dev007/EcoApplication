@@ -1,0 +1,39 @@
+#sbox-content .liblock {
+	PADDING-BOTTOM: 20px
+}
+#sbox-content .liblock LI {
+	DISPLAY: list-item; FONT-WEIGHT: bold; FONT-SIZE: 0.7em; PADDING-BOTTOM: 0px; COLOR: #6a6a6a; LIST-STYLE-TYPE: circle
+}
+#sbox-content TABLE {
+	MARGIN-TOP: -20px! important; FONT-SIZE: 0.8em; MARGIN-BOTTOM: 20px; TEXT-ALIGN: left
+}
+#sbox-content TABLE TD {
+	COLOR: #6a6a6a
+}
+#column_left TABLE TH {
+	COLOR: #6a6a6a
+}
+#sbox-content TABLE TD {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px
+}
+#sbox-content TABLE TR TH {
+	PADDING-RIGHT: 10px! important; PADDING-LEFT: 10px! important; FONT-WEIGHT: bold; PADDING-BOTTOM: 20px! important; TEXT-TRANSFORM: uppercase; COLOR: #6e9bc6; PADDING-TOP: 20px! important
+}
+#sbox-content TABLE TBODY .line {
+	BACKGROUND: #edf3f8
+}
+#sbox-content TABLE TR TD IMG {
+	DISPLAY: block; MARGIN: 0px auto
+}
+#sbox-content TABLE TR TD IMG.symbol {
+	MARGIN: 5px 0px 0px; VERTICAL-ALIGN: text-bottom
+}
+#sbox-content TABLE TD.matiere {
+	FONT-WEIGHT: bold; TEXT-ALIGN: left
+}
+#sbox-content TABLE TR TH.tableHeader {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-WEIGHT: bold; FONT-SIZE: 0.9em; BACKGROUND: #3171ae; PADDING-BOTTOM: 20px; COLOR: white; PADDING-TOP: 20px; TEXT-ALIGN: center
+}
+#sbox-content TABLE TR.titlerepeat TH.tableHeader {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-WEIGHT: bold; FONT-SIZE: 0.9em; BACKGROUND: #3171ae; PADDING-BOTTOM: 20px; COLOR: white; PADDING-TOP: 20px; TEXT-ALIGN: center
+}

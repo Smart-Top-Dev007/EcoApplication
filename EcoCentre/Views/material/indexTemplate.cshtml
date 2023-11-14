@@ -1,0 +1,76 @@
+﻿@inherits EcoCentre.Web.EcoWebPageView
+<h1>matériaux <a class="btn btn-large btn-success" href='#material/new'>nouveaux matériaux</a></h1>
+<div class="well">
+    <form class="form-inline client-search-form" data-bind="submit:search">
+        <input type="text" class="input" placeholder="@EcoCentre.Resources.Forms.Search" data-bind='{value:term,hasfocus:searchfocus}'>
+        <button class="btn" data-bind='click:search'>@EcoCentre.Resources.Forms.Search</button>
+    </form>
+</div>
+<div class="tabbable">
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#materials-active-tab" data-toggle="tab">@EcoCentre.Resources.Model.Municipality.Active</a></li>
+        <li><a href="#materials-inactive-tab" data-toggle="tab">@EcoCentre.Resources.Model.Municipality.Inactive</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="materials-active-tab">
+            <table class="table table-striped table-bordered" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>tag</th>
+                        <th>matériel</th>
+                        <th>unité</th>
+                        <th>prix</th>
+                        <th>maximum par an</th>
+                        <th>exclure des limites</th>                        
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind='foreach:materialsActive'>
+                    <tr>
+                        <td data-bind='text:Tag'></td>
+                        <td data-bind='text:Name'></td>
+                        <td data-bind='text:Unit'></td>
+                        <td data-bind='money:Price'></td>
+                        <td data-bind='text:MaxYearlyAmount'></td>
+                        <td><span data-bind='visible:IsExcluded()'>Oui</span><span data-bind='visible:!IsExcluded()'>Non</span></td>
+                        <td>
+                            <a data-bind="attr:{href:$parent.editUrl($data)}" class="btn">modifier</a>
+                            <a data-bind="click:$parent.exclude, visible:!IsExcluded()" class="btn">exclure</a>
+                            <a data-bind="click:$parent.include, visible:IsExcluded()" class="btn">comprendre</a>
+                            <a data-bind="click:$parent.disable" class="btn">désactiver</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane" id="materials-inactive-tab">
+            <table class="table table-striped table-bordered" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>tag</th>
+                        <th>matériel</th>
+                        <th>unité</th>
+                        <th>maximum par an</th>
+                        <th>exclure des limites</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind='foreach:materialsInactive'>
+                    <tr>
+                        <td data-bind='text:Tag'></td>
+                        <td data-bind='text:Name'></td>
+                        <td data-bind='text:Unit'></td>
+                        <td data-bind='text:MaxYearlyAmount'></td>
+                        <td><span data-bind='visible:IsExcluded()'>Oui</span><span data-bind='visible:!IsExcluded()'>Non</span></td>
+                        <td>
+                            <a data-bind="click:$parent.enable" class="btn">activer</a>
+                            <a data-bind="click:$parent.exclude, visible:!IsExcluded()" class="btn">exclure</a>
+                            <a data-bind="click:$parent.include, visible:IsExcluded()" class="btn">comprendre</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

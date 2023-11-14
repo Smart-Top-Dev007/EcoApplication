@@ -1,0 +1,120 @@
+﻿<div>
+
+	<h1 ng-if="vm.isNew">Nouveau matériel</h1>
+	<h1 ng-if="!vm.isNew">Modifier matériel</h1>
+
+	<div ng-if="vm.isLoading">
+		<div class="centertext">
+			<i class="fa fa-spinner fa-spin spin-big"></i>
+		</div>
+	</div>
+
+	<form class="form-horizontal" ng-submit="vm.save()" ng-if="!vm.isLoading">
+		<div class="control-group">
+			<label class='control-label'>Tag</label>
+			<div class="controls">
+				<input type="text" placeholder="Tag" ng-model="vm.tag" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class='control-label'>nom</label>
+			<div class="controls">
+				<input type="text" placeholder="nom" ng-model="vm.name" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class='control-label'>prix</label>
+			<div class="controls">
+				<input type="text" placeholder="prix" ng-model="vm.price" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class='control-label'>unité</label>
+			<div class="controls">
+				<input type="text" placeholder="unité" ng-model="vm.unit" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class='control-label'>exclure des limites</label>
+			<div class="controls">
+				<input type="checkbox" ng-model="vm.isExcluded" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class='control-label'>le montant maximum annuel</label>
+			<div class="controls">
+				<input type="text" placeholder="le montant maximum annuel" ng-model="vm.maxYearlyAmount" />
+			</div>
+		</div>
+
+		<hr />
+		<h4>
+			Regroupements
+		</h4>
+
+		<table class="table">
+			<thead>
+			<tr>
+				<th></th>
+				<th>Actif</th>
+				<th>Preuve de résidence</th>
+				<th>Rendre disponsible par conteneur</th>
+				<th>Quantité gratuite</th>
+				<th>Montant maximum par visite</th>
+				<th>Maximum visites par année</th>
+				<th></th>
+			</tr>
+			</thead>
+			<tbody ng-repeat="setting in vm.hubSettings">
+			<tr>
+				<td>{{::setting.name}}</td>
+				<td><input type="checkbox" ng-model="setting.isActive" /></td>
+				<td><input type="checkbox" ng-model="setting.requireProofOfResidence" /></td>
+				<td><input type="checkbox" ng-model="setting.hasContainer" /></td>
+				<td><input type="text" class="input input-mini" placeholder="" ng-model="setting.freeAmount" /></td>
+				<td><input type="text" class="input input-mini" placeholder="" ng-model="setting.maxAmountPerVisit" /></td>
+				<td><input type="text" class="input input-mini" placeholder="" ng-model="setting.maxVisits" /></td>
+				<td><a class="btn btn-success" ng-click="vm.showAddExceptionPopup(setting)">Ajouter une exception</a></td>
+			</tr>
+			<tr ng-repeat="ex in setting.exceptions" class="alt-row">
+				<td>
+					&nbsp;&nbsp;&nbsp; <i class="fa fa-level-up-alt fa-rotate-90"></i> &nbsp; {{::ex.name}}
+				</td>
+				<td><input type="checkbox" ng-model="ex.isActive" /></td>
+				<td><input type="checkbox" ng-model="ex.requireProofOfResidence" /></td>
+				<td><input type="checkbox" ng-model="ex.hasContainer" /></td>
+				<td><input type="text" class="input input-mini" placeholder="" ng-model="ex.freeAmount" /></td>
+				<td><input type="text" class="input input-mini" placeholder="" ng-model="ex.maxAmountPerVisit" /></td>
+				<td><input type="text" class="input input-mini" placeholder="" ng-model="ex.maxVisits" /></td>
+				<td><a class="btn btn-danger" ng-click="vm.deleteException(setting, ex)">Supprimer</a></td>
+			</tr>
+			</tbody>
+
+
+
+		</table>
+
+		<div class="control-group">
+			<div class="controls">
+				<button class="btn btn-primary" loading="vm.isSaving">Enregistrer</button>
+			</div>
+		</div>
+
+	</form>
+
+	<div id="add-exception-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">Ajouter une exception</h3>
+		</div>
+		<div class="modal-body">
+			<p>Municipalité:</p>
+			<select ng-options="item as item.name for item in vm.municipalitiesForException track by item.id" ng-model="vm.municipalityForException">
+			</select>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="vm.addException()">Ajouter</button>
+		</div>
+	</div>
+
+</div>

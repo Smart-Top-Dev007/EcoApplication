@@ -1,0 +1,12 @@
+{
+    "/" : "./EcoCentre",
+
+    "/styles/eco.css" : ["./EcoCentre/styles/src"],
+    
+    "/scripts/eco.js" : {
+        "minify": false,
+        "input": [
+            "./EcoCentre/scripts/src"
+        ]
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "/": ".",
+
+    "/styles/eco.css": [ "./styles/src" ],
+
+    "/scripts/eco.js": {
+        "minify": false,
+        "input": [
+            "./scripts/src"
+        ]
+    }
+}

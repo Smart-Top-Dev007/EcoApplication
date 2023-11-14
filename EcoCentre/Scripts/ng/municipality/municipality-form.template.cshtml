@@ -1,0 +1,36 @@
+﻿<toast></toast>
+<error-list></error-list>
+
+<div ng-if="vm.isLoading">
+	<div class="centertext">
+		<i class="fa fa-spinner fa-spin spin-big"></i>
+	</div>
+</div>
+
+<div ng-if="!vm.isLoading">
+
+	<h1 ng-if="vm.isNew">Nouveau municipalité</h1>
+	<h1 ng-if="!vm.isNew">Modifier municipalité</h1>
+	<form class="form-horizontal">
+		<div class="control-group">
+			<label class='control-label'>Nom</label>
+			<div class="controls">
+				<input type="text" placeholder="Municipalité nom" ng-model="vm.name" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class='control-label'>Regroupement</label>
+			<div class="controls">
+				<select class='control-label' ng-model="vm.hubId">
+					<option ng-repeat="hub in vm.hubs" value="{{hub.id}}">{{hub.name}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<button ng-click="vm.save()" ng-if="vm.isNew" class="btn btn-primary" loading="vm.isSaving">sauver</button>
+				<button ng-click="vm.save()" ng-if="!vm.isNew" class="btn btn-primary" loading="vm.isSaving">mettre à jour</button>
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,55 @@
+﻿@inherits EcoCentre.Web.EcoWebPageView 
+<div id='facture-view'>
+    @Html.Partial("_header")
+    <div class="factureNo">
+        @EcoCentre.Resources.Model.Invoice.TheInvoice: <span data-bind="text:OBNLReinvestmentNo"></span>
+        <span class="pull-right" data-bind="text:CreatedAtFormatted"></span>
+    </div>
+
+    <div data-bind='with:Client'>
+        @if (CurrentUser.IsAdmin || CurrentUser.IsGlobalAdmin || CurrentUser.IsReadOnly)
+        {
+            <div data-bind="text:FirstName+' ' + LastName"></div>
+        }
+        <address class="static-input">
+            <!-- ko with:$parent.Address -->
+            <span data-bind='text: CivicNumber + ",", visible: CivicNumber != ""'></span> <span data-bind="    text: Street"></span><br/>
+            <span data-bind='text:PostalCode+",", visible:PostalCode  != ""'></span> <span data-bind="text:City"></span><br/>
+            <!-- /ko -->
+            <span data-bind="visible: PhoneNumber != ''">
+                <abbr title="Phone">P:</abbr><span data-bind="text:PhoneNumber"></span>
+            </span>
+        </address>
+    </div>
+    <hr/>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>@EcoCentre.Resources.Model.Invoice.Material</td>
+                <td>@EcoCentre.Resources.Model.Invoice.Weight</td>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach:Materials">
+            <tr>
+                <th data-bind="text:Name"></th>
+                <!--ko if: Weight-->
+                <th data-bind="text:Weight"></th>
+                <!--/ko-->
+            </tr>
+        </tbody>
+    </table>
+    
+    <ul data-bind="foreach:Attachments">
+        <li><a target="_blank" href="" data-bind="text:Name, attr:{href:'attachments/index/'+Id}"></a></li>
+    </ul>
+
+    <div class="control-group noprint" >
+        <label>Commentaire:</label>
+        <div class="input-xxlarge" data-bind="text:Comment"></div>
+    </div>   
+    
+    <div class="invoice-footer" data-bind="with:CreatedBy" >
+        <label>Created by:</label>
+        <span data-bind="text:UserName || 'deleted user'"></span>
+    </div> 
+</div>

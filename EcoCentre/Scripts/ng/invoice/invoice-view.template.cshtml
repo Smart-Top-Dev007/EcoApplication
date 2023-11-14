@@ -1,0 +1,156 @@
+﻿@using System.Globalization
+@using EcoCentre.Resources.Model
+@inherits EcoCentre.Web.EcoWebPageView
+<div id='facture-view'>
+
+	@Html.Action("_Header", "Invoice", null)
+
+	<div class="header">
+		<ul class="unstyled" >
+			<li ng-repeat="line in vm.invoice.center.address.split('\n')">{{line}}</li>
+		</ul>
+	</div>
+
+	<div class="factureNo">
+		@EcoCentre.Resources.Model.Invoice.TheInvoice: <span >{{vm.invoice.invoiceNo}}</span>
+		<span class="invoice-date" >{{vm.invoice.createdAt | date : 'yyyy-MM-dd HH:mm'}}</span>
+	</div>
+
+	<div >
+		<div >{{vm.invoice.client.firstName}} {{vm.invoice.client.lastName}}</div>
+		<address class="static-input">
+
+			<span>{{vm.invoice.address.civicNumber}}</span><span ng-if="vm.invoice.address.aptNumber"> - <span>{{vm.invoice.address.aptNumber}}</span></span><span>, <span></span>{{vm.invoice.address.street}}</span><br />
+			<span>{{[vm.invoice.address.postalCode, vm.invoice.address.city] | joinBy}}</span><br />
+
+			<span ng-if="vm.invoice.client.phoneNumber">
+				<abbr title="Phone">P:</abbr><span>{{vm.invoice.client.phoneNumber}}</span>
+			</span>
+		</address>
+	</div>
+	<hr/>
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>@EcoCentre.Resources.Model.Invoice.Material</th>
+			<th class="numeric hidden-phone noprint">@EcoCentre.Resources.Model.Invoice.Quantity</th>
+			<th class="hidden-phone noprint">@EcoCentre.Resources.Model.Invoice.Unit</th>
+			<th class="numeric">@EcoCentre.Resources.Model.Invoice.Amount</th>
+		</tr>
+		</thead>
+		<tbody >
+		<tr class="invoice-row" ng-repeat="item in vm.invoice.materials">
+			<td>
+				<div >{{item.name}} <span ng-if="item.isUsingFreeAmount">Gratuit</span></div>
+				<div class="visible-phone invoice-amount-row">
+					<span >{{item.quantity}}</span>
+					<span >{{item.unit}}</span>
+				</div>
+			</td>
+			
+			<td class="numeric hidden-phone noprint">{{item.quantity}}</td>
+			<td class="hidden-phone noprint">{{item.unit}}</td>
+			<td class="numeric">{{item.amount | currency}}</td>
+		</tr>
+		
+		<tr class="invoice-row"  ng-repeat="item in vm.invoice.giveawayItems">
+			<td >{{item.title}}</td>
+			<td class="hidden-phone noprint"></td>
+			<td class="hidden-phone noprint"></td>
+			<td class="numeric">{{item.price | currency}}</td>
+		</tr>
+		</tbody>
+		<thead>
+		<tr>
+			<th>@EcoCentre.Resources.Model.Invoice.SubTotal</th>
+			<th class="hidden-phone noprint"></th>
+			<th class="hidden-phone noprint"></th>
+			<th class="numeric">{{vm.invoice.amount | currency}}</th>
+		</tr>
+		</thead>
+		<tbody>
+			<tr class="invoice-row" ng-repeat="item in vm.invoice.taxes">
+				<td>{{item.name}}</td>
+				<td class="hidden-phone noprint"></td>
+				<td class="hidden-phone noprint"></td>
+				<td class="numeric">{{item.amount | currency}}</td>
+			</tr>
+		</tbody>
+		<thead>
+		<tr>
+			<th>@EcoCentre.Resources.Model.Invoice.Total</th>
+			<th class="hidden-phone noprint noprint"></th>
+			<th class="hidden-phone noprint noprint"></th>
+			<th class="numeric">{{vm.invoice.amountIncludingTaxes | currency}}</th>
+		</tr>
+		</thead>
+	</table>
+
+	<ul >
+		<li ng-repeat="item in vm.invoice.attachments">
+			<a target="_blank" href="" ng-href="{{'attachments/index/'+item.id}}">{{item.name}}</a>
+		</li>
+	</ul>
+
+	
+	<div class="control-group" ng-if="vm.invoice.visitNumber">
+		<span>
+			Visite #{{[vm.invoice.visitNumber, vm.invoice.visitLimit] | joinBy : ' / '}}
+		</span>
+	</div>
+
+	<div class="control-group noprint" ng-if="vm.invoice.comment">
+		<span>Commentaire:</span>
+		<div class="input-xxlarge" >{{vm.invoice.comment}}</div>
+	</div>
+	
+	<div class="invoice-footer" ng-if="vm.invoice.createdBy">
+		<span>Créé par:</span>
+		<span >{{vm.invoice.createdBy.userName || 'deleted user'}}</span>
+	</div>
+
+	
+	<div ng-if="vm.invoice.payment">
+		<br /><br />
+		<div ng-if="vm.invoice.payment">
+			<h3>Paiement</h3>
+			<table class="table">
+				<tr>
+					<th>Type de paiement</th>
+					<td >
+						<span ng-if="vm.invoice.payment.isTestPayment">TEST</span>
+						<span ng-switch="vm.invoice.payment.paymentMethod">
+							<span ng-switch-when="1">@Payment.MethodCash</span>
+							<span ng-switch-when="2">@Payment.MethodCreditCard</span>
+							<span ng-switch-when="3">@Payment.MethodVisaCreditCard</span>
+							<span ng-switch-when="4">@Payment.MethodMasterCardCreditCard</span>
+							<span ng-switch-when="5">@Payment.MethodAmexCreditCard</span>
+							<span ng-switch-when="6">@Payment.MethodCredit</span>
+							<span ng-switch-default="">-</span>
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<th>Date de paiement</th>
+					<td>{{vm.invoice.payment.dateProcessed | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+				</tr>
+
+				<tr ng-if="vm.invoice.payment.reference">
+					<th>Référence</th>
+					<td>{{vm.invoice.payment.reference}}</td>
+				</tr>
+				<tr>
+					<th>Traité par</th>
+					<td>{{vm.invoice.payment.processedByUser.name}}</td>
+				</tr>
+				
+			</table>
+
+			<br />
+			<br />
+		</div>
+
+	</div>
+
+
+</div>

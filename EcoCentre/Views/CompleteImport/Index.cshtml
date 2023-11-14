@@ -1,0 +1,15 @@
+﻿@{
+	ViewBag.Title = "Import";
+	Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<h2>Import</h2>
+<label class="label-warning" style="width:300px;">@ViewData["Error"]</label>
+@using (Html.BeginForm("Import", "CompleteImport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	<div class="btn-group">
+		<button type="button" style="width:100px; position:absolute; z-index:-1;" class="btn btn-primary">Choose files</button>
+		<input type="file" name="files" id="files" style="width:100px; opacity:0;" accept=".xml" multiple required/>
+		<button type="submit" class="btn btn-primary">Import</button>
+	</div>
+}

@@ -1,0 +1,69 @@
+﻿<div>
+
+	<div ng-if="vm.isLoading">
+		<div class="centertext">
+			<i class="fa fa-spinner fa-spin spin-big"></i>
+		</div>
+	</div>
+
+	<div  ng-if="!vm.isLoading">
+		<h1 ng-if="vm.isNew">Nouveau regroupement</h1>
+		<h1 ng-if="!vm.isNew">Modifier regroupement</h1>
+		<br/>
+		<form class="form-horizontal normal-width-form" ng-submit="vm.save()">
+			<div class="control-group">
+				<label class='control-label'>Nom</label>
+				<div class="controls">
+					<input type="text" class="input-block-level"  placeholder="Nom de regroupement" ng-model="vm.name" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class='control-label'>Modèle de numéro de facture</label>
+				<div class="controls">
+					<input type="text" class="input-block-level"  placeholder="" ng-model="vm.invoiceIdentifier" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class='control-label'>Prix par défaut pour "Ton surplus... mon bonheur"</label>
+				<div class="controls">
+					
+					<div class="input-prepend input-block-level">
+						<span class="add-on">$</span>
+						<input type="text"   placeholder="XX.XX" ng-model="vm.defaultGiveawayPrice" />
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class='control-label'>Addresse</label>
+				<div class="controls">
+					<textarea class="input-block-level" type="text" placeholder="" ng-model="vm.address" rows="3"></textarea>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class='control-label'>Courriel pour log in et log out</label>
+				<div class="controls">
+					
+					<tags-input ng-model="vm.emailsForLoginAlerts"
+					            placeholder="Courriel"
+					            use-strings="true"
+					            add-on-enter="true"
+					            add-on-space="true"
+					            add-on-comma="true"
+					            add-on-blur="true"
+					            add-on-paste="true"
+					            paste-split-pattern="[,; \t]"
+					            ></tags-input>
+
+				</div>
+			</div>
+
+			<div class="control-group">
+				<div class="controls">
+					<button class="btn btn-primary" loading="vm.isSaving">Enregistrer</button>
+				</div>
+			</div>
+
+		</form>
+	</div>
+</div>

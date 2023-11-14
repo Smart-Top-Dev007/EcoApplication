@@ -1,0 +1,45 @@
+<Project DefaultTargets="Build"
+	xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+
+  <PropertyGroup>
+    <WebSourceDir>$(SourcesDir)\EcoCentre</WebSourceDir>
+    <PubFolder>$(SourcesDir)\Pub</PubFolder>
+  </PropertyGroup>
+	<UsingTask TaskName="TransformXml"
+		   AssemblyFile="$(SourcesDir)\build\Web\Microsoft.Web.Publishing.Tasks.dll"/>
+
+  <Target Name="Build">
+    <MSBuild Projects="EcoCentre.sln" Targets="Clean;Build" />
+  </Target>
+
+
+  
+     <PropertyGroup>
+        <TransformInputFile>$(WebSourceDir)\Web.config</TransformInputFile>
+        <TransformFile>$(WebSourceDir)\Web.$(Configuration).config</TransformFile>
+        <TransformOutputFile>$(PubFolder)\_PublishedWebsites\EcoCentre\Web.config</TransformOutputFile>
+        <StackTraceEnabled>False</StackTraceEnabled>
+    </PropertyGroup>
+
+	<Target Name="DoPublish">
+		<MSBuild Projects="EcoCentre.sln" Targets="Clean;Build" />
+		<MSBuild Projects="$(WebSourceDir)\EcoCentre.csproj" Targets="_CopyWebApplication;_BuiltWebOutputGroupOutput" Properties="OutDir=$(PubFolder)\" ></MSBuild>
+		<CreateItem Include="$(WebSourceDir)\bin\*.dll">
+		  <Output ItemName="ProjectBinFiles" TaskParameter="Include"/>
+		</CreateItem>
+		<Copy SourceFiles="@(ProjectBinFiles)"
+		DestinationFolder="$(PubFolder)\_PublishedWebsites\EcoCentre\bin\"></Copy>
+		<CallTarget Targets="Transform"/>
+
+	</Target>
+  
+  
+    <Target Name="Transform">
+        <TransformXml Source="$(TransformInputFile)"
+                      Transform="$(TransformFile)"
+                      Destination="$(TransformOutputFile)"
+                      StackTrace="$(StackTraceEnabled)" />
+    </Target>
+
+</Project>

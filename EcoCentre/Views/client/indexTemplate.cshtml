@@ -1,0 +1,104 @@
+﻿@inherits EcoCentre.Web.EcoWebPageView
+<div class="row-fluid">
+	<div class="span12">
+		<h1>
+			<span data-bind='visible:mode()=="pick"'>@EcoCentre.Resources.Model.Client.SelectClient</span>
+			<span data-bind='visible:mode()!="pick"'>@EcoCentre.Resources.Forms.ClientsList</span>
+			@if (!CurrentUser.IsReadOnly)
+			{
+				<a class="btn btn-large btn-success" data-bind="click:onNew">@EcoCentre.Resources.Forms.NewClient</a>
+				<a class="btn btn-large btn-inverse" data-bind="visible:onCancel != null, click:onCancel">@EcoCentre.Resources.Forms.Cancel</a>
+			}
+		</h1>
+		<div class="controls-row" style="margin: 20px auto;">
+			<span>
+				<span class='label label-info' style="font-size: 16px;padding: 5px;margin-right: 17px;">@EcoCentre.Resources.Forms.GlobalLimitOfNumberOfVisits: </span>
+				<span class="label static-input" data-bind="text: maxYearlyClientVisits()" style="padding: 5px 11px; position: relative; top: -1px;"></span>
+			</span>
+		</div>
+	</div>
+</div>
+<div class="well">
+	@Html.Partial("_searchForm")
+</div>
+<div class="pagination">
+	<ul data-bind='foreach: pageButtons'>
+		<li data-bind=' css: { active: isActive }'><a data-bind="click: $parent.changePage, text: number"></a></li>
+	</ul>
+	<span style="position: relative; top: -5px;" data-bind="visible: pageCount() > 1">
+		<span style="margin: 0 5px 0 50px; position: relative; top: -4px;">@EcoCentre.Resources.Forms.GoToPage</span>
+		<input class="input-small" type="number" data-bind="value: page, attr: { max: pageCount() }" min="1" />
+	</span>
+</div>
+<table class="table table-striped table-bordered" id='client-list' style="width: 100%;" data-bind='css:{"table-hover":mode()=="pick"}'>
+	<thead>
+		<tr>
+			<th></th>
+
+			<th class="sortable" data-bind="click:sort.bind($data,'LastName')">@EcoCentre.Resources.Model.Client.LastName</th>
+			<th class="sortable" data-bind="click:sort.bind($data,'FirstName')">@EcoCentre.Resources.Model.Client.FirstName</th>
+			<th class="sortable" data-bind="click:sort.bind($data,'CitizenCard')">@EcoCentre.Resources.Model.Client.CitizenCard</th>
+			<th class="sortable hidden-tablet hidden-phone" data-bind="click:sort.bind($data,'Email')">@EcoCentre.Resources.Model.Client.Email</th>
+			<th class="sortable hidden-tablet hidden-phone" data-bind="click:sort.bind($data,'PhoneNumber')">@EcoCentre.Resources.Model.Client.PhoneNumber</th>
+			<th class="sortable" data-bind="click:sort.bind($data,'Address')">@EcoCentre.Resources.Model.Client.Address</th>
+			<th class="sortable" data-bind="click:sort.bind($data,'City')">@EcoCentre.Resources.Model.Client.City</th>
+			<th class="sortable" data-bind="click:sort.bind($data,'Verified')">@EcoCentre.Resources.Model.Client.Verified</th>
+			<th class="hidden-tablet hidden-phone">@EcoCentre.Resources.Model.Client.NumVisits</th>
+			<th class="sortable hidden-tablet hidden-phone" data-bind="click:sort.bind($data, 'PersonalVisitsLimit')">@EcoCentre.Resources.Model.Client.PersonalVisitsLimit</th>
+			@* <th>@EcoCentre.Resources.Model.Client.PostalCode</th>*@
+			<th></th>
+		</tr>
+	</thead>
+	<tbody data-bind='foreach:items'>
+		<tr data-bind='click:$parent.onPick'>
+			<td>
+				<span class="label label-warning" title="@EcoCentre.Resources.Forms.UnverifiedTooltip" data-bind='visible:!Verified()'>@EcoCentre.Resources.Forms.Unverified</span>
+				<span class="label label-important" data-bind='visible:Status() == 1'>@EcoCentre.Resources.Model.Client.StatusInactive</span>
+			</td>
+			<td data-bind='text:LastName'></td>
+			<td data-bind='text:FirstName'></td>
+			<td data-bind='text:CitizenCard'></td>
+			<td data-bind='text:Email' class="hidden-tablet hidden-phone"></td>
+			<td data-bind='text:PhoneNumber' class="hidden-tablet hidden-phone"></td>
+			<td>
+				<span data-bind='text:Address().CivicNumber'></span><span data-bind="if: Address().AptNumber"> - <span data-bind='text:Address().AptNumber'></span></span><span>, <span data-bind='text:Address().Street'></span></span>
+			</td>
+			<td data-bind='text:Address().City'></td>
+			<td data-bind='text:LastChange'></td>
+			<td>
+				<span data-bind="visible:!expanded(), text:IncludedInvoices().length + (Invoices().length && Invoices().length !== IncludedInvoices().length ? '(' + Invoices().length + ')' : '')"></span>
+				<a data-bind="click:expand, visible:!expanded() && Invoices().length" style="cursor:pointer;">[+]</a>
+				<a data-bind="click:fold, visible:expanded" style="cursor: pointer;">[-]</a>
+				<ul data-bind="foreach:Invoices, visible:expanded" class="unstyled">
+					<li>
+						<a data-bind='text:InvoiceNo(),attr:{href: "#invoice/show/"+Id()}'></a>
+					</li>
+				</ul>
+			</td>
+			@* <td data-bind='text:Address().PostalCode'></td>*@
+			<td>
+				<span data-bind="visible: PersonalVisitsLimit() > 0, text: PersonalVisitsLimit()"></span>
+				<span data-bind="visible: !PersonalVisitsLimit()">Non</span>
+			</td>
+			<td class="non-clickale nowrap">
+				@if (!CurrentUser.IsReadOnly)
+				{
+					<a data-bind='click:$parent.onEdit,clickBubble: false' class='btn'>@EcoCentre.Resources.Forms.Edit</a>
+					<a data-bind='visible:Status() == 0,click:$parent.onRemove,clickBubble: false' class='btn'>@EcoCentre.Resources.Forms.Delete</a>
+					<a data-bind='visible:Status() == 1,click:$parent.onActivate,clickBubble: false' class='btn'>@EcoCentre.Resources.Forms.Activate</a>
+					<a data-bind='visible:Status() == 1,click:$parent.onCompletelyRemove,clickBubble: false' class='btn'>@EcoCentre.Resources.Forms.Delete</a>
+				}
+				<a data-bind='click:$parent.onShow,clickBubble: false' class='btn'>@EcoCentre.Resources.Forms.Details</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<div class="pagination">
+	<ul data-bind='foreach:pageButtons'>
+		<li data-bind=' css:{active:isActive}'><a data-bind="click:$parent.changePage,text:number"></a></li>
+	</ul>
+	<span style="position: relative; top: -5px;" data-bind="visible: pageCount() > 1">
+		<span style="margin: 0 5px 0 50px; position: relative; top: -4px;">@EcoCentre.Resources.Forms.GoToPage</span>
+		<input class="input-small" type="number" data-bind="value: page, attr: { max: pageCount() }" min="1" />
+	</span>
+</div>

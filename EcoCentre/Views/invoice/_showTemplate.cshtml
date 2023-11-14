@@ -1,0 +1,131 @@
+﻿@using System.Globalization
+@inherits EcoCentre.Web.EcoWebPageView
+<div id='facture-view'>
+	@Html.Partial("_header")
+	<div class="factureNo">
+		@EcoCentre.Resources.Model.Invoice.TheInvoice: <span data-bind="text:InvoiceNo"></span>
+		<span class="invoice-date" data-bind="text:CreatedAtFormatted"></span>
+	</div>
+
+	<div data-bind='with:Client'>
+		<div data-bind="text:FirstName+' ' + LastName"></div>
+		<address class="static-input">
+			<!-- ko with:$parent.Address -->
+			<span data-bind='text:CivicNumber'></span><span data-bind="if:AptNumber"> - <span data-bind='text:AptNumber'></span></span><span>, <span data-bind='text:Street'></span></span><br />
+			<span data-bind='text:PostalCode+",", visible:PostalCode  != ""'></span> <span data-bind="text:City"></span><br />
+			<!-- /ko -->
+			<span data-bind="visible: PhoneNumber != ''">
+				<abbr title="Phone">P:</abbr><span data-bind="text:PhoneNumber"></span>
+			</span>
+		</address>
+	</div>
+	<hr />
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<td>@EcoCentre.Resources.Model.Invoice.Material</td>
+				<!--ko if: !IsOBNL()-->
+				<td class="numeric hidden-phone noprint">@EcoCentre.Resources.Model.Invoice.Quantity</td>
+				<!--/ko-->
+				<!--ko if: IsOBNL()-->
+				<td class="numeric hidden-phone noprint">@EcoCentre.Resources.Model.Invoice.Weight</td>
+				<!--/ko-->
+				<!--ko if: !IsOBNL()-->
+				<td class="hidden-phone noprint">@EcoCentre.Resources.Model.Invoice.Unit</td>
+				<!--/ko-->
+				<td class="numeric">@EcoCentre.Resources.Model.Invoice.Amount</td>
+			</tr>
+		</thead>
+		<tbody data-bind="foreach:Materials">
+		<tr class="invoice-row">
+			<th >
+				<div >
+					<span data-bind="text:Name"></span>
+					<!--ko if: IsUsingFreeAmount-->
+					<span> Gratuit </span>
+					<!--/ko-->
+					
+				</div>
+				<div class="visible-phone invoice-amount-row">
+					<span data-bind="text:Quantity"></span> 
+					<span data-bind="text:Unit"></span>
+					
+				</div>
+			</th>
+			<!--ko if: Quantity-->
+			<th data-bind="text:Quantity" class="numeric hidden-phone noprint"></th>
+			<!--/ko-->
+			<!--ko if: Weight-->
+			<th data-bind="text:Weight" class="numeric hidden-phone noprint"></th>
+			<!--/ko-->
+			<!--ko if: Quantity-->
+			<th data-bind="text:Unit" class="hidden-phone noprint"></th>
+			<!--/ko-->
+			<th data-bind="money:Amount" class="numeric"></th>
+		</tr>
+		</tbody>
+		<tbody data-bind="foreach:GiveawayItems">
+			<tr  class="invoice-row">
+				<th data-bind="text:Title"></th>
+				<th class="hidden-phone noprint"></th>
+				<th class="hidden-phone noprint"></th>
+				<th data-bind="money:Price" class="numeric"></th>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				<th>@EcoCentre.Resources.Model.Invoice.SubTotal</th>
+				<th class="hidden-phone noprint"></th>
+				<th class="hidden-phone noprint"></th>
+				<th data-bind="money:Amount" class="numeric"></th>
+			</tr>
+		</tbody>
+		<tbody data-bind="foreach:Taxes">
+			<tr  class="invoice-row">
+				<th data-bind="text:Name"></th>
+				<th class="hidden-phone noprint"></th>
+				<th class="hidden-phone noprint"></th>
+				<th data-bind="money:Amount" class="numeric"></th>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr >
+				<th>@EcoCentre.Resources.Model.Invoice.Total</th>
+				<th class="hidden-phone noprint noprint"></th>
+				<th class="hidden-phone noprint noprint"></th>
+				<th data-bind="money:AmountIncludingTaxes" class="numeric"></th>
+			</tr>
+		</tbody>
+	</table>
+
+	<ul data-bind="foreach:Attachments">
+		<li><a target="_blank" href="" data-bind="text:Name, attr:{href:'attachments/index/'+Id}"></a></li>
+	</ul>
+
+	<!--ko if: VisitNumber-->
+	<div class="control-group">
+		<label>
+			Visite #<span data-bind="text: VisitNumber"></span>
+			<!--ko if: VisitLimit-->
+			<span>
+				/
+				<span data-bind="text: VisitLimit"></span>
+			</span>
+			<!--/ko-->
+		</label>
+	</div>
+	<!--/ko-->
+
+	<!--ko if: Comment-->
+	<div class="control-group noprint">
+		<label>Commentaire:</label>
+		<div class="input-xxlarge" data-bind="text:Comment"></div>
+	</div>
+	<!--/ko-->
+
+	<div class="invoice-footer" data-bind="with:CreatedBy">
+		<label>Créé par:</label>
+		<span data-bind="text:UserName || 'deleted user'"></span>
+	</div>
+	
+</div>

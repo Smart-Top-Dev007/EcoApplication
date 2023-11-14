@@ -1,0 +1,108 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=500, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css"  href="./styles/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="./styles/css/bootstrap-responsive.min.css">
+        <link rel="stylesheet" type="text/css" href="./styles/eco.css">
+        <link rel="stylesheet" type="text/css" href="./styles/css/knockback-navigators.css">
+        <link rel="stylesheet" type="text/css" href="./styles/css/knockback-transitions.css">
+        <link rel="stylesheet" type="text/css" href="./styles/css/flick/jquery-ui-1.9.2.custom.min.css">
+		<script src='./Scripts/jquery-1.8.0.js' type='text/javascript'></script>
+		<script src='./Scripts/bootstrap.min.js' type='text/javascript'></script>
+        <title>ECORIDR</title>
+    </head>
+    <body class="empty-background" style='background-color:white'>
+
+        <div class="row-fluid noprint">
+    <div class="span5">
+        <h1 style="font-size: 18px;"><img src="./styles/ridr/ridr-ecologo.jpg" style="height: 80px; margin: 25px 10px 0 10px; " class='pull-left'/>Régie intermunicipale des déchets de la Rouge
+		<ul class="unstyled" style='font-size: 11px; margin: 0 0  0 150px;'>
+            <li>Régie intermunicipale des déchets de la Rouge</li>
+            <li>688, Chemin du Parc Industriel, C.P. 4669</li>
+            <li>Rivière-Rouge (Qc) J0T 1T0</li>
+            <li>Telephone: 819-275-3205</li>
+        </ul>
+		</h1>
+		
+    </div>
+	<div class='span3' style=' text-align: center;'>
+		<img src="./styles/img/homepageheaderimage.jpg" style="height: 80px; margin-top:25px; " class='pull-left'/>
+	</div>
+    <div class="span4 hidden-phone noprint" style="font-size: 12px; margin-top: 10px;">
+		<img src='./styles/img/mrclogo.jpg' style="height: 80px; margin:25px 10px 0 0; float: right;" />
+        
+    </div>
+</div>
+<div class='row-fluid'>
+	<div class='span12'>
+	<div class="navbar">
+  <div class="navbar-inner">
+    <a class="brand" href="#" onclick='site.showMain()'>Accueil </a>
+    <ul class="nav">
+		<li class='dropdown'><a  class="dropdown-toggle" data-toggle='dropdown' href='#'>Municipalities <b class="caret"></b></a>
+			<ul class='dropdown-menu'>
+						<li><a href='http://amherst.ecoridr.ca/'><i class='icon'><img src='./styles/img/Amherst.jpg'/></i> Amherst</a></li>
+						<li><a href='http://huberdeau.ecoridr.ca/'><i class='icon'><img src='./styles/img/Huberdeau.jpg'/></i> Huberdeau</a></li>
+						<li><a href='http://laminerve.ecoridr.ca/'><i class='icon'><img src='./styles/img/la-minerve.jpg'/></i> La Minerve</a></li>
+						<li><a href='http://lacsuperieur.ecoridr.ca/'><i class='icon'><img src='./styles/img/lac-superieur.jpg'/></i> Lac Supérieur</a></li>
+						<li><a href='http://lantier.ecoridr.ca/'><i class='icon'><img src='./styles/img/lantier.jpg'/></i> Lantier</a></li>
+						<li><a href='http://monttremblant.ecoridr.ca/'><i class='icon'><img src='./styles/img/mont-tremblant.jpg'/></i> Mont Tremblant</a></li>
+						<li><a href='http://sadm.ecoridr.ca/'><i class='icon'><img src='./styles/img/st-agathe-logo.jpg'/></i> Sainte-Agathe-des-Monts</a></li>
+						<li><a href='http://sldlaurentides.ecoridr.ca/'><i class='icon'><img src='./styles/img/Sainte-Lucie-des-Laurentides.jpg'/></i> Sainte-Lucie-des-Laurentides</a></li>
+						<li><a href='http://valdeslacs.ecoridr.ca/'><i class='icon'><img src='./styles/img/Val-des-Lacs.jpg'/></i> Val des Lacs</a></li>
+			
+			</ul>
+		</li>
+		<li><a onclick='site.showInfo()' href='#'>Info et règlements</a></li>
+    </ul>
+  </div>
+</div>
+	</div>
+</div>
+        <div class="row-fluid" id='main-page'>
+           
+            <div class="span12">
+ 
+                <div id="app" style=' max-width: 400px; margin: 40px auto 0 auto;'>
+                    <ul class="nav nav-tabs nav-stacked" style='background-color:#fafafa;'>
+						<li><a href='http://amherst.ecoridr.ca/'><i class='icon'><img src='./styles/img/Amherst.jpg'/></i> Amherst</a></li>
+						<li><a href='http://huberdeau.ecoridr.ca/'><i class='icon'><img src='./styles/img/Huberdeau.jpg'/></i> Huberdeau</a></li>
+						<li><a href='http://laminerve.ecoridr.ca/'><i class='icon'><img src='./styles/img/la-minerve.jpg'/></i> La Minerve</a></li>
+						<li><a href='http://lacsuperieur.ecoridr.ca/'><i class='icon'><img src='./styles/img/lac-superieur.jpg'/></i> Lac Supérieur</a></li>
+						<li><a href='http://lantier.ecoridr.ca/'><i class='icon'><img src='./styles/img/lantier.jpg'/></i> Lantier</a></li>
+						<li><a href='http://monttremblant.ecoridr.ca/'><i class='icon'><img src='./styles/img/mont-tremblant.jpg'/></i> Mont Tremblant</a></li>
+						<li><a href='http://sadm.ecoridr.ca/'><i class='icon'><img src='./styles/img/st-agathe-logo.jpg'/></i> Sainte-Agathe-des-Monts</a></li>
+						<li><a href='http://sldlaurentides.ecoridr.ca/'><i class='icon'><img src='./styles/img/Sainte-Lucie-des-Laurentides.jpg'/></i> Sainte-Lucie-des-Laurentides</a></li>
+						<li><a href='http://valdeslacs.ecoridr.ca/'><i class='icon'><img src='./styles/img/Val-des-Lacs.jpg'/></i> Val des Lacs</a></li>
+					</ul>
+                </div>
+
+            </div>
+        </div>   
+		<div class="row" id='info-page'>
+            
+        </div>
+<hr/>
+<div class='row-fluid'>
+	<div class='span12' style='text-align:center'>
+		© 2013 Copyright Régie intermunicipale de déchets de la Rouge. <br/>
+		Tous droits réservés www.ridr.qc.ca ---- Developé www.sphyr.com
+	</div>
+</div>
+<script type='text/javascript'>
+	var site = {
+		showInfo : function(){
+			$('#main-page').hide();
+			$('#info-page').show();
+		},
+		showMain : function(){
+			$('#main-page').show();
+			$('#info-page').hide();
+		}
+	}
+</script>
+    </body>
+</html>
+

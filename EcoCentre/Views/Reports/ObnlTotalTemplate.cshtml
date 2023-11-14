@@ -1,0 +1,133 @@
+﻿@using Res = EcoCentre.Resources.Model
+@using EcoCentre.Resources
+
+<div class="controls" style="float:right">
+    <button data-bind='click:generateXls' class="btn">@EcoCentre.Resources.Model.Materials.ExportToExcel</button>
+</div>
+<h1>@EcoCentre.Resources.Model.Materials.OBNLMaterials</h1>
+<div class="well">
+    <form class="form-inline client-search-form" data-bind='submit:search'>
+        <div class="control-group">
+            <label class='control-label'>@EcoCentre.Resources.Model.Client.OBNLNumber:</label>
+            <input type="text" data-bind="value: OBNLNumber, autocomplete:obnlNumberAutocomplete" class="input-small" />
+        </div>
+        <div class="control-group">
+            <label>@EcoCentre.Resources.Forms.EcocenterName:</label>
+            <select data-bind="value: centerName" class="input-xlarge">
+                <option value="Tous">Tous</option>
+                <option value="Amherst">Amherst</option>
+                <option value="Huberdeau">Huberdeau</option>
+                <option value="Lac Superieur">Lac Superieur</option>
+                <option value="La Minerve">La Minerve</option>
+                <option value="Lantier">Lantier</option>
+                <option value="Mont Tremblant">Mont Tremblant</option>
+                <option value="Sainte-Agathe-des-Monts">Sainte-Agathe-des-Monts</option>
+                <option value="Sainte-Lucie-des-Laurentides">Sainte-Lucie-des-Laurentides</option>
+                <option value="Val des Lacs">Val des Lacs</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label class='control-label'>@EcoCentre.Resources.Model.Materials.Date:</label>
+            <input type="text" placeholder="@EcoCentre.Resources.Model.Materials.FromDate" class="input-small" data-bind='{datepicker:fromDate, update:"keyup"}' /> -
+            <input type="text" placeholder="@EcoCentre.Resources.Model.Materials.ToDate" class="input-small" data-bind='{datepicker:toDate, update:"keyup"}' />
+        </div>
+        <div class="control-group">
+            <label>@EcoCentre.Resources.Forms.ItemsPerPage:</label>
+            <select data-bind="value:pageSize" class="input-small">
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+                <option value="500">500</option>
+            </select>
+        </div>
+
+        <input type="submit" class="btn" value="@Forms.Search" />
+    </form>
+</div>
+<div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>@EcoCentre.Resources.Forms.Warning</strong> @EcoCentre.Resources.Forms.LongPeriodReportsWarning
+</div>
+<div class="pagination">
+    <ul data-bind='foreach: pageButtons'>
+        <li data-bind=' css: { active: isActive }'><a data-bind="click: $parent.changePage, text: number"></a></li>
+    </ul>
+    <span style="position: relative; top: -5px;" data-bind="visible: pageCount() > 1">
+        <span style="margin: 0 5px 0 50px; position: relative; top: -4px;">@EcoCentre.Resources.Forms.GoToPage</span>
+        <input class="input-small" type="number" data-bind="value: page, attr: { max: pageCount() }" min="1" />
+    </span>
+</div>
+<div class="row-fluid">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th class="sortable" data-bind="click:sort.bind($data,'Name',0)">@EcoCentre.Resources.Model.Materials.OBNLName</th>
+                <th class="sortable" data-bind="click:sort.bind($data,'City',0)">@EcoCentre.Resources.Model.Client.City</th>
+                <th class="sortable" data-bind="click:sort.bind($data,'PostalCode',0)">@EcoCentre.Resources.Model.Client.PostalCode</th>
+                <th class="sortable" data-bind="click:sort.bind($data,'Address',0)">@EcoCentre.Resources.Model.Client.Address</th>
+                <th class="sortable" data-bind="click:sort.bind($data,'Invoices',0)">@EcoCentre.Resources.Forms.InvoiceList</th>
+                <th class="sortable" data-bind="click:sort.bind($data,'ExcludedInvoices',0)">@EcoCentre.Resources.Forms.TotalWeight</th>
+                <th class="sortable" data-bind="click:sort.bind($data,'IncludedInvoices',0)">@EcoCentre.Resources.Forms.TotalVisits</th>
+                <th class="sortable" data-bind="click:sort.bind($data,'LastVisit',0)">@EcoCentre.Resources.Model.Materials.LastVisit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- ko foreach: items -->
+            <tr>
+                <td>
+                    <a target="_blank" data-bind='text:FullName() || "NOM VIDE", attr:{href:"#client/show/"+ ClientId(), style: FullName() ? "" : "font-style:italic"}'></a>
+                </td>
+                <td data-bind='text:City'></td>
+                <td data-bind='text:PostalCode'></td>
+                <td data-bind="text:Address"></td>
+                <td>
+                    <span data-bind="visible:!expanded(), text:Invoices().length"></span>
+                    <a data-bind="click:expand, visible:!expanded() && Invoices().length" style="cursor: pointer;">[+]</a>
+                    <a data-bind="click:fold, visible:expanded" style="cursor: pointer;">[-]</a>
+                    <ul data-bind="foreach:Invoices, visible:expanded" class="unstyled">
+                        <li>
+                            <a target="_blank" data-bind='text:InvoiceNo,attr:{href:"#obnlreinvestment/show/"+Id}'></a>,
+                        </li>
+                    </ul>
+                </td>
+                <td data-bind="text:TotalWeight"></td>
+                <td data-bind="text:TotalVisits"></td>
+                <td data-bind="text:LastVisit"></td>
+            </tr>
+            <!-- /ko -->
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td data-bind="text: totalReinvestments()"></td>
+                <td data-bind="text: totalWeight()"></td>
+                <td data-bind="text: totalVisits()"></td>
+                <td></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th class="sortable" data-bind="click:sort.bind($data,'Name',0)">@EcoCentre.Resources.Model.Materials.OBNLName</th>
+                <th class="sortable" data-bind="click:sort.bind($data,'City',0)">@EcoCentre.Resources.Model.Client.City</th>
+                <th class="sortable" data-bind="click:sort.bind($data,'PostalCode',0)">@EcoCentre.Resources.Model.Client.PostalCode</th>
+                <th class="sortable" data-bind="click:sort.bind($data,'Address',0)">@EcoCentre.Resources.Model.Client.Address</th>
+                <th class="sortable" data-bind="click:sort.bind($data,'Invoices',0)">@EcoCentre.Resources.Forms.InvoiceList</th>
+                <th class="sortable" data-bind="click:sort.bind($data,'TotalWeight',0)">@EcoCentre.Resources.Forms.TotalWeight</th>
+                <th class="sortable" data-bind="click:sort.bind($data,'TotalVisits',0)">@EcoCentre.Resources.Forms.TotalVisits</th>
+                <th class="sortable" data-bind="click:sort.bind($data,'LastVisit',0)">@EcoCentre.Resources.Model.Materials.LastVisit</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<div class="pagination">
+    <ul data-bind='foreach:pageButtons'>
+        <li data-bind=' css:{active:isActive}'><a data-bind="click:$parent.changePage,text:number"></a></li>
+    </ul>
+    <span style="position: relative; top: -5px;" data-bind="visible: pageCount() > 1">
+        <span style="margin: 0 5px 0 50px; position: relative; top: -4px;">@EcoCentre.Resources.Forms.GoToPage</span>
+        <input class="input-small" type="number" data-bind="value: page, attr: { max: pageCount() }" min="1" />
+    </span>
+</div>

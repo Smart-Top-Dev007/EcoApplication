@@ -1,0 +1,77 @@
+﻿<h1>Limite de quantité dépassée</h1>
+<span>
+    <span style="margin: 0 5px 0 2px;">@EcoCentre.Resources.Forms.ItemsPerPage:</span>
+    <select data-bind="value:pageSize" class="input-small" style="margin-top: 10px;">
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+        <option value="500">500</option>
+    </select>
+    <button class="btn btn-primary" data-bind="click: changePage">Update</button>
+</span>
+<div class="pagination">
+    <ul data-bind='foreach: pageButtons'>
+        <li data-bind=' css: { active: isActive }'><a data-bind="    click: $parent.changePage, text: number"></a></li>
+    </ul>
+    <span style="position: relative; top: -5px;" data-bind="visible: pageCount() > 1">
+        <span style="margin: 0 5px 0 50px; position: relative; top: -4px;">@EcoCentre.Resources.Forms.GoToPage</span>
+        <input class="input-small" type="number" data-bind="value: page, attr: { max: pageCount() }" min="1" />
+    </span>
+</div>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>@EcoCentre.Resources.Model.Client.Name</th>
+            <th>@EcoCentre.Resources.Model.Client.City</th>
+            <th>@EcoCentre.Resources.Model.Client.PostalCode</th>
+            <th>@EcoCentre.Resources.Model.Client.Address</th>
+            <th>@EcoCentre.Resources.Forms.InvoiceList</th>
+            <th>@EcoCentre.Resources.Forms.MaterialsList</th>
+
+        </tr>
+    </thead>
+    <tbody data-bind='foreach:items'>
+        <tr>
+            <td>
+                <ul data-bind="foreach:Clients" class="unstyled">
+                    <li>
+                        <a data-bind='text:FirstName || LastName ? (FirstName + " " + LastName) : "-- NOM VIDE --", attr:{href:"#client/show/"+Id, style: FirstName || LastName ? "" : "font-style:italic"}'></a>,
+                    </li>
+                </ul>
+            </td>
+            <td data-bind='text:Address().City'></td>
+            <td data-bind='text:Address().PostalCode'></td>
+	        <td >
+		        <span data-bind='text:Address().CivicNumber'></span><span data-bind="if: Address().AptNumber"> - <span data-bind='text:Address().AptNumber'></span></span><span>, <span data-bind='text:Address().Street'></span></span>
+	        </td>
+
+            <td>
+                <span data-bind="visible:!expanded(), text:Invoices().length"></span>
+                <a data-bind="click:expand, visible:!expanded()" style="cursor:pointer;">[+]</a>
+                <a data-bind="click:fold, visible:expanded" style="cursor: pointer;">[-]</a>
+                <ul data-bind="foreach:Invoices, visible:expanded" class="unstyled">
+                    <li>
+                        <a data-bind='text:InvoiceNo,attr:{href:"#invoice/show/"+Id}'></a>,
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <ul data-bind="foreach:Limits" class="unstyled">
+                    <li data-bind="visible: MaxQuantity">
+                        <span data-bind="text:Material.Name"></span>: <span data-bind="text:QuantitySoFar"></span>/<span data-bind='text:MaxQuantity'></span> <span data-bind="text:Material.Unit"></span>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="pagination">
+    <ul data-bind='foreach:pageButtons'>
+        <li data-bind=' css:{active:isActive}'><a data-bind="click:$parent.changePage,text:number"></a></li>
+    </ul>
+    <span style="position: relative; top: -5px;" data-bind="visible: pageCount() > 1">
+        <span style="margin: 0 5px 0 50px; position: relative; top: -4px;">@EcoCentre.Resources.Forms.GoToPage</span>
+        <input class="input-small" type="number" data-bind="value: page, attr: { max: pageCount() }" min="1" />
+    </span>
+</div>

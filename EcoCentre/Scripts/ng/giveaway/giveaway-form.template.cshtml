@@ -1,0 +1,75 @@
+﻿<form class="form-horizontal" ng-submit="vm.save()">
+	<div class="control-group">
+		<label class='control-label'>Photo</label>
+		<div class="controls">
+			<div ng-if="vm.imageId">
+				<img ng-src="/giveaway/image/{{vm.imageId}}"/>
+				<br/>
+				<br/>
+			</div>
+			<span class="btn btn-success fileinput-button"
+			      upload-button
+			      url="/giveaway/image"
+			      on-success="vm.onUploaded(response)"><i class="icon-plus icon-white"></i> Photo</span>
+			<span class="btn" ng-if="vm.imageId" ng-click="vm.deleteImage()">Supprimer</span>
+		</div>
+	</div>
+
+	<div class="control-group" ng-if="vm.sequenceNo">
+		<label class='control-label'>Numéro</label>
+		<div class="controls">
+			<input type="text" disabled="disabled" class="input" value="{{vm.sequenceNo}}" />
+		</div>
+	</div>
+	<div class="control-group">
+
+		<label class='control-label'>Type</label>
+		<div class="controls">
+			<select ng-model="vm.type">
+				<option ng-repeat="availableType in vm.types">{{availableType.name}}</option>
+			</select>
+		</div>
+
+	</div>
+	<div class="row noMargin">
+		<div class="control-group span5">
+			<label class='control-label'>Titre</label>
+			<div class="controls">
+				<input type="text" class="input" placeholder="Titre" ng-model="vm.title"/>
+			</div>
+		</div>
+	</div>
+
+	<div class="row noMargin">
+		<div class="control-group span5">
+			<label class='control-label'>Description </label>
+			<div class="controls">
+				<textarea type="text" class="input" placeholder="Description" ng-model="vm.description"></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="row noMargin">
+		<div class="control-group span5">
+			<label class='control-label'>Prix</label>
+			<div class="controls">
+				<input type="number" class="input" placeholder="Prix" step="0.001" ng-model="vm.price" />
+			</div>
+		</div>
+	</div>
+
+	<div class="row noMargin" ng-if="vm.hubName">
+		<div class="control-group span5">
+			<label class='control-label'>Regroupement</label>
+			<div class="controls">
+				<input type="text" disabled="disabled" class="input" value="{{vm.hubName}}" />
+			</div>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<div class="controls">
+			<button class="btn" loading="vm.isLoading">Enregistrer</button>
+		</div>
+	</div>
+</form>

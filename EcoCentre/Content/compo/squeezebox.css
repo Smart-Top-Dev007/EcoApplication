@@ -1,0 +1,57 @@
+.body-overlayed EMBED {
+	VISIBILITY: hidden
+}
+.body-overlayed OBJECT {
+	VISIBILITY: hidden
+}
+.body-overlayed SELECT {
+	VISIBILITY: hidden
+}
+#sbox-window EMBED {
+	VISIBILITY: visible
+}
+#sbox-window OBJECT {
+	VISIBILITY: visible
+}
+#sbox-window SELECT {
+	VISIBILITY: visible
+}
+#sbox-overlay {
+	CURSOR: pointer; POSITION: absolute; BACKGROUND-COLOR: #000
+}
+#sbox-window {
+	PADDING-RIGHT: 40px; PADDING-LEFT: 20px; PADDING-BOTTOM: 20px; OVERFLOW: visible; PADDING-TOP: 20px; POSITION: absolute; BACKGROUND-COLOR: #fff; TEXT-ALIGN: left; -moz-border-radius: 3px
+}
+#sbox-btn-close {
+	RIGHT: -15px; BACKGROUND: url(../medias/closebox.png) no-repeat center 50%; WIDTH: 30px; BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; POSITION: absolute; TOP: -15px; HEIGHT: 30px; BORDER-BOTTOM-STYLE: none
+}
+.sbox-window-ie6 #imageBacs LI IMG {
+	FILTER: alpha(opacity=30)
+}
+.sbox-window-ie6 #imageBacs LI.selected IMG {
+	FILTER: alpha(opacity=100)
+}
+.sbox-window-ie6#sbox-window {
+	PADDING-RIGHT: 20px; PADDING-LEFT: 20px; PADDING-BOTTOM: 20px; PADDING-TOP: 20px
+}
+.sbox-window-ie6 #sbox-btn-close {
+	BACKGROUND-IMAGE: url(../medias/closebox.gif)
+}
+#sbox-content {
+	CLEAR: both; PADDING-RIGHT: 20px; OVERFLOW: auto; WIDTH: 100%; HEIGHT: 100%
+}
+.sbox-loading #sbox-content {
+	BACKGROUND: url(../medias/spinner.gif) no-repeat center 50%
+}
+.sbox-content-image#sbox-content {
+	OVERFLOW: visible
+}
+#sbox-image {
+	DISPLAY: block
+}
+.sbox-content-image IMG {
+	DISPLAY: block
+}
+.sbox-content-iframe#sbox-content {
+	OVERFLOW: visible
+}

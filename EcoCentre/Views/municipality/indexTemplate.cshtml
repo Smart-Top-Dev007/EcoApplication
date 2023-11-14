@@ -1,0 +1,48 @@
+﻿
+<h1>@EcoCentre.Resources.Model.Municipality.Municipalities<a class="btn btn-large btn-success" href='#municipality/new'>@EcoCentre.Resources.Model.Municipality.NewMunicipality</a></h1>
+<div class="tabbable" id="user-show"> 
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#municipalities-active-tab" data-toggle="tab">@EcoCentre.Resources.Model.Municipality.Active</a></li>
+        <li><a href="#municipalities-inactive-tab" data-toggle="tab">@EcoCentre.Resources.Model.Municipality.Inactive</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="municipalities-active-tab">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>@EcoCentre.Resources.Model.Municipality.Name</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach:municipalitiesActive">
+                    <tr>
+                        <td data-bind='text:Name'></td>
+                        <td>
+                            <a class="btn" data-bind="click:$parent.disable">@EcoCentre.Resources.Model.Municipality.MakeInactive</a>
+                            <a class="btn" data-bind="attr:{href:'#municipality/edit/'+Id()}">@EcoCentre.Resources.Forms.Edit</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane" id="municipalities-inactive-tab">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>@EcoCentre.Resources.Model.Municipality.Name</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach:municipalitiesInactive">
+                    <tr>
+                        <td data-bind='text:Name'></td>
+                        <td>
+                            <a class="btn" data-bind="click:$parent.enable">@EcoCentre.Resources.Model.Municipality.MakeActive</a>
+                            <a class="btn" data-bind="attr:{href:'#municipality/edit/'+Id()}">@EcoCentre.Resources.Forms.Edit</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

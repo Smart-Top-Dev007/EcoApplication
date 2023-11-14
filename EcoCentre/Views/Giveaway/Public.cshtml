@@ -1,0 +1,98 @@
+﻿@model EcoCentre.Models.ViewModel.Giveaway.PublicListingViewModel
+
+@{
+	ViewBag.Title = "Ton surplus... mon bonheur";
+	Layout = "Layout.cshtml";
+}
+
+<style>
+	.giveaway-item {
+		border-bottom: #b3c9e0 1px solid;
+		padding-bottom: 25px;
+	}
+
+	.giveaway-item-image {
+		max-width: 460px;
+	}
+
+	.hub-list li {
+		MARGIN-TOP: 5px;
+		margin-right: 10px;
+		DISPLAY: inline;
+		FONT-SIZE: 0.9em;
+		COLOR: #6a6a6a;
+	}
+
+	.image-container {
+		padding-left: 0px !important;
+	}
+</style>
+<br />
+<div id="column_left">
+	<h2>Ton surplus... mon bonheur</h2>
+	
+	@if (Model.Hubs != null && Model.Hubs.Any())
+	{
+		<div class="separator">
+			<h3>Ecocentres:</h3>
+			<ul class="hub-list">
+				<li>
+					@if (Model.SelectedHub != null)
+					{
+						<a href="@Url.Action("Public")">Tous</a>
+					}
+					else
+					{
+						<span class="active">Tous</span>
+					}
+				</li>
+
+				@foreach (var hub in Model.Hubs)
+				{
+					<li>
+						@if (Model.SelectedHub != null && hub.Id == Model.SelectedHub.Id)
+						{
+							<span class="active">@hub.Name</span>
+						}
+						else
+						{
+							<a href="@Url.Action("Public", new {hubName = hub.Name})">@hub.Name</a>
+						}
+					</li>
+				}
+			</ul>
+		</div>
+		<br/>
+	}
+
+	@if (!Model.Items.Any())
+	{
+		<div>Il n'y a aucune annonce dans cette catégorie.</div>
+	}
+	@foreach (var item in Model.Items)
+	{
+		<div class="giveaway-item">
+			<h3>@item.Type</h3>
+			<p>@item.Title</p>
+			<p>Prix: @item.Price.ToString("C")</p>
+			<p>@item.Description</p>
+			@if (!string.IsNullOrWhiteSpace(item.HubName))
+			{
+				<p>Emplacement: @item.HubName</p>
+			}
+
+
+			<div class="image-container">
+				@if (string.IsNullOrWhiteSpace(item.ImageId))
+				{
+					<img class="giveaway-item-image" src="/Content/compo/no-photo.png" />
+				}
+				else
+				{
+					<img class="giveaway-item-image" src="@Url.Action("Image", new {Id = item.ImageId})" />
+				}
+			</div>
+		</div>
+
+	}
+</div>

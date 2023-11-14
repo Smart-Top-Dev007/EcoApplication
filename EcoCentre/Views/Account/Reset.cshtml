@@ -1,0 +1,40 @@
+﻿@inherits EcoCentre.Web.EcoWebPageView
+@{
+    Layout = "~/Views/Shared/EmptyLayout.cshtml";
+}
+
+<div class="row-fluid">
+    <form class="form-horizontal single-form" id='login-form' method="POST" style="max-width: 450px">
+        <h2>Mot de passe oublié</h2>
+
+        @if (ViewBag.Success == true)
+        {
+            <span>Mot de passe a été réinitialisé. <a href="@Url.Action("Login","User")">la page de connexion</a></span>
+        }
+        else
+        {
+            if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-error span11">
+                    @Html.ValidationSummary()
+                </div>
+            }
+    <div class="control-group">
+        <label class='control-label'>@EcoCentre.Resources.Model.User.Password</label>
+        <div class="controls">
+            <input type="password" name="password" placeholder="@EcoCentre.Resources.Model.User.Password" data-bind='value:Password'/>
+        </div>
+    </div>    
+    <div class="control-group">
+        <label class='control-label'>@EcoCentre.Resources.Model.User.PasswordConfirmationShort</label>
+        <div class="controls">
+            <input type="password" name="passwordConfirmation" placeholder="@EcoCentre.Resources.Model.User.PasswordConfirmation" data-bind='value:PasswordConfirmation'/>
+        </div>
+    </div>    
+            <div class="control-group">
+                <input type="submit" class="btn btn-large btn-primary" value="réinitialiser le mot de passe"/>
+            </div>
+
+        }
+    </form>
+</div>

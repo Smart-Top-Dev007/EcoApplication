@@ -1,0 +1,44 @@
+﻿@{
+	Layout = "~/Views/Shared/EmptyLayout.cshtml";
+}
+
+<h2>Test d'imprimante</h2>
+
+<button class="btn" id="btn-1">Test 1</button><br /><br />
+<button class="btn" id="btn-2">Test 2</button><br /><br />
+
+|@section PageScripts{
+	<script type="text/javascript">
+
+		$(document).ready(function () {
+
+
+			var text =
+				"<printer fast_mode='true'><center>COMPO RECYCLE<br><br><normal>2815 Rue Rolland<br>Sainte-Adèle<br>QC J8B 1C9<br>Facture: C201800116<br>Date: 2018-06-11 23:30<br><br> <br>7130, CINQ-BEAUX-FRERES AVE DES<br>J0K-3K0, Entrelacs<br><br>qwe                                  $1.00<br>  1 m3<br><DLINE><br>Sous-total                           $1.00<br>TPS 1222 65671 RT0002                $0.05<br>TVQ 1009810206 TQ002                 $0.10<br><LINE><br>Total                                $1.15<br><br>Visite #3 / 5<br>Créé par: Eels Hovercraft<br><br><br><LINE><br>Type de paiement: Comptant<br>Date: 2018-06-25 22:59<br>Traité par: Eels Hovercraft<br><br><br><cut>";
+
+			$("#btn-1").click(function () {
+				quickPrint(text + text);
+			});
+
+			$("#btn-2").click(function () {
+				quickPrint(text);
+				
+				setTimeout(
+					function() {
+						quickPrint(text);
+					},
+					2000);
+
+			});
+
+
+			function quickPrint(text) {
+
+				window.location.href = "quickprinter://" + encodeURI(text);
+
+				console.log(text);
+			}
+
+		});
+	</script>
+}

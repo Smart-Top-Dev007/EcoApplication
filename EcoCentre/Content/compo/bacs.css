@@ -1,0 +1,69 @@
+.hidden {
+	VISIBILITY: hidden
+}
+#imageBacs LI {
+	PADDING-RIGHT: 20px; DISPLAY: inline
+}
+#imageBacs LI IMG {
+	FILTER: alpha(opacity=30); MARGIN-BOTTOM: 50px; opacity: 0.3
+}
+#imageBacs LI.selected IMG {
+	FILTER: Alpha(opacity=100); opacity: 1
+}
+#sbox-content IMG {
+	MARGIN-BOTTOM: 20px
+}
+#sbox-content H2 {
+	MARGIN-TOP: -10px; FONT-WEIGHT: bold; FONT-SIZE: 1.3em; MARGIN-LEFT: -2px; TEXT-TRANSFORM: uppercase
+}
+#sbox-content P {
+	MARGIN-TOP: -3px; MARGIN-BOTTOM: 40px
+}
+#sbox-content TABLE {
+	MARGIN-TOP: 20px; FONT-SIZE: 0.9em; COLOR: #6a6a6a
+}
+#sbox-content TABLE TR TD {
+	VERTICAL-ALIGN: top; TEXT-ALIGN: left
+}
+#sbox-content TABLE TR TH {
+	VERTICAL-ALIGN: top; TEXT-ALIGN: left
+}
+#sbox-content TABLE TR TH {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-SIZE: 0.8em; BACKGROUND: #edf3f8; PADDING-BOTTOM: 5px; TEXT-TRANSFORM: uppercase; COLOR: #3171ae; PADDING-TOP: 5px
+}
+#sbox-content TABLE TR TH SPAN {
+	DISPLAY: block; TEXT-TRANSFORM: lowercase
+}
+#sbox-content TABLE TR TH.tableHeader {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-WEIGHT: bold; FONT-SIZE: 0.9em; BACKGROUND: #3171ae; PADDING-BOTTOM: 20px; COLOR: white; PADDING-TOP: 20px
+}
+#sbox-content TABLE TR TD {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-SIZE: 0.7em; BACKGROUND: #edf3f8; PADDING-BOTTOM: 10px; PADDING-TOP: 10px
+}
+#sbox-content TABLE TR TD IMG {
+	MARGIN: 3px 2px
+}
+#sbox-content TABLE TR TD IMG.symbol {
+	FLOAT: left; MARGIN: 3px 2px
+}
+#sbox-content TABLE TR TD.note {
+	BACKGROUND: none transparent scroll repeat 0% 0%; PADDING-BOTTOM: 40px
+}
+#sbox-content TABLE TR TD UL LI {
+	DISPLAY: list-item; MARGIN-BOTTOM: 2px; MARGIN-LEFT: 20px; LIST-STYLE-TYPE: circle
+}
+#sbox-content TABLE TR TD P {
+	FONT-WEIGHT: bold; FONT-SIZE: 1em; MARGIN-BOTTOM: 5px
+}
+#sbox-content .bacslist {
+	FONT-SIZE: 0.7em; MARGIN-LEFT: 25px; COLOR: #6a6a6a
+}
+#sbox-content TABLE .bacslist {
+	FONT-SIZE: 1em; MARGIN-LEFT: 25px; COLOR: #6a6a6a
+}
+#sbox-content .bacslist LI {
+	DISPLAY: list-item; LIST-STYLE-TYPE: circle
+}
+#sbox-content .pwhitouttable {
+	MARGIN-TOP: 20px; FONT-WEIGHT: bold; MARGIN-BOTTOM: 10px
+}

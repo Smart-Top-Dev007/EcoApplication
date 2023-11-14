@@ -1,0 +1,29 @@
+﻿@model EcoCentre.Models.Import.ImportClientsModel
+@{
+    ViewBag.Title = "ImportClients";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<h2>Import Clients</h2>
+
+@Html.ValidationSummary()
+
+
+
+@(TempData["SuccessImport"] ?? string.Empty)
+
+@using (Html.BeginForm("ImportClients", "Import", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div>
+    <label>Please select file with extentions ONLY "XLSX"</label>
+    <input type="file" id="pathToFile" name="pathToFile"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+    <br />
+   
+    <br />
+    <br />
+    @Html.DropDownListFor(m=>m.HubId, Model.Hubs)
+
+    <br />
+    <input type="submit" value="submit" />
+</div>
+}

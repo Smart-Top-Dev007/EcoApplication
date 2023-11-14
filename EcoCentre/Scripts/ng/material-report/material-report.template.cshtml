@@ -1,0 +1,73 @@
+﻿<div>
+	<h1>@EcoCentre.Resources.Model.Materials.MaterialsTitle</h1>
+	<form class="form-horizontal">
+		<div class="control-group">
+			<label class='control-label'>@EcoCentre.Resources.Model.Materials.Date</label>
+			<div class="controls">
+				<input type="text" placeholder="@EcoCentre.Resources.Model.Materials.FromDate" class="input-small" datepicker ng-model="vm.from" /> -
+				<input type="text" placeholder="@EcoCentre.Resources.Model.Materials.ToDate" class="input-small" datepicker ng-model="vm.to" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class='control-label'>Regroupment</label>
+			<div class="controls">
+				<select ng-model="vm.hubId">
+					<option value="">Tous</option>
+					<option ng-repeat="hub in vm.hubs" ng-value="hub.id">{{hub.name}}</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class='control-label'>Ville</label>
+			<div class="controls">
+				<select ng-model="vm.municipalityId">
+					<option value="">Tous</option>
+					<option ng-repeat="mun in vm.municipalities" ng-value="mun.id">{{mun.name}}</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<div class="controls">
+				<button ng-click="vm.generate()" loading="vm.isLoading" class="btn">@EcoCentre.Resources.Model.Materials.Apply</button>
+				<button ng-click="vm.generateXls()" loading="vm.isDownloading" class="btn">@EcoCentre.Resources.Model.Materials.ExportToExcel</button>
+			</div>
+		</div>
+
+	</form>
+	<div ng-if="!vm.isLoading">
+		<table class="table table-bordered table-striped" ng-if="vm.items.length">
+			<thead>
+				<tr>
+					<th class="sortable" ng-click="vm.sort('name')">@EcoCentre.Resources.Model.Materials.MaterialName</th>
+					<th class="sortable" ng-click="vm.sort('invoices')">@EcoCentre.Resources.Model.Materials.FacturesNumber</th>
+					<th class="sortable" ng-click="vm.sort('quantity')">@EcoCentre.Resources.Model.Materials.Quantity</th>
+					<th class="sortable" ng-click="vm.sort('unit')">@EcoCentre.Resources.Model.Materials.Unit</th>
+				</tr>
+			</thead>
+			<tbody ng-repeat='item in vm.items'>
+				<tr>
+					<td>{{item.name}}</td>
+					<td class="number">{{item.invoices}}</td>
+					<td class="number">{{item.quantity}}</td>
+					<td>{{item.unit}}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="alert alert-info" ng-if="!vm.items.length">
+			La liste est vide
+		</div>
+	</div>
+
+
+	<div ng-if="vm.isLoading">
+		<div class="centertext">
+			<i class="fa fa-spinner fa-spin spin-big"></i>
+		</div>
+	</div>
+
+
+</div>

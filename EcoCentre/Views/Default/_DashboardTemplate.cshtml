@@ -1,0 +1,123 @@
+﻿@inherits EcoCentre.Web.EcoWebPageView
+<div class="row-fluid" style="margin-top: 20px;">
+    <div class="span7">
+        <div class="alert" data-bind="visible:MaxExceeded() > 0">
+            <strong>Avertissement!</strong> <a class="label label-important" href="#report/limits" data-bind="text:MaxExceeded"></a> utilisateurs dépassent les limites matérielles..
+        </div>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Factures</th>
+	                <th>Clients</th>
+					@if (SystemSettings.IsObnlEnabled)
+					{
+						<th>OBNL Visites</th>
+						<th>OBNL Poids</th>
+					}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Aujourd'hui</td>
+                    <td><a data-bind='text:InvoicesToday' href='#report/journal/today'></a></td>
+	                <td><a data-bind='text:ClientsToday' href='#client/index/today'></a></td>
+	                @if (SystemSettings.IsObnlEnabled)
+	                {
+		                <td><a data-bind='text:OBNLVisitsToday' href='#client/index/today'></a></td>
+		                <td><a data-bind='text:WeightToday' href='#client/index/today'>Poids</a></td>
+	                }
+                </tr>
+                <tr>
+                    <td>Mois en cours</td>
+                    <td><a data-bind='text:InvoicesThisMonth' href='#report/journal/currentMonth'></a></td>
+	                <td><a data-bind='text:ClientsThisMonth' href='#client/index/currentMonth'></a></td>
+	                @if (SystemSettings.IsObnlEnabled)
+	                {
+		                <td><a data-bind='text:OBNLVisitsThisMonth' href='#client/index/today'></a></td>
+		                <td><a data-bind='text:WeightThisMonth' href='#client/index/today'>Poids</a></td>
+	                }
+                </tr>
+                <tr>
+                    <td>Année en cours</td>
+                    <td><a data-bind='text:InvoicesThisYear' href='#report/journal/currentYear'></a></td>
+	                <td><a data-bind='text:ClientsThisYear' href='#client/index/currentYear'></a></td>
+	                @if (SystemSettings.IsObnlEnabled)
+	                {
+		                <td><a data-bind='text:OBNLVisitsThisYear' href='#client/index/today'></a></td>
+		                <td><a data-bind='text:WeightThisYear' href='#client/index/today'>Poids</a></td>
+	                }
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="span5">
+        <a class="btn btn-large btn-primary" href="#invoice/new2023">@EcoCentre.Resources.Model.Invoice.NewInvoice</a>
+        @if (SystemSettings.IsObnlEnabled)
+        {
+        <a class="btn btn-large btn-success" href="#obnlreinvestment/new" > @EcoCentre.Resources.Model.Invoice.OBNLNumber </a>
+        }
+        <hr />
+        @Html.Partial("_Notifications")
+
+    </div>
+</div>
+<div class="row-fluid">
+
+    <div class="span7">
+        <div class="form-horizontal well">
+            Date: <input type="text" class="input-small" data-bind="datepicker:From" /> -
+            <input type="text" class="input-small" data-bind="datepicker:To" />
+            <span class="btn" data-bind="click:load">appliquer</span>
+        </div>
+        <table class="table table-bordered table-condensed" style="border-bottom: none;">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Visites</th>
+	                <th>Clients</th>
+	                @if (SystemSettings.IsObnlEnabled)
+	                {
+		                <th>OBNL Visites</th>
+		                <th>OBNL Poids</th>
+	                }
+                </tr>
+            </thead>
+            <tbody data-bind="foreach:EcoCentersSummary">
+            <tr>
+                <td data-bind="text:Name"></td>
+                <td data-bind="text:Visits"></td>
+	            <td data-bind="text:Clients"></td>
+	            @if (SystemSettings.IsObnlEnabled)
+	            {
+		            <td data-bind="text:OBNLVisits"></td>
+		            <td data-bind="text:OBNLWeight"></td>
+	            }
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <td style="font-weight: bold; text-align: right; border-left: none;">@EcoCentre.Resources.Forms.DashboardTotal</td>
+                <td style="border-bottom: 1px solid #ddd;" data-bind="text:EcoCentersTotal().Visits"></td>
+                <td style="border-bottom: 1px solid #ddd;" data-bind="text:EcoCentersTotal().Clients" ></td>
+
+	            @if (SystemSettings.IsObnlEnabled)
+	            {
+		            <td style="border-bottom: 1px solid #ddd;" data-bind="text:EcoCentersTotal().OBNLVisits"></td>
+		            <td style="border-bottom: 1px solid #ddd;" data-bind="text:EcoCentersTotal().OBNLWeight"></td>
+	            }
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+@if (Customization.ShowGraph)
+{
+    <div class="row-fluid" style="margin-top: 20px;">
+        <h4>Factures / Clients - Mois currant</h4>
+        <div class="span7">
+            <canvas id="mychart" style="width: 100%; height: 300px;" data-bind='chart:MonthLog'></canvas>
+        </div>
+    </div>
+}

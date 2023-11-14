@@ -1,0 +1,28 @@
+﻿@{
+    Layout = "~/Views/Shared/MailLayout.cshtml";
+}
+@inherits EcoCentre.Web.EcoWebPageView
+<h3>Attention!</h3>
+<p>Nouvelle adresse de l'utilisateur personnalisé a été créé!</p>
+<p>Les données du client:</p>
+<br />
+@{
+	var url = string.Format("http://{0}/#client/edit/{1}", ViewBag.hostUrl, ViewBag.client.Id);
+}
+<p>Lien du profil: : <a href="@url">@url</a>
+<br />
+<p>Prénom du client : @ViewBag.client.FirstName
+<p>Nom  du client : @ViewBag.client.LastName
+<p>Catégorie : @ViewBag.client.Category
+<p>Courriel: @ViewBag.client.Email
+<p>Numéro de téléphone : @ViewBag.client.PhoneNumber
+<p>Addresse:
+<p>    Rue: @ViewBag.client.Address.Street
+<p>    Ville: @ViewBag.client.Address.City
+<p>    Nº civique : @ViewBag.client.Address.CivicNumber
+<p>    Nº appartement : @ViewBag.client.Address.AptNumber
+<p>    Code postal : @ViewBag.client.Address.PostalCode
+	<br />
+<p>Suivez le lien pour voir le profil du client</p>
+<br />
+<p>Mailer automatique</p>
